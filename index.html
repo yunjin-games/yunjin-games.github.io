@@ -4,124 +4,358 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>윤진게임즈 · Yunjin Games</title>
-<meta name="description" content="윤진게임즈(Yunjin Games) — 모바일 게임을 만듭니다. 네모다람쥐, 냥냥원정대, Crimson Tomb.">
+<meta name="description" content="윤진게임즈(Yunjin Games)는 안드로이드 게임을 만드는 1인 스튜디오입니다. 네모다람쥐, 냥냥원정대, 붉은 무덤.">
+<link rel="canonical" href="https://yunjin-games.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="윤진게임즈 · Yunjin Games">
+<meta property="og:description" content="안드로이드 게임을 만드는 1인 스튜디오입니다.">
+<meta property="og:url" content="https://yunjin-games.github.io/">
+<meta property="og:image" content="https://yunjin-games.github.io/assets/nemo-feature.webp">
+<meta name="theme-color" content="#f7f4ee">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c2410c'/%3E%3Cpath d='M18 19h8l6 10 6-10h8L36 36v11h-8V36z' fill='%231a1210'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-  :root {
-    --ink: #23201c;
-    --cream: #fdf6e6;
-    --card: #fffcf2;
-    --line: #e6dbc2;
-    --body: #6f6350;
-    --label: #8a7c62;
-    --accent: #f0603a;
+/* ── 토큰 ───────────────────────────────────────────────
+   밝은 종이 한 가지로 못 박는다. 어두운 판도 만들어 대 봤지만
+   (게임 셋의 색이 픽셀 코랄 / 파스텔 동화 / 고딕 금빛으로 다 달라
+   검은 벽이 액자처럼 받아 주긴 한다) 눈으로 견줘 보니 밝은 쪽이
+   나았다. 세 게임 중 둘이 밝은 그림이라 바탕이 그림을 잇는다.
+   그래서 `prefers-color-scheme` 을 따르지 않는다. 한 벌뿐이다.
+   강조색은 주홍 하나뿐이고 페이지 전체에서 이것만 쓴다.
+   모서리 규칙: 판때기·그림 16px, 누르는 것(버튼·태그)은 알약. */
+:root {
+  --ground: #f7f4ee;
+  --raise:  #ffffff;
+  --line:   #e4ded2;
+  --text:   #191816;
+  --muted:  #6b665e;
+  --accent: #c2410c;   /* WCAG AA. 한 단 밝은 #d94d1a 는 버튼 글자 3.98:1, 링크 3.81:1 로 미달이었다 */
+  --on-accent: #fff8f4;
+  --shadow: 0 20px 48px rgb(60 40 24 / .14);
+  --r: 16px;
+}
+/* 붉은 무덤 판때기만 어둡다. 테마를 뒤집는 게 아니라 그 게임의
+   그림 자체가 어두운 것이다. 그림 위에 글을 얹으려면 필요하다. */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo",
+               "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-underline-offset: 3px; }
+
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+
+/* ── 길잡이 ────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 20;
+  height: 68px;
+  display: flex; align-items: center;
+  background: color-mix(in srgb, var(--ground) 86%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; }
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 800; font-size: 18px; letter-spacing: -.02em;
+  color: var(--text); text-decoration: none; white-space: nowrap;
+}
+.brand span { width: 24px; height: 24px; border-radius: 7px; background: var(--accent); flex: none;
+  display: grid; place-items: center; color: var(--on-accent); font-size: 13px; font-weight: 900; }
+.navlinks { display: flex; gap: 26px; font-size: 15px; white-space: nowrap; }
+.navlinks a { color: var(--muted); text-decoration: none; }
+.navlinks a:hover { color: var(--text); }
+
+/* ── 첫 화면 ───────────────────────────────────────── */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 64px; align-items: center;
+  min-height: min(calc(100dvh - 68px), 760px);
+  padding: 64px 0 80px;
+}
+h1 {
+  font-size: clamp(38px, 4.8vw, 68px);
+  line-height: 1.14; letter-spacing: -.035em;
+  font-weight: 800; margin: 0 0 20px;
+}
+.lede { color: var(--muted); font-size: 18px; margin: 0 0 34px; max-width: 32ch; }
+.lede b { color: var(--text); font-weight: 700; }
+.cta {
+  display: inline-block; background: var(--accent); color: var(--on-accent);
+  font-weight: 700; font-size: 16px; text-decoration: none;
+  padding: 13px 28px; border-radius: 999px; white-space: nowrap;
+  transition: transform .18s cubic-bezier(.16,1,.3,1), filter .18s;
+}
+.cta:hover { filter: brightness(1.07); }
+.cta:active { transform: translateY(1px) scale(.985); }
+
+/* 그림 세 장을 부채처럼 편다. 스튜디오가 무엇을 만드는지
+   한 줄도 읽기 전에 보이는 것이 첫 화면의 일이다. */
+.fan { position: relative; aspect-ratio: 10 / 8; }
+.fan figure {
+  position: absolute; margin: 0;
+  border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: var(--raise);
+}
+.fan img { width: 100%; height: 100%; object-fit: cover; }
+.fan .f1 { left: 0;   top: 4%;    width: 60%; aspect-ratio: 4/3;   transform: rotate(-4deg); z-index: 1; }
+.fan .f2 { right: 0;  top: 0;     width: 32%; aspect-ratio: 9/16;  transform: rotate(4.5deg); z-index: 2; }
+.fan .f3 { left: 14%; bottom: 0;  width: 68%; aspect-ratio: 1024/500; transform: rotate(2deg); z-index: 3; }
+
+/* ── 구역 공통 ─────────────────────────────────────── */
+section { padding: 96px 0; border-top: 1px solid var(--line); }
+h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.2; letter-spacing: -.03em; font-weight: 800; margin: 0 0 14px; }
+h3 { font-size: 30px; letter-spacing: -.025em; font-weight: 800; margin: 0 0 6px; }
+.kind { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+.body { color: var(--muted); font-size: 17px; margin: 0; max-width: 44ch; }
+.tag {
+  display: inline-block; vertical-align: 4px; margin-left: 10px;
+  font-size: 12px; font-weight: 700; line-height: 1;
+  padding: 6px 12px; border-radius: 999px;
+}
+.tag.out { background: var(--accent); color: var(--on-accent); }
+.tag.wip { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+
+/* 스펙 줄. 한 게임에 셋씩만 둔다. */
+.facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
+.facts li {
+  font-size: 13px; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px;
+}
+
+/* ── 네모다람쥐: 그림 왼쪽 / 글 오른쪽 ─────────────── */
+.feature { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 76px; align-items: center; }
+.shots { position: relative; }
+.shots .board { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+.shots .phone {
+  position: absolute; right: -7%; bottom: -15%; width: 33%;
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+
+/* ── 냥냥원정대: 넓은 실기 화면 한 장 ──────────────── */
+.band { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+/* 설명 옆에 지도를 세우고, 로비 화면은 그 아래 전체 폭으로 깐다.
+   지도를 아래 반 칸에 뒀더니 옆이 텅 비어 깨져 보였다. */
+.meowtop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.22fr); gap: 60px; align-items: center; margin-bottom: 36px; }
+
+/* ── 붉은 무덤: 그림 위에 로고를 얹는다 ────────────── */
+.tomb {
+  position: relative; border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+  min-height: 520px; display: grid; align-items: end;
+  background: #0b0c10;
+}
+.tomb > img.bgshot {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 62% 38%; opacity: 1;
+}
+.tomb .veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgb(7 7 10 / .92) 0%, rgb(7 7 10 / .74) 34%, rgb(7 7 10 / .28) 68%, rgb(7 7 10 / .06) 100%),
+    linear-gradient(to top, rgb(7 7 10 / .78) 0%, rgb(7 7 10 / .24) 55%, rgb(7 7 10 / 0) 100%);
+}
+.tombtext { position: relative; padding: 44px; color: #f2efe8; }
+.tombtext .body, .tombtext .kind { color: #a9a49a; }
+.tombtext .facts li { color: #a9a49a; border-color: rgb(255 255 255 / .16); }
+.tombtext .tag.wip { color: #a9a49a; border-color: rgb(255 255 255 / .18); }
+.tomblogo { width: min(340px, 62%); margin-bottom: 18px; filter: drop-shadow(0 8px 24px rgb(0 0 0 / .6)); }
+
+/* ── 연락 ──────────────────────────────────────────── */
+.contact { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: 56px; align-items: start; }
+.rows { margin: 0; }
+.rows div { display: grid; grid-template-columns: 130px minmax(0,1fr); gap: 16px; padding: 16px 0; }
+.rows div + div { border-top: 1px solid var(--line); }
+.rows dt { color: var(--muted); font-size: 14px; margin: 0; }
+.rows dd { margin: 0; font-size: 16px; word-break: break-all; }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--muted); font-size: 13px; }
+
+/* ── 좁은 화면 ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 44px; min-height: 0; padding: 48px 0 64px; }
+  .fan { aspect-ratio: 10/7; }
+  .feature, .meowtop, .contact { grid-template-columns: 1fr; gap: 32px; }
+  .meowtop { margin-bottom: 26px; }
+  .shots .phone { position: static; width: 46%; margin: 18px auto 0; }
+  section { padding: 72px 0; }
+  .tomb { min-height: 420px; }
+  .tombtext { padding: 28px; }
+  .navlinks { gap: 18px; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 18px; }
+  .fan .f1 { width: 66%; } .fan .f2 { width: 30%; } .fan .f3 { width: 74%; }
+  .rows div { grid-template-columns: 1fr; gap: 4px; padding: 14px 0; }
+  .tomblogo { width: 84%; }
+}
+
+/* ── 움직임 ────────────────────────────────────────────
+   무엇을 위한 움직임인가: 첫 화면은 글보다 그림이 늦게 와서
+   시선 순서를 정하고, 아래 구역은 스크롤로 들어올 때 한 번
+   올라와서 「여기부터 새 게임」임을 알린다. 그 둘뿐이다. */
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise .75s cubic-bezier(.16,1,.3,1) both; }
+  .d1 { animation-delay: .06s; } .d2 { animation-delay: .14s; }
+  .d3 { animation-delay: .22s; } .d4 { animation-delay: .30s; }
+
+  /* 스크롤 등장. 지원하지 않는 브라우저에서는 그냥 보인다. */
+  @supports (animation-timeline: view()) {
+    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 8% cover 30%; }
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    line-height: 1.7;
-  }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-  header { padding: 64px 0 40px; border-bottom: 3px solid var(--ink); }
-  h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.02em; }
-  .sub { color: var(--label); font-size: 15px; margin: 0; }
-  .lede { margin: 28px 0 0; font-size: 17px; }
-  h2 { font-size: 20px; margin: 48px 0 4px; }
-  .games { list-style: none; padding: 0; margin: 20px 0 0; }
-  .game {
-    background: var(--card);
-    border: 3px solid var(--ink);
-    border-radius: 16px;
-    padding: 20px 22px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 0 var(--ink);
-  }
-  .game h3 { margin: 0 0 2px; font-size: 19px; }
-  .game .meta { color: var(--label); font-size: 13px; margin: 0 0 10px; }
-  .game p { margin: 0; color: var(--body); font-size: 15px; }
-  .tag {
-    display: inline-block;
-    font-size: 12px;
-    padding: 2px 9px;
-    border-radius: 999px;
-    border: 2px solid var(--ink);
-    vertical-align: 3px;
-    margin-left: 8px;
-  }
-  .tag.out { background: var(--accent); color: #fff; }
-  .tag.wip { background: var(--cream); color: var(--body); }
-  dl { margin: 16px 0 0; }
-  dt { color: var(--label); font-size: 13px; margin-top: 12px; }
-  dd { margin: 2px 0 0; }
-  a { color: var(--accent); }
-  footer {
-    margin-top: 56px;
-    padding: 24px 0 64px;
-    border-top: 3px solid var(--ink);
-    color: var(--label);
-    font-size: 13px;
-  }
+
+  .fan figure, .tomb, .band, .shots .board { transition: transform .4s cubic-bezier(.16,1,.3,1); }
+  .fan figure:hover { transform: translateY(-6px) rotate(0deg); }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <h1>윤진게임즈</h1>
-  <p class="sub">Yunjin Games</p>
-  <p class="lede">
-    작게 만들고 오래 다듬는 1인 게임 스튜디오입니다.
-    퍼즐과 전략 게임을 안드로이드로 냅니다.
-  </p>
-</header>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span>Y</span>윤진게임즈</a>
+    <div class="navlinks">
+      <a href="#games">게임</a>
+      <a href="#contact">연락</a>
+    </div>
+  </div>
+</nav>
 
-<h2>만든 것 · 만드는 중</h2>
-<ul class="games">
+<div class="wrap" id="top">
+  <header class="hero">
+    <div>
+      <h1 class="rise d1">작게 만들고<br>오래 다듬습니다</h1>
+      <p class="lede rise d2">
+        <b>윤진게임즈</b>는 안드로이드 게임을 만드는 1인 스튜디오입니다.
+        퍼즐과 전략, 세 편을 짓고 있습니다.
+      </p>
+      <a class="cta rise d3" href="#games">게임 보기</a>
+    </div>
+    <div class="fan rise d4">
+      <figure class="f1"><img src="assets/meow-art.webp" alt="냥냥원정대의 고양이 세 마리가 풀밭 길을 걷는 장면" width="1000" height="747" loading="eager"></figure>
+      <figure class="f2"><img src="assets/tomb-bg.webp" alt="붉은 무덤의 안개 낀 돌문 배경" width="760" height="1351" loading="eager"></figure>
+      <figure class="f3"><img src="assets/nemo-feature.webp" alt="네모다람쥐의 다람쥐 캐릭터와 네모네모로직 격자" width="1024" height="500" loading="eager"></figure>
+    </div>
+  </header>
+</div>
 
-  <li class="game">
-    <h3>네모다람쥐<span class="tag out">첫 출시</span></h3>
-    <p class="meta">네모네모로직(노노그램·피크로스) · Android</p>
-    <p>
-      숫자 힌트를 보고 칸을 채워 숨은 그림을 완성하는 퍼즐입니다.
-      고전 흑백과 여러 색을 쓰는 컬러 노노그램을 모두 담았고,
-      퍼즐은 서버 없이 앱 안에서 끝없이 만들어집니다.
-      결제는 없고 광고만 있습니다.
-    </p>
-  </li>
+<section id="games">
+  <div class="wrap">
+    <div class="feature reveal">
+      <div class="shots">
+        <div class="board"><img src="assets/nemo-feature.webp" alt="네모다람쥐 대표 그림" width="1024" height="500" loading="lazy"></div>
+        <div class="phone"><img src="assets/nemo-shot.webp" alt="5×5 컬러 네모네모로직을 푸는 실제 게임 화면" width="520" height="1066" loading="lazy"></div>
+      </div>
+      <div>
+        <h3>네모다람쥐<span class="tag out">첫 출시작</span></h3>
+        <p class="kind">네모네모로직 · 노노그램 퍼즐</p>
+        <p class="body">
+          숫자 힌트를 읽고 칸을 채워 숨은 그림을 맞추는 퍼즐입니다.
+          고전 흑백과 다섯 색을 쓰는 컬러 모드를 함께 담았고,
+          퍼즐은 서버 없이 앱 안에서 계속 만들어집니다.
+        </p>
+        <ul class="facts">
+          <li>흑백 · 컬러</li>
+          <li>앱 안에서 무한 생성</li>
+          <li>결제 없음</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <li class="game">
-    <h3>냥냥원정대<span class="tag wip">개발 중</span></h3>
-    <p class="meta">전진형 실시간 전투 · Android</p>
-    <p>
-      고양이 용병들을 편성해 개들의 진영으로 밀고 나아가는 실시간 전투 게임입니다.
-      20챕터 100판과 챕터마다 이어지는 만화, 캐릭터 50종을 준비하고 있습니다.
-    </p>
-  </li>
+<section>
+  <div class="wrap">
+    <div class="meowtop reveal">
+      <div>
+        <h3>냥냥원정대<span class="tag wip">개발 중</span></h3>
+        <p class="kind">전진형 실시간 전투</p>
+        <p class="body">
+          고양이 용병을 편성해 개들의 요새로 밀고 나아갑니다.
+          추르를 모아 다음 고양이를 내보내는 사이, 전선은 계속 움직입니다.
+        </p>
+        <ul class="facts">
+          <li>20챕터 100판</li>
+          <li>고양이 50종 · 3단 진화</li>
+          <li>챕터마다 이어지는 만화</li>
+        </ul>
+      </div>
+      <div class="band">
+        <img src="assets/meow-map.webp" alt="1챕터 지도. 풀밭 길 위에 다섯 개의 스테이지가 놓이고 아래에 편성한 고양이 카드가 보인다" width="1000" height="462" loading="lazy">
+      </div>
+    </div>
+    <div class="band reveal">
+      <img src="assets/meow-lobby.webp" alt="냥냥원정대 로비 화면. 6챕터 자갈 길의 대문 그림과 출격 카드가 놓여 있다" width="1400" height="651" loading="lazy">
+    </div>
+  </div>
+</section>
 
-  <li class="game">
-    <h3>Crimson Tomb<span class="tag wip">개발 중</span></h3>
-    <p class="meta">파티 기반 던전 RPG · Android</p>
-    <p>
-      여섯 능력치와 스킬 트리로 파티를 꾸려 무덤 속을 탐사하는 RPG입니다.
-    </p>
-  </li>
+<section>
+  <div class="wrap">
+    <div class="tomb reveal">
+      <img class="bgshot" src="assets/tomb-bg.webp" alt="" width="760" height="1351" loading="lazy">
+      <div class="veil"></div>
+      <div class="tombtext">
+        <img class="tomblogo" src="assets/tomb-logo.webp" alt="붉은 무덤 (Crimson Tomb)" width="760" height="425" loading="lazy">
+        <p class="kind">파티 기반 던전 RPG<span class="tag wip">개발 중</span></p>
+        <p class="body">
+          종족과 직업을 골라 넷을 꾸리고, 무덤 아래로 내려갑니다.
+          함정과 사건이 길을 가로막고, 데려간 넷이 그대로 돌아오지는 않습니다.
+        </p>
+        <ul class="facts">
+          <li>종족 10 · 직업 4</li>
+          <li>능력치 6종</li>
+          <li>스킬 트리 · 상태이상</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-</ul>
-
-<h2>연락</h2>
-<dl>
-  <dt>이메일</dt>
-  <dd><a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></dd>
-  <dt>개인정보처리방침</dt>
-  <dd><a href="privacy/nemo-squirrel.html">네모다람쥐 (Nemo Squirrel)</a></dd>
-</dl>
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <h2>연락</h2>
+      <dl class="rows">
+        <div>
+          <dt>이메일</dt>
+          <dd><a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></dd>
+        </div>
+        <div>
+          <dt>개인정보처리방침</dt>
+          <dd><a href="privacy/nemo-squirrel.html">네모다람쥐 (Nemo Squirrel)</a></dd>
+        </div>
+        <div>
+          <dt>운영</dt>
+          <dd>윤진게임즈 (Yunjin Games)</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
 
 <footer>
-  © 2026 윤진게임즈 (Yunjin Games)
+  <div class="wrap">© 2026 윤진게임즈 (Yunjin Games)</div>
 </footer>
 
-</div>
 </body>
 </html>
