@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>윤진게임즈 · Yunjin Games</title>
-<meta name="description" content="윤진게임즈(Yunjin Games)는 안드로이드 게임을 만드는 1인 스튜디오입니다. 숫자 타일, 네모다람쥐, 냥냥원정대, 붉은 무덤.">
+<meta name="description" content="윤진게임즈(Yunjin Games)는 안드로이드 게임을 만드는 1인 스튜디오입니다. 숫자 타일, 블록 스도쿠, 네모다람쥐, 냥냥원정대, 붉은 무덤.">
 <link rel="canonical" href="https://yunjin-games.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="윤진게임즈 · Yunjin Games">
@@ -150,6 +150,13 @@ h3 { font-size: 30px; letter-spacing: -.025em; font-weight: 800; margin: 0 0 6px
   border-radius: 14px; overflow: hidden;
   border: 1px solid var(--line); box-shadow: var(--shadow);
 }
+/* 카드를 좌우 번갈아 놓는다. 같은 방향이 둘 연달아 오면 페이지가
+   한쪽으로 쏠려 보인다 — 블록 스도쿠가 숫자 타일 바로 뒤라 뒤집는다.
+   폰 화면도 같이 넘겨야 안쪽을 향한다. */
+.feature.flip { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.feature.flip .shots { order: 2; }
+.feature.flip > div:last-child { order: 1; }
+.feature.flip .shots .phone { right: auto; left: -7%; }
 
 /* ── 냥냥원정대: 넓은 실기 화면 한 장 ──────────────── */
 .band { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
@@ -338,6 +345,32 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--m
 
 <section>
   <div class="wrap">
+    <div class="feature flip reveal">
+      <div class="shots">
+        <div class="board"><img src="assets/blocksudoku-board.webp" alt="블록 스도쿠의 9×9 판. 색색의 블록이 절반쯤 놓여 있다" width="900" height="909" loading="lazy"></div>
+        <div class="phone"><img src="assets/blocksudoku-shot.webp" alt="홈 화면. 최고 점수와 무한 모드·오늘의 도전 버튼이 있다" width="520" height="1167" loading="lazy"></div>
+      </div>
+      <div>
+        <h3>블록 스도쿠<span class="tag out">출시 준비</span></h3>
+        <p class="kind">블록 퍼즐 · 9×9 격자</p>
+        <p class="body">
+          9×9 판에 블록 세 개를 놓아 가로 줄, 세로 줄, 3×3 구역을 지웁니다.
+          대부분의 블록 퍼즐은 조각이 어디에도 안 들어가는 순간 끝나지만,
+          이 게임은 덱 세 개를 미리 두어 보고 <strong>풀 수 있는 것만</strong>
+          냅니다. 졌다면 더 나은 수가 있었습니다.
+        </p>
+        <ul class="facts">
+          <li>무한 모드 · 오늘의 도전</li>
+          <li>순위표 · 오늘의 미션</li>
+          <li>10개 국어</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <div class="tomb reveal">
       <img class="bgshot" src="assets/tomb-bg.webp" alt="" width="760" height="1351" loading="lazy">
       <div class="veil"></div>
@@ -371,6 +404,7 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--m
           <dt>개인정보처리방침</dt>
           <dd>
             <a href="privacy/math-tiles.html">숫자 타일 (Math Tiles)</a><br>
+            <a href="https://block-sudoku-yunjin.web.app">블록 스도쿠 (Block Sudoku)</a><br>
             <a href="privacy/nemo-squirrel.html">네모다람쥐 (Nemo Squirrel)</a><br>
             <a href="privacy/hexa-color-merge.html">헥사 컬러 머지 (Hexa Color Merge)</a>
           </dd>
