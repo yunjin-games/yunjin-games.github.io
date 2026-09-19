@@ -58,7 +58,7 @@
 
   <section id="en" lang="en">
     <h2 class="lang">Privacy Policy &mdash; Media Diet</h2>
-    <p class="updated">Last updated: 9 September 2026</p>
+    <p class="updated">Last updated: 10 September 2026</p>
     <p>This policy applies to <strong>Media Diet</strong> ("the App"), a photo and video shrinking utility developed by Yunjin Games ("the Developer").</p>
 
     <h3>1. In one line</h3>
@@ -69,13 +69,14 @@
       <li>The App reads only the files you pick in the Android photo picker. It cannot see anything you did not pick.</li>
       <li>All shrinking and metadata removal happens on your device. Nothing is uploaded.</li>
       <li>Results are written as <strong>new files</strong> to <code>Pictures/MediaDiet</code> or <code>Movies/MediaDiet</code> in your gallery.</li>
-      <li><strong>Originals are never deleted or altered automatically.</strong> Deleting an original happens only if you ask for it on the result screen and confirm it, and only for files that were processed successfully.</li>
+      <li><strong>Originals are never deleted or altered automatically.</strong> Deleting an original happens only if you ask for it and confirm it, and only for files that were processed successfully.</li>
+      <li><strong>Cleaning up originals:</strong> the App has a separate, optional screen that helps you find and delete the original files you have already shrunk, so the space is actually freed. The App asks for photo access only when you open this screen &mdash; never before, and never anywhere else &mdash; and uses it only to find your original photos on the device, show them to you next to the shrunk result so you can check them, and delete the ones you confirm. Nothing found this way is uploaded or leaves your device.</li>
       <li>Temporary working files are deleted when the batch ends, and any leftovers are cleaned up the next time the App starts.</li>
     </ul>
 
     <h3>3. Location, capture time and device information</h3>
-    <p>Removing this information from the <em>output</em> file is one of the App's features. When "remove personal information" is on, GPS location, capture time and camera make/model are not written into the new file.</p>
-    <p>The App reads this information only to tell you what was removed. It is not stored anywhere by the App and it is not transmitted.</p>
+    <p>Keeping this information out of new files is one of the App's features, not removing it from something that already exists. When "remove personal information" is on, the App simply does not write GPS location, capture time or camera make/model into the new (shrunk) file it creates.</p>
+    <p>The result screen's privacy report is about that <strong>new file</strong>, not about the original &mdash; it tells you whether the App can confirm the new file carries no location, device or capture-time information. The App reads this information only to build that report and, on the "clean up originals" screen, to help you tell the original and the result apart; it is not stored anywhere by the App and it is not transmitted.</p>
 
     <h3>4. What the Developer does not collect</h3>
     <p>There is no account and no sign-in. There is no analytics or tracking added by the Developer. The App does not collect your name, e-mail, phone number, contacts or location. The Developer cannot see your photos or videos.</p>
@@ -93,14 +94,16 @@
 
     <h3>7. Permissions</h3>
     <ul>
-      <li><strong>Photos and media:</strong> the App does <em>not</em> request broad photo access. It uses the Android photo picker, which grants access only to the files you select.</li>
+      <li><strong>Photos and media, main flow (picking, shrinking, sharing):</strong> the App does <em>not</em> request broad photo access here. It uses the Android photo picker, which grants access only to the files you select.</li>
+      <li><strong>Photos and media, only inside the optional "clean up originals" screen:</strong> if you open this screen, the App separately asks for photo access so it can locate your original photos, show them to you for comparison and delete the ones you choose &mdash; on Android 14 and above you can choose to allow only selected photos; on Android 8&ndash;12 the App asks for general storage access instead, for the same purpose. This is never requested in the main flow described above.</li>
       <li><strong>Storage (Android 9 and below only):</strong> needed to write results into your gallery on older versions of Android.</li>
       <li><strong>Notifications (Android 13 and above):</strong> used only to show progress while a batch runs. If you decline, processing still works; you just do not get the notification.</li>
     </ul>
 
     <h3>8. What is stored on your device</h3>
     <p>The App stores your preferences (default compression level, whether personal information is removed, photo output format, default video resolution, whether the share sheet opens when a batch finishes) and a short summary of your most recent batch.</p>
-    <p>Uninstalling the App removes all of it. <strong>The result files stay in your gallery</strong> &mdash; they are ordinary files and are not removed when the App is uninstalled.</p>
+    <p>For each photo it shrinks, the App also keeps a small record on your device &mdash; the original's size, capture time and an identifier, plus where the result was saved &mdash; so that later, if you open "clean up originals", it can find the matching original for you. This record never leaves your device, and it is deleted automatically as soon as you delete that original through the App.</p>
+    <p>Uninstalling the App removes all of it, including these records. <strong>The result files stay in your gallery</strong> &mdash; they are ordinary files and are not removed when the App is uninstalled.</p>
 
     <h3>9. Android backup</h3>
     <p>Android's system backup may copy the App's stored preferences to <strong>your own Google Drive</strong> so that they return when you reinstall or change device. That backup belongs to you, not to the Developer, and the Developer cannot access it. You can turn it off in Settings &rarr; Google &rarr; Backup.</p>
@@ -118,7 +121,7 @@
 
   <section id="ko" lang="ko">
     <h2 class="lang">개인정보처리방침 &mdash; Media Diet</h2>
-    <p class="updated">최종 수정일: 2026년 9월 9일</p>
+    <p class="updated">최종 수정일: 2026년 9월 10일</p>
     <p>본 방침은 윤진게임즈("개발자")가 개발한 사진·동영상 용량 줄이기 앱 <strong>Media Diet</strong>("앱")에 적용됩니다.</p>
 
     <h3>1. 한 줄로</h3>
@@ -129,13 +132,14 @@
       <li>앱은 안드로이드 사진 선택 도구에서 이용자가 직접 고른 파일만 읽습니다. 고르지 않은 사진은 앱이 볼 수 없습니다.</li>
       <li>용량 줄이기와 정보 제거는 전부 기기 안에서 이루어집니다. 어디로도 올리지 않습니다.</li>
       <li>결과는 갤러리의 <code>Pictures/MediaDiet</code> 또는 <code>Movies/MediaDiet</code> 폴더에 <strong>새 파일</strong>로 저장됩니다.</li>
-      <li><strong>원본은 자동으로 지우거나 바꾸지 않습니다.</strong> 원본 삭제는 이용자가 결과 화면에서 직접 요청하고 확인했을 때만, 그것도 처리에 성공한 파일에 대해서만 일어납니다.</li>
+      <li><strong>원본은 자동으로 지우거나 바꾸지 않습니다.</strong> 원본 삭제는 이용자가 직접 요청하고 확인했을 때만, 그것도 처리에 성공한 파일에 대해서만 일어납니다.</li>
+      <li><strong>원본 정리:</strong> 앱에는 이미 다이어트한 원본을 찾아 지울 수 있는 별도의 선택 화면이 있습니다 — 이걸 써야 실제로 용량이 줄어듭니다. 앱은 <strong>이 화면을 열 때만</strong> 사진 접근 권한을 요청합니다 — 그 전에도, 다른 어디에서도 묻지 않습니다. 이 권한은 기기 안의 원본을 찾아 다이어트 결과와 나란히 보여주고, 이용자가 확인한 것만 지우는 데만 씁니다. 이렇게 찾은 것은 어디로도 올리지 않고 기기 밖으로 나가지 않습니다.</li>
       <li>처리 도중 만든 임시 파일은 작업이 끝나면 지우고, 남은 것이 있으면 다음 실행 때 정리합니다.</li>
     </ul>
 
     <h3>3. 위치·촬영 시간·기기 정보</h3>
-    <p>이 정보를 <em>결과 파일에</em> 남기지 않는 것이 이 앱의 기능 중 하나입니다. "개인정보 제거"를 켜면 위치(GPS)·촬영 시간·카메라 제조사와 모델이 새 파일에 들어가지 않습니다.</p>
-    <p>앱은 무엇이 제거되었는지 알려 드리기 위해 이 정보를 읽을 뿐이며, 따로 저장하거나 전송하지 않습니다.</p>
+    <p>이미 있던 것을 지우는 것이 아니라, <strong>새 파일에 처음부터 남기지 않는 것</strong>이 이 앱의 기능입니다. "개인정보 제거"를 켜면, 앱이 만드는 새(다이어트한) 파일에 위치(GPS)·촬영 시간·카메라 제조사와 모델을 쓰지 않을 뿐입니다.</p>
+    <p>결과 화면의 개인정보 리포트도 <strong>이 새 파일</strong>을 기준으로 말합니다 — 원본에 무엇이 있었는지가 아니라, 새 파일에 위치·기기·촬영 시간 정보가 없다는 것을 앱이 확인했는지를 알려 드립니다. 앱은 이 리포트를 만들고, "원본 정리" 화면에서 원본과 결과를 구분해 보여주기 위해서만 이 정보를 읽으며, 따로 저장하거나 전송하지 않습니다.</p>
 
     <h3>4. 수집하지 않는 정보</h3>
     <p>계정도 로그인도 없습니다. 개발자가 붙인 분석 도구나 추적은 없습니다. 이름·이메일·전화번호·연락처·위치를 수집하지 않습니다. 개발자는 이용자의 사진과 동영상을 볼 수 없습니다.</p>
@@ -153,14 +157,16 @@
 
     <h3>7. 권한</h3>
     <ul>
-      <li><strong>사진·미디어:</strong> 앱은 사진 전체에 대한 접근 권한을 요청하지 <em>않습니다.</em> 안드로이드 사진 선택 도구를 쓰며, 이 도구는 이용자가 고른 파일에만 접근을 허용합니다.</li>
+      <li><strong>사진·미디어, 기본 흐름(고르기·줄이기·공유하기):</strong> 이 흐름에서는 사진 전체에 대한 접근 권한을 요청하지 <em>않습니다.</em> 안드로이드 사진 선택 도구를 쓰며, 이 도구는 이용자가 고른 파일에만 접근을 허용합니다.</li>
+      <li><strong>사진·미디어, "원본 정리" 화면에서만:</strong> 이 화면을 열면 원본을 찾아 지울 수 있도록 별도로 사진 접근 권한을 요청합니다 — 안드로이드 14 이상에서는 "선택한 사진만 허용"을 고를 수 있고, 안드로이드 8~12에서는 같은 목적으로 저장소 접근을 요청합니다. 위 기본 흐름에서는 이 권한을 요청하지 않습니다.</li>
       <li><strong>저장(안드로이드 9 이하에서만):</strong> 옛 버전의 안드로이드에서 결과를 갤러리에 저장하기 위해 필요합니다.</li>
       <li><strong>알림(안드로이드 13 이상):</strong> 처리 진행 상황을 보여주기 위한 것입니다. 거부하셔도 처리는 그대로 되며, 알림만 뜨지 않습니다.</li>
     </ul>
 
     <h3>8. 기기에 저장되는 것</h3>
     <p>앱은 설정값(기본 압축 수준, 개인정보 제거 기본값, 사진 출력 형식, 동영상 기본 해상도, 완료 후 공유 화면을 열지 여부)과 가장 최근 작업의 짧은 요약을 기기 안에만 저장합니다.</p>
-    <p>앱을 삭제하면 이것들은 전부 지워집니다. <strong>결과 파일은 갤러리에 그대로 남습니다</strong> &mdash; 보통의 파일이므로 앱을 지워도 사라지지 않습니다.</p>
+    <p>다이어트한 사진마다, 나중에 "원본 정리"를 열었을 때 짝이 되는 원본을 찾을 수 있도록 원본의 크기·촬영 시간·식별자와 결과가 저장된 위치를 기기 안에만 짧게 기록해 둡니다. 이 기록은 기기 밖으로 나가지 않고, 앱에서 그 원본을 지우면 함께 지워집니다.</p>
+    <p>앱을 삭제하면 이 기록을 포함해 전부 지워집니다. <strong>결과 파일은 갤러리에 그대로 남습니다</strong> &mdash; 보통의 파일이므로 앱을 지워도 사라지지 않습니다.</p>
 
     <h3>9. 안드로이드 백업</h3>
     <p>안드로이드가 시스템 자동 백업 기능으로 앱의 설정값을 <strong>이용자 본인의 구글 드라이브</strong>에 복사할 수 있습니다. 앱을 다시 설치하거나 기기를 바꿔도 설정이 돌아오게 하기 위한 것입니다. 이 백업은 개발자가 아니라 이용자의 것이며, 개발자는 접근할 수 없습니다. 설정 &rarr; Google &rarr; 백업에서 끌 수 있습니다.</p>
