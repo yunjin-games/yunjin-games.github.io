@@ -50,6 +50,8 @@
   h2.lang { font-size:21px; margin:0 0 4px; color:var(--accent); }
   .updated { color:var(--muted); font-size:14px; margin:0 0 18px; }
   h3 { font-size:16px; margin:24px 0 6px; }
+  h4 { font-size:15px; margin:16px 0 4px; }
+  .edition { border-left:4px solid var(--accent, #c2410c); padding:2px 0 2px 16px; margin:14px 0; }
   p { margin:8px 0; }
   ul { margin:8px 0 8px 20px; padding:0; }
   li { margin:4px 0; }
@@ -377,163 +379,257 @@
   <!-- ===================== Meowcenary ===================== -->
   <article class="app" data-app="meowcenary" data-name="Meowcenary">
     <h2 class="app-name">Meowcenary</h2>
-    <!-- ===================== English ===================== -->
-    <section lang="en" data-label="English">
-      <h2 class="lang">Privacy Policy &mdash; Meowcenary</h2>
-      <p class="updated">Last updated: November 2, 2026</p>
-      <p>This policy applies to <strong>Meowcenary</strong> ("the App"), a cat strategy defense game developed by Yunjin Games ("the Developer"), for Android and iPhone.</p>
-      <h3>1. What we collect</h3>
-      <p><strong>The Developer collects nothing.</strong> There are no accounts, no sign-in and no Developer servers. The App contains no analytics, no tracking and no advertising software, and the Developer never learns who you are.</p>
-      <p>The App does not collect your name, email address, phone number, contacts, photos, files or location.</p>
-      <h3>2. No ads, no in-app purchases</h3>
-      <p>The App is a paid app. It shows no ads and has no in-app purchases. The only payment is the purchase price you pay to the app store (Google Play or the App Store), and that payment is handled by the store, not by the App or the Developer.</p>
-      <h3>3. Network access</h3>
-      <p>The App does not request the Android internet permission and does not connect to any server. On Android, once Google Play has downloaded the asset pack (see below), the whole game can be played offline; on iPhone, it can be played offline right after installation.</p>
+  <!-- ===================== English ===================== -->
+  <section lang="en" data-label="English">
+    <h2 class="lang">Privacy Policy &mdash; Meowcenary</h2>
+    <p class="updated">Last updated: November 13, 2026</p>
+    <p>This policy applies to <strong>Meowcenary</strong> ("the App"), a cat strategy defense game developed by Yunjin Games ("the Developer"), for Android and iPhone. The App comes in two editions:</p>
+    <ul>
+      <li><strong>iPhone (paid edition):</strong> bought once from the App Store. No ads and no in-app purchases.</li>
+      <li><strong>Android (free edition):</strong> free to download from Google Play, with ads and optional in-app purchases. The whole game can be finished without paying.</li>
+    </ul>
+    <h3>1. What we collect</h3>
+    <p><strong>The Developer collects nothing.</strong> There are no accounts, no sign-in and no Developer servers. The App contains no analytics or tracking tools, and the Developer never learns who you are.</p>
+    <p>The App does not ask for or collect your name, email address, phone number, contacts, photos, files or precise location.</p>
+    <p><strong>The one exception is the Android free edition, which contains Google's advertising software (Google AdMob).</strong> AdMob collects some information directly for Google, as described in section 2. The iPhone edition contains no advertising software.</p>
+    <h3>2. Ads and purchases</h3>
+    <p><strong>iPhone:</strong> The App is a paid app. It shows no ads and has no in-app purchases. The only payment is the purchase price you pay to the App Store, and that payment is handled by Apple, not by the App or the Developer.</p>
+    <div class="edition">
+      <h4>Android free edition &mdash; ads</h4>
+      <p>Ads are served by Google AdMob (the Google Mobile Ads SDK). There are two kinds: rewarded video ads that you choose to watch in the Churu Shop to receive Churu (up to 5 a day), and full-screen video ads that you can close, shown now and then after a battle ends, from Chapter 3 onward. There are no banner ads and no ads before a battle starts.</p>
+      <p>To show and measure ads, the Google Mobile Ads SDK automatically collects the following and shares it with Google, which uses it for advertising, analytics and fraud prevention:</p>
       <ul>
-        <li>On Android, later-chapter artwork is delivered as a Google Play asset pack, which Google Play downloads and updates by itself. This is done by Google Play under Google's policies, not by the App. On iPhone, everything is included in the App.</li>
-        <li>The Settings screen has a Privacy Policy button that opens this page in your device's web browser. Anything that happens after that (for example, the connection to this web page) is done by your browser.</li>
+        <li>Device identifiers: your device's advertising ID and app set ID</li>
+        <li>Your IP address, from which an approximate location (such as your city) can be inferred</li>
+        <li>Interactions with ads and the App (for example, which ads were shown or tapped)</li>
+        <li>Diagnostic information (for example, app performance and ad loading)</li>
       </ul>
-      <h3>4. What is stored on your device</h3>
-      <p>The App saves the following on your device only:</p>
-      <ul>
-        <li>Your three save slots: stage progress, the cats you own and their growth, your party, gear, churu (in-game currency), your base and its buildings, and mini-game records</li>
-        <li>Your settings (music and sound volume, game speed, language, and similar display preferences)</li>
-      </ul>
-      <p>The App itself sends none of this anywhere. Each save slot carries a signature so that it cannot be edited by hand; this is only to detect tampering and is not used to identify you.</p>
-      <h3>5. Backup</h3>
-      <p><strong>Android:</strong> Android may copy the saves and settings above to <strong>your own Google Drive</strong> through the system's Auto Backup, and may transfer them when you move to a new device, so your progress returns after a reinstall. Downloaded asset packs are not included. You can turn this off in your device's Google backup settings.</p>
-      <p><strong>iPhone:</strong> If iCloud Backup (or a computer backup) is on for your iPhone, the App's saved data is included in your device backup like other apps' data.</p>
-      <p>These backups belong to you, are kept by Google or Apple under their own policies, and the Developer has no access to them.</p>
-      <h3>6. Notification permission</h3>
-      <p>On Android 13 and later, the App asks for permission to show notifications when you turn on background play in the Music Room. It is used only to show the music playback controls (play, pause) in the notification area while a song plays in the background. For this the App uses a media-playback foreground service and a wake lock, so the music keeps playing. If you decline, the music still plays. Notifications are not used for any other purpose, and nothing is sent to anyone. On Android, the asset pack is downloaded by Google Play. Any information Google processes in doing so is governed by <a href="https://policies.google.com/privacy">Google's privacy policy</a>. The Developer does not receive this information.</p>
-      <h3>7. Keeping and deleting data</h3>
-      <p>The Developer holds no data about you, so there is nothing on the Developer's side to delete. Data on your device can be removed in two ways: on the Load screen, choose Delete for a save slot (this cannot be undone), or uninstall the App, which removes the App's data from your device. A backup copy that was already made stays in your own Google or Apple account until you delete it there.</p>
-      <h3>8. Children</h3>
-      <p>The App has no ads, no purchases inside the App, no chat and no links to other services, apart from the Privacy Policy button described above. The Developer does not knowingly collect personal information from anyone, including children under 13.</p>
-      <h3>9. Changes</h3>
-      <p>If the App ever collects something not described here, this page and the App's privacy entries on Google Play and the App Store will be updated before that version is released.</p>
-      <h3>10. Contact</h3>
-      <p>Questions about this policy: <a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
-    </section>
+      <p>This information goes to Google, not to the Developer. The Developer only sees summary reports in AdMob (such as how many ads were shown and what they earned), which do not identify you. Google's use of this information is governed by <a href="https://policies.google.com/privacy">Google's privacy policy</a>; see also <a href="https://policies.google.com/technologies/partner-sites">How Google uses information from sites or apps that use its services</a>. Tapping an ad may open a web page or a store page.</p>
+      <p><strong>Your choices:</strong> Where the law requires it (for example, in the European Economic Area, the UK and Switzerland), the App asks for your ad consent when it starts, using Google's consent tool (User Messaging Platform). You can change your choice at any time in Settings &rarr; <em>Ad Consent Choices</em>. On any Android device you can reset or delete your advertising ID, or turn off personalized ads, in your device's settings (for example, Settings &rarr; Google &rarr; Ads; the menu differs by device). Buying <em>Remove Ads</em> stops the full-screen ads and lets you claim Churu without watching ads, but the advertising software stays in the App.</p>
+      <h4>Android free edition &mdash; in-app purchases</h4>
+      <p>The App sells four optional items through Google Play's billing system: three Churu packs (in-game currency, a fixed amount each) and <em>Remove Ads</em>. Nothing is sold at random. Payment is processed by Google Play under Google's terms; the Developer never receives your card or payment account details.</p>
+      <p>When you buy something, Google Play tells the App which item you bought, with an order number and a purchase token, so the App can deliver it and confirm the purchase to Google Play. The App keeps only a short fingerprint of the purchase token on your device (in the save slot and settings) so that the same purchase is never delivered twice. The App does not send your purchase information to the Developer. <em>Restore Purchases</em> in the Churu Shop asks Google Play for your past purchases.</p>
+    </div>
+    <h3>3. Network access</h3>
+    <p>The App does not connect to any Developer server. On iPhone, the App does not connect to the internet at all. On Android, the free edition requests internet access only to load ads and to process purchases (section 2); without a connection, ads and purchases are unavailable but the game itself still works. On Android, once Google Play has downloaded the asset pack (see below), the whole game can be played offline; on iPhone, it can be played offline right after installation.</p>
+    <ul>
+      <li>On Android, later-chapter artwork is delivered as a Google Play asset pack, which Google Play downloads and updates by itself. This is done by Google Play under Google's policies, not by the App. On iPhone, everything is included in the App.</li>
+      <li>The Settings screen has a Privacy Policy button that opens this page in your device's web browser. Anything that happens after that (for example, the connection to this web page) is done by your browser.</li>
+    </ul>
+    <h3>4. What is stored on your device</h3>
+    <p>The App saves the following on your device only:</p>
+    <ul>
+      <li>Your three save slots: stage progress, the cats you own and their growth, your party, gear, churu (in-game currency), your base and its buildings, and mini-game records</li>
+      <li>Your settings (music and sound volume, game speed, language, and similar display preferences)</li>
+      <li>Android free edition only: how many rewarded ads you watched today, how many battles have passed since the last full-screen ad and when ads were last shown, whether you own Remove Ads, fingerprints of purchases already delivered, and the year of birth you chose (section 8)</li>
+    </ul>
+    <p>The App itself sends none of this anywhere. Each save slot carries a signature so that it cannot be edited by hand; this is only to detect tampering and is not used to identify you.</p>
+    <h3>5. Backup</h3>
+    <p><strong>Android:</strong> Android may copy the saves and settings above to <strong>your own Google Drive</strong> through the system's Auto Backup, and may transfer them when you move to a new device, so your progress returns after a reinstall. Downloaded asset packs are not included. You can turn this off in your device's Google backup settings.</p>
+    <p><strong>iPhone:</strong> If iCloud Backup (or a computer backup) is on for your iPhone, the App's saved data is included in your device backup like other apps' data.</p>
+    <p>These backups belong to you, are kept by Google or Apple under their own policies, and the Developer has no access to them.</p>
+    <h3>6. Notifications</h3>
+    <p>The App does not show notifications and does not ask for notification permission. Music in the Music Room plays only while the App is open: when you leave the App, the music pauses, and it continues when you come back. On Android, the asset pack is downloaded by Google Play. Any information Google processes in doing so is governed by <a href="https://policies.google.com/privacy">Google's privacy policy</a>. The Developer does not receive this information.</p>
+    <h3>7. Keeping and deleting data</h3>
+    <p>The Developer holds no data about you, so there is nothing on the Developer's side to delete. Data on your device can be removed in two ways: on the Load screen, choose Delete for a save slot (this cannot be undone), or uninstall the App, which removes the App's data from your device. A backup copy that was already made stays in your own Google or Apple account until you delete it there.</p>
+    <p><strong>Android free edition:</strong> Information collected by the advertising software is held by Google, not by the Developer, so the Developer cannot look it up or delete it. You can reset or delete your advertising ID in your device's settings and manage your Google ad settings at <a href="https://myadcenter.google.com/">My Ad Center</a>. Your purchase history is kept by Google Play in your Google account.</p>
+    <h3>8. Children</h3>
+    <p>The iPhone edition has no ads and no purchases inside the App. The Android free edition shows ads served by Google and offers optional in-app purchases. Neither edition has chat, and apart from the Privacy Policy button described above (and ads in the Android free edition, which may open a web page or a store page when tapped), the App has no links to other services. The Developer does not knowingly collect personal information from anyone, including children under 13.</p>
+    <p><strong>Android free edition &mdash; year of birth:</strong> The first time the free edition starts, before any ads are loaded, it asks for your year of birth once. The answer is stored on your device and is never sent to the Developer or to ad companies. If Android backup is turned on, it may be included in your own backup together with your other settings (section 5). If the year means you may be under 14, the App tells Google AdMob to treat your ad requests as directed to children: only non-personalized ads are shown, and only ads rated for general audiences (G). For everyone else, ads are limited to those rated for teens (T) or below. If you may be under 16, the App also tells Google, wherever you are, that you may be under the age of consent (the age set in Europe), so you are also shown only non-personalized ads. Rewarded ads, ads after battles and purchases work the same way either way. The iPhone edition has no ads and does not ask this question.</p>
+    <h3>9. Changes</h3>
+    <p>If the App ever collects something not described here, this page and the App's privacy entries on Google Play and the App Store will be updated before that version is released.</p>
+    <h3>10. Contact</h3>
+    <p>Questions about this policy: <a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
+  </section>
 
-    <!-- ===================== 한국어 ===================== -->
-    <section lang="ko" data-label="한국어">
-      <h2 class="lang">개인정보처리방침 &mdash; 냥냥원정대</h2>
-      <p class="updated">최종 수정일: 2026년 11월 2일</p>
-      <p>본 방침은 윤진게임즈("개발자")가 개발한 고양이 전략 디펜스 게임 <strong>냥냥원정대(Meowcenary)</strong>("앱")의 안드로이드판과 아이폰판에 적용됩니다.</p>
-      <h3>1. 수집하는 정보</h3>
-      <p><strong>개발자는 아무것도 수집하지 않습니다.</strong> 계정도 로그인도 개발자의 서버도 없습니다. 앱에는 분석 도구, 추적, 광고 소프트웨어가 들어 있지 않으며, 개발자는 이용자가 누구인지 알지 못합니다.</p>
-      <p>앱은 이름·이메일·전화번호·연락처·사진·파일·위치를 수집하지 않습니다.</p>
-      <h3>2. 광고와 앱 내 결제 없음</h3>
-      <p>이 앱은 유료 앱입니다. 광고가 없고 앱 안에서 결제하는 것도 없습니다. 값은 스토어(구글 플레이 또는 앱 스토어)에서 앱을 살 때 내는 것이 전부이며, 그 결제는 앱이나 개발자가 아니라 스토어가 처리합니다.</p>
-      <h3>3. 네트워크 사용</h3>
-      <p>앱은 안드로이드 인터넷 권한을 요청하지 않으며 어떤 서버에도 연결하지 않습니다. 안드로이드에서는 구글 플레이가 아래의 에셋 팩을 내려받은 뒤에, 아이폰에서는 설치한 뒤 바로 게임 전체를 오프라인으로 할 수 있습니다.</p>
+  <!-- ===================== 한국어 ===================== -->
+  <section lang="ko" data-label="한국어">
+    <h2 class="lang">개인정보처리방침 &mdash; 냥냥원정대</h2>
+    <p class="updated">최종 수정일: 2026년 11월 13일</p>
+    <p>본 방침은 윤진게임즈("개발자")가 개발한 고양이 전략 디펜스 게임 <strong>냥냥원정대(Meowcenary)</strong>("앱")의 안드로이드판과 아이폰판에 적용됩니다. 앱은 두 가지 판으로 나옵니다.</p>
+    <ul>
+      <li><strong>아이폰(유료판):</strong> 앱 스토어에서 한 번 사는 앱입니다. 광고와 앱 안 결제가 없습니다.</li>
+      <li><strong>안드로이드(무료판):</strong> 구글 플레이에서 무료로 받는 앱이며 광고와 선택적인 앱 안 결제가 있습니다. 결제하지 않아도 게임을 끝까지 할 수 있습니다.</li>
+    </ul>
+    <h3>1. 수집하는 정보</h3>
+    <p><strong>개발자는 아무것도 수집하지 않습니다.</strong> 계정도 로그인도 개발자의 서버도 없습니다. 앱에는 분석 도구나 추적 도구가 들어 있지 않으며, 개발자는 이용자가 누구인지 알지 못합니다.</p>
+    <p>앱은 이름·이메일·전화번호·연락처·사진·파일·정확한 위치를 묻거나 수집하지 않습니다.</p>
+    <p><strong>단 하나의 예외는 안드로이드 무료판입니다. 무료판에는 Google의 광고 소프트웨어(Google AdMob)가 들어 있습니다.</strong> AdMob은 아래 2절의 정보를 Google을 위해 직접 수집합니다. 아이폰판에는 광고 소프트웨어가 없습니다.</p>
+    <h3>2. 광고와 결제</h3>
+    <p><strong>아이폰:</strong> 이 앱은 유료 앱입니다. 광고가 없고 앱 안에서 결제하는 것도 없습니다. 값은 앱 스토어에서 앱을 살 때 내는 것이 전부이며, 그 결제는 앱이나 개발자가 아니라 Apple이 처리합니다.</p>
+    <div class="edition">
+      <h4>안드로이드 무료판 &mdash; 광고</h4>
+      <p>광고는 Google AdMob(Google 모바일 광고 SDK)이 내보냅니다. 두 가지가 있습니다. 하나는 츄르 상점에서 이용자가 골라서 보고 츄르를 받는 보상형 영상 광고(하루 5번까지)이고, 다른 하나는 3챕터부터 전투가 끝난 뒤 가끔 나오는, 닫을 수 있는 전면 영상 광고입니다. 화면 아래 띠 광고와 전투를 시작하기 전 광고는 없습니다.</p>
+      <p>광고를 보여 주고 측정하기 위해 Google 모바일 광고 SDK는 다음 정보를 자동으로 수집해 Google과 공유하며, Google은 이를 광고·분석·부정 행위 방지에 씁니다.</p>
       <ul>
-        <li>안드로이드에서는 뒤쪽 챕터의 그림이 구글 플레이 에셋 팩으로 전달됩니다. 이 팩은 구글 플레이가 Google의 정책에 따라 직접 내려받고 갱신하며, 앱이 하는 일이 아닙니다. 아이폰판에는 모두 앱 안에 들어 있습니다.</li>
-        <li>설정 화면의 개인정보 처리방침 단추는 이 페이지를 기기의 웹 브라우저로 엽니다. 그 뒤에 일어나는 일(예: 이 웹페이지로의 연결)은 브라우저가 하는 일입니다.</li>
+        <li>기기 식별자: 기기의 광고 ID와 앱 세트 ID</li>
+        <li>IP 주소 — 여기서 대략적인 위치(예: 사는 도시)를 추정할 수 있습니다</li>
+        <li>광고와 앱 이용 기록(예: 어떤 광고가 보였고 눌렸는지)</li>
+        <li>진단 정보(예: 앱 성능, 광고 불러오기)</li>
       </ul>
-      <h3>4. 기기에 저장되는 것</h3>
-      <p>앱은 다음을 기기 안에만 저장합니다.</p>
-      <ul>
-        <li>세이브 세 칸: 판 진행도, 가진 고양이와 성장, 편성, 장비, 츄르(게임 재화), 기지와 건물, 미니게임 기록</li>
-        <li>설정(음악·효과음 크기, 게임 속도, 언어, 그 밖의 화면 취향)</li>
-      </ul>
-      <p>앱은 이 중 어느 것도 밖으로 보내지 않습니다. 세이브 칸에는 손으로 고치지 못하게 하는 서명이 붙어 있습니다. 변조를 알아채기 위한 것일 뿐 이용자를 식별하는 데 쓰지 않습니다.</p>
-      <h3>5. 백업</h3>
-      <p><strong>안드로이드:</strong> 안드로이드가 시스템 자동 백업으로 위의 세이브와 설정을 <strong>사용자 본인의 구글 드라이브</strong>에 복사할 수 있고, 새 기기로 옮길 때 함께 옮길 수도 있습니다. 앱을 다시 깔아도 진행도가 돌아오게 하기 위한 것입니다. 내려받은 에셋 팩은 들어가지 않습니다. 기기의 구글 백업 설정에서 끌 수 있습니다.</p>
-      <p><strong>아이폰:</strong> 아이폰에서 iCloud 백업(또는 컴퓨터 백업)이 켜져 있으면 다른 앱의 데이터처럼 앱의 저장 데이터도 기기 백업에 들어갑니다.</p>
-      <p>이 백업은 사용자의 것이며 Google 또는 Apple이 각자의 정책에 따라 보관합니다. 개발자는 접근할 수 없습니다.</p>
-      <h3>6. 알림 권한</h3>
-      <p>안드로이드 13 이상에서 앱은 음악 감상실에서 배경 재생을 켤 때 알림을 띄워도 되는지 묻습니다. 곡이 배경에서 재생되는 동안 알림 영역에 음악 조작판(재생·일시정지)을 보여 주는 데에만 쓰입니다. 이를 위해 앱은 미디어 재생용 포그라운드 서비스와 wake lock 권한을 써서 음악이 끊기지 않게 합니다. 거절해도 음악은 그대로 나옵니다. 다른 용도로 알림을 쓰지 않으며, 어디로도 보내지 않습니다. 안드로이드에서 에셋 팩을 내려받는 일은 구글 플레이가 하며, 이 과정에서 Google이 처리하는 정보는 <a href="https://policies.google.com/privacy">Google의 개인정보처리방침</a>을 따릅니다. 개발자는 이 정보를 받지 않습니다.</p>
-      <h3>7. 보관과 삭제</h3>
-      <p>개발자는 이용자에 관한 정보를 갖고 있지 않으므로 개발자 쪽에서 지울 것이 없습니다. 기기에 있는 데이터는 두 가지로 지울 수 있습니다. 불러오기 화면에서 세이브 칸의 「지우기」를 고르거나(되돌릴 수 없습니다), 앱을 삭제하면 앱의 데이터가 기기에서 지워집니다. 이미 만들어진 백업 사본은 사용자의 구글 또는 Apple 계정에서 직접 지우기 전까지 남아 있습니다.</p>
-      <h3>8. 아동</h3>
-      <p>앱에는 광고도, 앱 안 결제도, 대화 기능도 없고, 위에서 설명한 개인정보 처리방침 단추 외에 다른 서비스로 가는 링크도 없습니다. 개발자는 만 13세 미만 아동을 포함해 누구의 개인정보도 고의로 수집하지 않습니다.</p>
-      <h3>9. 변경</h3>
-      <p>여기에 적히지 않은 것을 앱이 수집하게 된다면, 그 버전이 배포되기 전에 이 페이지와 구글 플레이·앱 스토어의 개인정보 항목을 먼저 고치겠습니다.</p>
-      <h3>10. 문의</h3>
-      <p>본 방침에 대한 문의: <a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
-    </section>
+      <p>이 정보는 개발자가 아니라 Google로 갑니다. 개발자는 AdMob에서 이용자를 알아볼 수 없는 집계 보고서(광고가 몇 번 보였고 수익이 얼마인지 등)만 봅니다. Google이 이 정보를 쓰는 방식은 <a href="https://policies.google.com/privacy">Google 개인정보처리방침</a>을 따르며, <a href="https://policies.google.com/technologies/partner-sites">Google 서비스를 사용하는 사이트나 앱의 정보를 Google이 사용하는 방법</a>도 함께 보시기 바랍니다. 광고를 누르면 웹페이지나 스토어 페이지가 열릴 수 있습니다.</p>
+      <p><strong>이용자의 선택:</strong> 법이 요구하는 지역(예: 유럽 경제 지역, 영국, 스위스)에서는 앱이 켜질 때 Google의 동의 도구(User Messaging Platform)로 광고 동의를 묻습니다. 고른 것은 언제든 설정의 <em>「광고 동의 다시 고르기」</em>에서 바꿀 수 있습니다. 어느 안드로이드 기기에서든 기기 설정(예: 설정 &rarr; Google &rarr; 광고, 기기마다 메뉴가 다릅니다)에서 광고 ID를 재설정하거나 삭제하고 맞춤 광고를 끌 수 있습니다. <em>「광고 제거」</em>를 사면 전면 광고가 없어지고 광고를 보지 않고도 츄르를 받을 수 있지만, 광고 소프트웨어는 앱 안에 그대로 남습니다.</p>
+      <h4>안드로이드 무료판 &mdash; 앱 안 결제</h4>
+      <p>앱은 구글 플레이 결제 시스템으로 선택 상품 네 가지를 팝니다. 츄르(게임 재화) 묶음 세 가지는 각각 정해진 양이 들어 있고, 나머지 하나는 <em>「광고 제거」</em>입니다. 확률로 주는 상품은 없습니다. 결제는 구글 플레이가 Google의 약관에 따라 처리하며, 개발자는 카드나 결제 계정 정보를 받지 않습니다.</p>
+      <p>무언가를 사면 구글 플레이가 어떤 상품을 샀는지를 주문 번호·구매 토큰과 함께 앱에 알려 주고, 앱은 이것으로 상품을 넣어 주고 구글 플레이에 구매를 확정합니다. 같은 구매를 두 번 넣지 않도록 앱은 구매 토큰의 짧은 지문만 기기(세이브 칸과 설정)에 적어 둡니다. 앱은 구매 정보를 개발자에게 보내지 않습니다. 츄르 상점의 <em>「구매 되살리기」</em>는 구글 플레이에 지난 구매를 물어봅니다.</p>
+    </div>
+    <h3>3. 네트워크 사용</h3>
+    <p>앱은 개발자의 서버에 연결하지 않습니다. 아이폰에서는 앱이 인터넷에 전혀 연결하지 않습니다. 안드로이드에서는 무료판이 광고를 불러오고 결제를 처리하기 위해서만 인터넷 권한을 요청합니다(2절). 인터넷이 없으면 광고와 결제를 쓸 수 없지만 게임 자체는 그대로 됩니다. 안드로이드에서는 구글 플레이가 아래의 에셋 팩을 내려받은 뒤에, 아이폰에서는 설치한 뒤 바로 게임 전체를 오프라인으로 할 수 있습니다.</p>
+    <ul>
+      <li>안드로이드에서는 뒤쪽 챕터의 그림이 구글 플레이 에셋 팩으로 전달됩니다. 이 팩은 구글 플레이가 Google의 정책에 따라 직접 내려받고 갱신하며, 앱이 하는 일이 아닙니다. 아이폰판에는 모두 앱 안에 들어 있습니다.</li>
+      <li>설정 화면의 개인정보 처리방침 단추는 이 페이지를 기기의 웹 브라우저로 엽니다. 그 뒤에 일어나는 일(예: 이 웹페이지로의 연결)은 브라우저가 하는 일입니다.</li>
+    </ul>
+    <h3>4. 기기에 저장되는 것</h3>
+    <p>앱은 다음을 기기 안에만 저장합니다.</p>
+    <ul>
+      <li>세이브 세 칸: 판 진행도, 가진 고양이와 성장, 편성, 장비, 츄르(게임 재화), 기지와 건물, 미니게임 기록</li>
+      <li>설정(음악·효과음 크기, 게임 속도, 언어, 그 밖의 화면 취향)</li>
+      <li>안드로이드 무료판에만: 오늘 본 보상형 광고 횟수, 마지막 전면 광고 뒤로 지난 전투 수와 광고를 마지막으로 본 시각, 「광고 제거」를 샀는지, 이미 넣어 준 구매의 지문, 고른 태어난 해(8절)</li>
+    </ul>
+    <p>앱은 이 중 어느 것도 밖으로 보내지 않습니다. 세이브 칸에는 손으로 고치지 못하게 하는 서명이 붙어 있습니다. 변조를 알아채기 위한 것일 뿐 이용자를 식별하는 데 쓰지 않습니다.</p>
+    <h3>5. 백업</h3>
+    <p><strong>안드로이드:</strong> 안드로이드가 시스템 자동 백업으로 위의 세이브와 설정을 <strong>사용자 본인의 구글 드라이브</strong>에 복사할 수 있고, 새 기기로 옮길 때 함께 옮길 수도 있습니다. 앱을 다시 깔아도 진행도가 돌아오게 하기 위한 것입니다. 내려받은 에셋 팩은 들어가지 않습니다. 기기의 구글 백업 설정에서 끌 수 있습니다.</p>
+    <p><strong>아이폰:</strong> 아이폰에서 iCloud 백업(또는 컴퓨터 백업)이 켜져 있으면 다른 앱의 데이터처럼 앱의 저장 데이터도 기기 백업에 들어갑니다.</p>
+    <p>이 백업은 사용자의 것이며 Google 또는 Apple이 각자의 정책에 따라 보관합니다. 개발자는 접근할 수 없습니다.</p>
+    <h3>6. 알림</h3>
+    <p>앱은 알림을 띄우지 않고, 알림 권한도 묻지 않습니다. 음악 감상실의 곡은 앱을 열어 둔 동안에만 재생됩니다. 앱을 나가면 멈췄다가, 돌아오면 이어서 재생됩니다. 안드로이드에서 에셋 팩을 내려받는 일은 구글 플레이가 하며, 이 과정에서 Google이 처리하는 정보는 <a href="https://policies.google.com/privacy">Google의 개인정보처리방침</a>을 따릅니다. 개발자는 이 정보를 받지 않습니다.</p>
+    <h3>7. 보관과 삭제</h3>
+    <p>개발자는 이용자에 관한 정보를 갖고 있지 않으므로 개발자 쪽에서 지울 것이 없습니다. 기기에 있는 데이터는 두 가지로 지울 수 있습니다. 불러오기 화면에서 세이브 칸의 「지우기」를 고르거나(되돌릴 수 없습니다), 앱을 삭제하면 앱의 데이터가 기기에서 지워집니다. 이미 만들어진 백업 사본은 사용자의 구글 또는 Apple 계정에서 직접 지우기 전까지 남아 있습니다.</p>
+    <p><strong>안드로이드 무료판:</strong> 광고 소프트웨어가 수집한 정보는 개발자가 아니라 Google이 갖고 있어 개발자가 찾아보거나 지울 수 없습니다. 광고 ID는 기기 설정에서 재설정하거나 삭제할 수 있고, Google 광고 설정은 <a href="https://myadcenter.google.com/">내 광고 센터</a>에서 관리할 수 있습니다. 구매 기록은 구글 플레이가 이용자의 Google 계정에 보관합니다.</p>
+    <h3>8. 아동</h3>
+    <p>아이폰판에는 광고도 앱 안 결제도 없습니다. 안드로이드 무료판은 Google이 내보내는 광고를 보여 주고 선택적인 앱 안 결제가 있습니다. 두 판 모두 대화 기능이 없고, 위에서 설명한 개인정보 처리방침 단추(그리고 누르면 웹페이지나 스토어 페이지가 열릴 수 있는 안드로이드 무료판의 광고) 외에 다른 서비스로 가는 링크가 없습니다. 개발자는 만 13세 미만 아동을 포함해 누구의 개인정보도 고의로 수집하지 않습니다.</p>
+    <p><strong>안드로이드 무료판 &mdash; 태어난 해:</strong> 무료판은 처음 켤 때 광고를 불러오기 전에 태어난 해를 한 번 묻습니다. 답은 기기에 저장되며 개발자나 광고 회사로 보내지 않습니다. 안드로이드 백업이 켜져 있으면 다른 설정과 함께 이용자 자신의 백업에 들어갈 수 있습니다(5절). 고른 해로 보아 만 14세 미만일 수 있으면, 앱은 Google AdMob에 광고 요청을 아동 대상으로 처리하도록 알립니다. 이때는 맞춤형이 아닌 광고만, 그리고 전체 이용가(G) 등급 광고만 나옵니다. 그 밖의 이용자에게는 청소년(T) 등급 이하의 광고만 나옵니다. 만 16세 미만일 수 있으면, 어느 지역에 있든 동의 연령(유럽 기준) 미만일 수 있다는 것도 Google에 알리므로 맞춤형이 아닌 광고만 나옵니다. 보상형 광고, 전투 뒤 광고, 결제는 어느 경우든 똑같이 동작합니다. 아이폰판에는 광고가 없어 이 질문을 하지 않습니다.</p>
+    <h3>9. 변경</h3>
+    <p>여기에 적히지 않은 것을 앱이 수집하게 된다면, 그 버전이 배포되기 전에 이 페이지와 구글 플레이·앱 스토어의 개인정보 항목을 먼저 고치겠습니다.</p>
+    <h3>10. 문의</h3>
+    <p>본 방침에 대한 문의: <a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
+  </section>
 
-    <!-- ===================== 日本語 ===================== -->
-    <section lang="ja" data-label="日本語">
-      <h2 class="lang">プライバシーポリシー &mdash; ニャンニャン傭兵団</h2>
-      <p class="updated">最終更新日: 2026年11月2日</p>
-      <p>本ポリシーは、Yunjin Games（「開発者」）が開発したねこの戦略ディフェンスゲーム <strong>ニャンニャン傭兵団（Meowcenary）</strong>（「本アプリ」）の Android 版と iPhone 版に適用されます。</p>
-      <h3>1. 収集する情報</h3>
-      <p><strong>開発者は何も収集しません。</strong>アカウント、ログイン、開発者のサーバーはありません。本アプリには分析ツール、追跡、広告のソフトウェアが含まれておらず、開発者はあなたが誰かを知ることはありません。</p>
-      <p>本アプリは、氏名、メールアドレス、電話番号、連絡先、写真、ファイル、位置情報を収集しません。</p>
-      <h3>2. 広告・アプリ内課金なし</h3>
-      <p>本アプリは有料アプリです。広告はなく、アプリ内課金もありません。お支払いはストア（Google Play または App Store）で購入するときの代金のみで、その決済は本アプリや開発者ではなくストアが処理します。</p>
-      <h3>3. ネットワークの利用</h3>
-      <p>本アプリは Android のインターネット権限を求めず、どのサーバーにも接続しません。Android では Google Play が下記のアセットパックをダウンロードした後に、iPhone ではインストール直後に、ゲーム全体をオフラインで遊べます。</p>
+  <!-- ===================== 日本語 ===================== -->
+  <section lang="ja" data-label="日本語">
+    <h2 class="lang">プライバシーポリシー &mdash; ニャンニャン傭兵団</h2>
+    <p class="updated">最終更新日: 2026年11月13日</p>
+    <p>本ポリシーは、Yunjin Games（「開発者」）が開発したねこの戦略ディフェンスゲーム <strong>ニャンニャン傭兵団（Meowcenary）</strong>（「本アプリ」）の Android 版と iPhone 版に適用されます。本アプリには次の2つの版があります。</p>
+    <ul>
+      <li><strong>iPhone（有料版）：</strong>App Store で一度購入するアプリです。広告とアプリ内課金はありません。</li>
+      <li><strong>Android（無料版）：</strong>Google Play から無料でダウンロードでき、広告と任意のアプリ内課金があります。課金しなくても最後まで遊べます。</li>
+    </ul>
+    <h3>1. 収集する情報</h3>
+    <p><strong>開発者は何も収集しません。</strong>アカウント、ログイン、開発者のサーバーはありません。本アプリには分析ツールや追跡ツールが含まれておらず、開発者はあなたが誰かを知ることはありません。</p>
+    <p>本アプリは、氏名、メールアドレス、電話番号、連絡先、写真、ファイル、正確な位置情報を求めたり収集したりしません。</p>
+    <p><strong>唯一の例外は Android 無料版で、Google の広告ソフトウェア（Google AdMob）が含まれています。</strong>AdMob は第2項に記載する情報を Google のために直接収集します。iPhone 版には広告ソフトウェアは含まれていません。</p>
+    <h3>2. 広告と課金</h3>
+    <p><strong>iPhone：</strong>本アプリは有料アプリです。広告はなく、アプリ内課金もありません。お支払いは App Store で購入するときの代金のみで、その決済は本アプリや開発者ではなく Apple が処理します。</p>
+    <div class="edition">
+      <h4>Android 無料版 &mdash; 広告</h4>
+      <p>広告は Google AdMob（Google Mobile Ads SDK）が配信します。広告は2種類です。チュールショップであなたが選んで視聴しチュールを受け取るリワード動画広告（1日5回まで）と、第3章以降、戦闘が終わった後にときどき表示される、閉じることのできる全画面動画広告です。画面下のバナー広告や、戦闘を始める前の広告はありません。</p>
+      <p>広告の表示と効果測定のため、Google Mobile Ads SDK は次の情報を自動的に収集して Google と共有し、Google はこれを広告、分析、不正防止に使います。</p>
       <ul>
-        <li>Android では、後半のチャプターの画像が Google Play のアセットパックとして配信されます。これは Google Play が Google のポリシーに従って自らダウンロード・更新するもので、本アプリが行うものではありません。iPhone 版では、すべてがアプリの中に入っています。</li>
-        <li>設定画面のプライバシーポリシーのボタンは、このページを端末のウェブブラウザで開きます。その後に起きること（このウェブページへの接続など）はブラウザが行うものです。</li>
+        <li>端末の識別子：端末の広告 ID とアプリセット ID</li>
+        <li>IP アドレス（ここからおおよその位置、たとえばお住まいの市区町村が推定されることがあります）</li>
+        <li>広告や本アプリの操作（例：どの広告が表示・タップされたか）</li>
+        <li>診断情報（例：アプリのパフォーマンス、広告の読み込み）</li>
       </ul>
-      <h3>4. 端末に保存されるもの</h3>
-      <p>本アプリは次のものを端末内にのみ保存します。</p>
-      <ul>
-        <li>セーブ3枠：ステージの進行状況、所持しているねこと成長、編成、装備、チュール（ゲーム内通貨）、拠点と建物、ミニゲームの記録</li>
-        <li>設定（音楽・効果音の音量、ゲーム速度、言語、そのほか表示の好み）</li>
-      </ul>
-      <p>本アプリはこれらをどこにも送信しません。各セーブ枠には手で書き換えられないようにする署名が付いています。改ざんに気づくためのもので、あなたを特定するためには使いません。</p>
-      <h3>5. バックアップ</h3>
-      <p><strong>Android：</strong>Android の自動バックアップにより、上記のセーブと設定が<strong>ご自身の Google ドライブ</strong>にコピーされることがあり、機種変更の際に一緒に移されることもあります。再インストール後に進行状況を戻すためのものです。ダウンロード済みのアセットパックは含まれません。端末の Google バックアップ設定でオフにできます。</p>
-      <p><strong>iPhone：</strong>iPhone で iCloud バックアップ（またはパソコンへのバックアップ）がオンの場合、ほかのアプリのデータと同じく、本アプリの保存データも端末のバックアップに含まれます。</p>
-      <p>これらのバックアップはあなたのもので、Google または Apple がそれぞれのポリシーに従って保管します。開発者はアクセスできません。</p>
-      <h3>6. 通知の権限</h3>
-      <p>Android 13 以降では、ミュージックルームでバックグラウンド再生をオンにしたときに、通知を表示してよいか尋ねます。曲がバックグラウンドで流れている間、通知エリアに音楽の操作パネル（再生・一時停止）を表示するためだけに使います。このため本アプリはメディア再生用のフォアグラウンドサービスとウェイクロックの権限を使い、音楽が途切れないようにしています。許可しなくても音楽は流れます。ほかの目的で通知は使わず、どこにも送信しません。Android でアセットパックをダウンロードするのは Google Play で、その過程で Google が処理する情報は <a href="https://policies.google.com/privacy">Google のプライバシーポリシー</a>に従います。開発者がこの情報を受け取ることはありません。</p>
-      <h3>7. 保管と削除</h3>
-      <p>開発者はあなたに関する情報を保有していないため、開発者側で削除するものはありません。端末内のデータは次の2つの方法で削除できます。ロード画面でセーブ枠の「削除」を選ぶ（元に戻せません）か、アプリをアンインストールすると、アプリのデータが端末から削除されます。すでに作成されたバックアップのコピーは、ご自身の Google または Apple アカウントで削除するまで残ります。</p>
-      <h3>8. 子ども</h3>
-      <p>本アプリには広告も、アプリ内課金も、チャットもなく、上記のプライバシーポリシーのボタンを除いて、他のサービスへのリンクもありません。開発者は、13歳未満の子どもを含め、誰の個人情報も故意に収集しません。</p>
-      <h3>9. 変更</h3>
-      <p>本アプリがここに記載のない情報を収集することになった場合は、そのバージョンの公開前に、本ページと Google Play・App Store のプライバシー欄を更新します。</p>
-      <h3>10. お問い合わせ</h3>
-      <p>本ポリシーに関するお問い合わせ：<a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
-    </section>
+      <p>これらの情報は開発者ではなく Google に送られます。開発者が AdMob で見られるのは、あなたを特定できない集計レポート（広告の表示回数や収益など）だけです。Google による情報の利用は <a href="https://policies.google.com/privacy">Google のプライバシーポリシー</a>に従います。<a href="https://policies.google.com/technologies/partner-sites">Google のサービスを使用するサイトやアプリから収集した情報の Google による使用</a>もあわせてご覧ください。広告をタップすると、ウェブページやストアのページが開くことがあります。</p>
+      <p><strong>あなたの選択：</strong>法律で求められる地域（例：欧州経済領域、英国、スイス）では、本アプリの起動時に Google の同意ツール（User Messaging Platform）で広告への同意をお尋ねします。選んだ内容は、設定の<em>「広告の同意を選び直す」</em>からいつでも変更できます。どの Android 端末でも、端末の設定（例：設定 &rarr; Google &rarr; 広告。メニューは端末によって異なります）で広告 ID をリセット・削除したり、パーソナライズド広告をオフにしたりできます。<em>「広告削除」</em>を購入すると全画面広告がなくなり、広告を見ずにチュールを受け取れるようになりますが、広告ソフトウェアはアプリ内に残ります。</p>
+      <h4>Android 無料版 &mdash; アプリ内課金</h4>
+      <p>本アプリは Google Play の課金システムで、任意の商品を4つ販売しています。チュール（ゲーム内通貨）のパック3種類はそれぞれ決まった量で、残りの1つは<em>「広告削除」</em>です。確率で中身が決まる商品はありません。決済は Google Play が Google の規約に従って処理し、開発者がカードや支払いアカウントの情報を受け取ることはありません。</p>
+      <p>購入すると、Google Play がどの商品を購入したかを注文番号・購入トークンとともに本アプリに知らせ、本アプリはそれを使って商品を届け、Google Play に購入を確定します。同じ購入を二重に届けないよう、本アプリは購入トークンの短いフィンガープリントだけを端末（セーブ枠と設定）に記録します。本アプリが購入情報を開発者に送ることはありません。チュールショップの<em>「購入を復元」</em>は、過去の購入を Google Play に問い合わせます。</p>
+    </div>
+    <h3>3. ネットワークの利用</h3>
+    <p>本アプリは開発者のサーバーに接続しません。iPhone では、本アプリはインターネットにまったく接続しません。Android では、無料版が広告の読み込みと課金の処理のためだけにインターネット権限を求めます（第2項）。接続がないと広告と課金は使えませんが、ゲーム自体はそのまま遊べます。Android では Google Play が下記のアセットパックをダウンロードした後に、iPhone ではインストール直後に、ゲーム全体をオフラインで遊べます。</p>
+    <ul>
+      <li>Android では、後半のチャプターの画像が Google Play のアセットパックとして配信されます。これは Google Play が Google のポリシーに従って自らダウンロード・更新するもので、本アプリが行うものではありません。iPhone 版では、すべてがアプリの中に入っています。</li>
+      <li>設定画面のプライバシーポリシーのボタンは、このページを端末のウェブブラウザで開きます。その後に起きること（このウェブページへの接続など）はブラウザが行うものです。</li>
+    </ul>
+    <h3>4. 端末に保存されるもの</h3>
+    <p>本アプリは次のものを端末内にのみ保存します。</p>
+    <ul>
+      <li>セーブ3枠：ステージの進行状況、所持しているねこと成長、編成、装備、チュール（ゲーム内通貨）、拠点と建物、ミニゲームの記録</li>
+      <li>設定（音楽・効果音の音量、ゲーム速度、言語、そのほか表示の好み）</li>
+      <li>Android 無料版のみ：今日視聴したリワード広告の回数、最後の全画面広告から経過した戦闘数と広告を最後に表示した時刻、「広告削除」を購入済みかどうか、すでに届けた購入のフィンガープリント、選んだ生まれた年（第8項）</li>
+    </ul>
+    <p>本アプリはこれらをどこにも送信しません。各セーブ枠には手で書き換えられないようにする署名が付いています。改ざんに気づくためのもので、あなたを特定するためには使いません。</p>
+    <h3>5. バックアップ</h3>
+    <p><strong>Android：</strong>Android の自動バックアップにより、上記のセーブと設定が<strong>ご自身の Google ドライブ</strong>にコピーされることがあり、機種変更の際に一緒に移されることもあります。再インストール後に進行状況を戻すためのものです。ダウンロード済みのアセットパックは含まれません。端末の Google バックアップ設定でオフにできます。</p>
+    <p><strong>iPhone：</strong>iPhone で iCloud バックアップ（またはパソコンへのバックアップ）がオンの場合、ほかのアプリのデータと同じく、本アプリの保存データも端末のバックアップに含まれます。</p>
+    <p>これらのバックアップはあなたのもので、Google または Apple がそれぞれのポリシーに従って保管します。開発者はアクセスできません。</p>
+    <h3>6. 通知</h3>
+    <p>本アプリは通知を表示せず、通知の権限も求めません。ミュージックルームの曲はアプリを開いている間だけ流れます。アプリを離れると一時停止し、戻ると続きから流れます。Android でアセットパックをダウンロードするのは Google Play で、その過程で Google が処理する情報は <a href="https://policies.google.com/privacy">Google のプライバシーポリシー</a>に従います。開発者がこの情報を受け取ることはありません。</p>
+    <h3>7. 保管と削除</h3>
+    <p>開発者はあなたに関する情報を保有していないため、開発者側で削除するものはありません。端末内のデータは次の2つの方法で削除できます。ロード画面でセーブ枠の「削除」を選ぶ（元に戻せません）か、アプリをアンインストールすると、アプリのデータが端末から削除されます。すでに作成されたバックアップのコピーは、ご自身の Google または Apple アカウントで削除するまで残ります。</p>
+    <p><strong>Android 無料版：</strong>広告ソフトウェアが収集した情報は開発者ではなく Google が保有しているため、開発者が確認したり削除したりすることはできません。広告 ID は端末の設定でリセット・削除でき、Google の広告設定は<a href="https://myadcenter.google.com/">マイ アド センター</a>で管理できます。購入履歴は Google Play があなたの Google アカウントに保管します。</p>
+    <h3>8. 子ども</h3>
+    <p>iPhone 版には広告もアプリ内課金もありません。Android 無料版は Google が配信する広告を表示し、任意のアプリ内課金があります。どちらの版にもチャットはなく、上記のプライバシーポリシーのボタン（と、タップするとウェブページやストアのページが開くことがある Android 無料版の広告）を除いて、他のサービスへのリンクはありません。開発者は、13歳未満の子どもを含め、誰の個人情報も故意に収集しません。</p>
+    <p><strong>Android 無料版 &mdash; 生まれた年：</strong>無料版は初めて起動したとき、広告を読み込む前に生まれた年を一度だけたずねます。答えは端末に保存され、開発者にも広告会社にも送信しません。Android のバックアップがオンの場合は、ほかの設定と一緒にあなた自身のバックアップに含まれることがあります（第5項）。選んだ年から14歳未満の可能性がある場合、本アプリは Google AdMob に広告リクエストを子ども向けとして扱うよう伝えます。このときはパーソナライズされていない広告のみ、かつ全年齢向け（G）のレーティングの広告のみが表示されます。それ以外の方には、ティーン向け（T）以下のレーティングの広告のみが表示されます。16歳未満の可能性がある場合は、どの地域にいても、同意年齢（ヨーロッパの基準）に満たない可能性があることも Google に伝えるため、パーソナライズされていない広告のみが表示されます。リワード広告、戦闘後の広告、課金はどちらの場合も同じように動作します。iPhone 版には広告がないため、この質問はしません。</p>
+    <h3>9. 変更</h3>
+    <p>本アプリがここに記載のない情報を収集することになった場合は、そのバージョンの公開前に、本ページと Google Play・App Store のプライバシー欄を更新します。</p>
+    <h3>10. お問い合わせ</h3>
+    <p>本ポリシーに関するお問い合わせ：<a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
+  </section>
 
-    <!-- ===================== 繁體中文 ===================== -->
-    <section lang="zh-Hant" data-label="繁體中文">
-      <h2 class="lang">隱私權政策 &mdash; 喵喵遠征隊</h2>
-      <p class="updated">最後更新：2026年11月2日</p>
-      <p>本政策適用於 Yunjin Games（「開發者」）開發的貓咪策略防禦遊戲 <strong>喵喵遠征隊（Meowcenary）</strong>（「本應用程式」）的 Android 版與 iPhone 版。</p>
-      <h3>1. 我們收集的資訊</h3>
-      <p><strong>開發者不收集任何資訊。</strong>本應用程式沒有帳號、沒有登入，也沒有開發者的伺服器。本應用程式不含分析工具、追蹤或廣告軟體，開發者也不會知道你是誰。</p>
-      <p>本應用程式不收集你的姓名、電子郵件、電話號碼、聯絡人、照片、檔案或位置。</p>
-      <h3>2. 沒有廣告，沒有應用程式內購買</h3>
-      <p>本應用程式是付費應用程式。沒有廣告，也沒有應用程式內購買。付款僅有你在商店（Google Play 或 App Store）購買時支付的價格，該筆付款由商店處理，而不是由本應用程式或開發者處理。</p>
-      <h3>3. 網路使用</h3>
-      <p>本應用程式不要求 Android 網路權限，也不連線到任何伺服器。在 Android 上，待 Google Play 下載下方所述的素材包之後，在 iPhone 上則是安裝後立即，整個遊戲都可以離線遊玩。</p>
+  <!-- ===================== 繁體中文 ===================== -->
+  <section lang="zh-Hant" data-label="繁體中文">
+    <h2 class="lang">隱私權政策 &mdash; 喵喵遠征隊</h2>
+    <p class="updated">最後更新：2026年11月13日</p>
+    <p>本政策適用於 Yunjin Games（「開發者」）開發的貓咪策略防禦遊戲 <strong>喵喵遠征隊（Meowcenary）</strong>（「本應用程式」）的 Android 版與 iPhone 版。本應用程式分為兩個版本：</p>
+    <ul>
+      <li><strong>iPhone（付費版）：</strong>在 App Store 購買一次即可。沒有廣告，也沒有應用程式內購買。</li>
+      <li><strong>Android（免費版）：</strong>可在 Google Play 免費下載，含有廣告與可自由選擇的應用程式內購買。不付費也能玩到最後。</li>
+    </ul>
+    <h3>1. 我們收集的資訊</h3>
+    <p><strong>開發者不收集任何資訊。</strong>本應用程式沒有帳號、沒有登入，也沒有開發者的伺服器。本應用程式不含分析或追蹤工具，開發者也不會知道你是誰。</p>
+    <p>本應用程式不要求也不收集你的姓名、電子郵件、電話號碼、聯絡人、照片、檔案或精確位置。</p>
+    <p><strong>唯一的例外是 Android 免費版：其中含有 Google 的廣告軟體（Google AdMob）。</strong>AdMob 會為 Google 直接收集第 2 節所述的資訊。iPhone 版不含廣告軟體。</p>
+    <h3>2. 廣告與購買</h3>
+    <p><strong>iPhone：</strong>本應用程式是付費應用程式。沒有廣告，也沒有應用程式內購買。付款僅有你在 App Store 購買時支付的價格，該筆付款由 Apple 處理，而不是由本應用程式或開發者處理。</p>
+    <div class="edition">
+      <h4>Android 免費版 &mdash; 廣告</h4>
+      <p>廣告由 Google AdMob（Google Mobile Ads SDK）提供，分為兩種：一種是你在啾嚕商店自己選擇觀看、看完可領取啾嚕的獎勵影片廣告（每日最多 5 次）；另一種是從第 3 章起，戰鬥結束後偶爾出現、可以關閉的全螢幕影片廣告。沒有畫面下方的橫幅廣告，戰鬥開始前也沒有廣告。</p>
+      <p>為了顯示與評估廣告，Google Mobile Ads SDK 會自動收集以下資訊並與 Google 分享，Google 會將其用於廣告、分析與防範詐欺：</p>
       <ul>
-        <li>在 Android 上，後面章節的圖片以 Google Play 素材包的形式提供，由 Google Play 依照 Google 的政策自行下載與更新，而不是由本應用程式處理。iPhone 版則全部包含在應用程式內。</li>
-        <li>設定畫面中的隱私權政策按鈕會用裝置的網頁瀏覽器開啟本頁面。之後發生的事（例如連線到本網頁）是由瀏覽器進行的。</li>
+        <li>裝置識別碼：裝置的廣告 ID 與應用程式組 ID</li>
+        <li>IP 位址（可能由此推測出大略位置，例如你所在的城市）</li>
+        <li>與廣告及本應用程式的互動（例如顯示或點擊了哪些廣告）</li>
+        <li>診斷資訊（例如應用程式效能、廣告載入情形）</li>
       </ul>
-      <h3>4. 儲存在你裝置上的內容</h3>
-      <p>本應用程式只在你的裝置上儲存以下內容：</p>
-      <ul>
-        <li>三個存檔欄位：關卡進度、擁有的貓咪與成長、編隊、裝備、啾嚕（遊戲內貨幣）、基地與建築、小遊戲紀錄</li>
-        <li>設定（音樂與音效音量、遊戲速度、語言，以及其他顯示偏好）</li>
-      </ul>
-      <p>本應用程式不會把這些內容傳送到任何地方。每個存檔欄位都附有防止手動修改的簽章，僅用於察覺竄改，不用來識別你。</p>
-      <h3>5. 備份</h3>
-      <p><strong>Android：</strong>Android 可能會透過系統的自動備份，將上述存檔與設定複製到<strong>你自己的 Google 雲端硬碟</strong>，更換裝置時也可能一併轉移，以便重新安裝後恢復進度。已下載的素材包不在其中。你可以在裝置的 Google 備份設定中關閉。</p>
-      <p><strong>iPhone：</strong>如果你的 iPhone 開啟了 iCloud 備份（或電腦備份），本應用程式的儲存資料會和其他應用程式的資料一樣包含在裝置備份中。</p>
-      <p>這些備份屬於你，由 Google 或 Apple 依各自的政策保管，開發者無法存取。</p>
-      <h3>6. 通知權限</h3>
-      <p>在 Android 13 以上，當你在音樂欣賞室開啟背景播放時，本應用程式會詢問是否可以顯示通知。這只用於在歌曲於背景播放時，於通知區顯示音樂控制面板（播放、暫停）。為此，本應用程式使用媒體播放前景服務與喚醒鎖定（wake lock）權限，讓音樂不會中斷。即使拒絕，音樂仍會播放。通知不用於其他用途，也不會傳送給任何人。在 Android 上，素材包由 Google Play 下載，過程中 Google 處理的資訊依 <a href="https://policies.google.com/privacy">Google 隱私權政策</a>辦理。開發者不會收到這些資訊。</p>
-      <h3>7. 保存與刪除</h3>
-      <p>開發者不持有任何關於你的資料，因此開發者一方沒有需要刪除的內容。裝置上的資料可以用兩種方式刪除：在讀取畫面選擇存檔欄位的「刪除」（無法復原），或解除安裝本應用程式，應用程式的資料就會從裝置移除。已經建立的備份副本會保留在你自己的 Google 或 Apple 帳號中，直到你在那裡刪除為止。</p>
-      <h3>8. 兒童</h3>
-      <p>本應用程式沒有廣告、沒有應用程式內購買、沒有聊天功能，除上述隱私權政策按鈕外也沒有通往其他服務的連結。開發者不會故意收集任何人的個人資料，包括13歲以下的兒童。</p>
-      <h3>9. 變更</h3>
-      <p>如果本應用程式將來收集此處未說明的資訊，我們會在該版本發布之前，先更新本頁面以及 Google Play 與 App Store 上的隱私權資訊。</p>
-      <h3>10. 聯絡方式</h3>
-      <p>有關本政策的問題：<a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
-    </section>
-
-    <footer>&copy; 2026 Yunjin Games &middot; <a href="https://yunjin-games.github.io/">yunjin-games.github.io</a></footer>
+      <p>這些資訊是傳給 Google，而不是傳給開發者。開發者在 AdMob 只能看到無法識別你的彙總報表（例如廣告顯示次數與收益）。Google 對這些資訊的使用依 <a href="https://policies.google.com/privacy">Google 隱私權政策</a>辦理，另請參閱<a href="https://policies.google.com/technologies/partner-sites">Google 如何使用採用其服務的網站或應用程式所提供的資訊</a>。點擊廣告可能會開啟網頁或商店頁面。</p>
+      <p><strong>你的選擇：</strong>在法律要求的地區（例如歐洲經濟區、英國、瑞士），本應用程式啟動時會透過 Google 的同意工具（User Messaging Platform）詢問你是否同意廣告。你可以隨時在設定的<em>「重新選擇廣告同意」</em>中變更。在任何 Android 裝置上，你都可以在裝置設定（例如 設定 &rarr; Google &rarr; 廣告，選單依裝置而異）中重設或刪除廣告 ID，或關閉個人化廣告。購買<em>「移除廣告」</em>後，全螢幕廣告會消失，也不必看廣告就能領取啾嚕，但廣告軟體仍會留在應用程式中。</p>
+      <h4>Android 免費版 &mdash; 應用程式內購買</h4>
+      <p>本應用程式透過 Google Play 的付款系統販售 4 項可自由選擇的商品：3 種啾嚕（遊戲內貨幣）包，各含固定數量；另一項是<em>「移除廣告」</em>。沒有以機率決定內容的商品。付款由 Google Play 依 Google 的條款處理，開發者不會收到你的信用卡或付款帳戶資訊。</p>
+      <p>購買後，Google Play 會將你購買的商品連同訂單編號與購買憑證通知本應用程式，本應用程式據此發放商品並向 Google Play 確認購買。為了避免同一筆購買重複發放，本應用程式只在裝置上（存檔欄位與設定中）記錄購買憑證的簡短指紋。本應用程式不會將購買資訊傳送給開發者。啾嚕商店的<em>「恢復購買」</em>會向 Google Play 查詢你過去的購買。</p>
+    </div>
+    <h3>3. 網路使用</h3>
+    <p>本應用程式不會連線到開發者的伺服器。在 iPhone 上，本應用程式完全不連線網路。在 Android 上，只有免費版會為了載入廣告與處理付款而要求網路權限（第 2 節）；沒有網路時無法使用廣告與購買，但遊戲本身照樣可以玩。在 Android 上，待 Google Play 下載下方所述的素材包之後，在 iPhone 上則是安裝後立即，整個遊戲都可以離線遊玩。</p>
+    <ul>
+      <li>在 Android 上，後面章節的圖片以 Google Play 素材包的形式提供，由 Google Play 依照 Google 的政策自行下載與更新，而不是由本應用程式處理。iPhone 版則全部包含在應用程式內。</li>
+      <li>設定畫面中的隱私權政策按鈕會用裝置的網頁瀏覽器開啟本頁面。之後發生的事（例如連線到本網頁）是由瀏覽器進行的。</li>
+    </ul>
+    <h3>4. 儲存在你裝置上的內容</h3>
+    <p>本應用程式只在你的裝置上儲存以下內容：</p>
+    <ul>
+      <li>三個存檔欄位：關卡進度、擁有的貓咪與成長、編隊、裝備、啾嚕（遊戲內貨幣）、基地與建築、小遊戲紀錄</li>
+      <li>設定（音樂與音效音量、遊戲速度、語言，以及其他顯示偏好）</li>
+      <li>僅限 Android 免費版：今天看過的獎勵廣告次數、上次全螢幕廣告後經過的戰鬥場數與最後一次顯示廣告的時間、是否已購買「移除廣告」、已發放購買的指紋，以及你選擇的出生年份（第 8 節）</li>
+    </ul>
+    <p>本應用程式不會把這些內容傳送到任何地方。每個存檔欄位都附有防止手動修改的簽章，僅用於察覺竄改，不用來識別你。</p>
+    <h3>5. 備份</h3>
+    <p><strong>Android：</strong>Android 可能會透過系統的自動備份，將上述存檔與設定複製到<strong>你自己的 Google 雲端硬碟</strong>，更換裝置時也可能一併轉移，以便重新安裝後恢復進度。已下載的素材包不在其中。你可以在裝置的 Google 備份設定中關閉。</p>
+    <p><strong>iPhone：</strong>如果你的 iPhone 開啟了 iCloud 備份（或電腦備份），本應用程式的儲存資料會和其他應用程式的資料一樣包含在裝置備份中。</p>
+    <p>這些備份屬於你，由 Google 或 Apple 依各自的政策保管，開發者無法存取。</p>
+    <h3>6. 通知</h3>
+    <p>本應用程式不會顯示通知，也不會要求通知權限。音樂欣賞室的歌曲只在應用程式開啟時播放；離開應用程式時會暫停，回來後接著播放。在 Android 上，素材包由 Google Play 下載，過程中 Google 處理的資訊依 <a href="https://policies.google.com/privacy">Google 隱私權政策</a>辦理。開發者不會收到這些資訊。</p>
+    <h3>7. 保存與刪除</h3>
+    <p>開發者不持有任何關於你的資料，因此開發者一方沒有需要刪除的內容。裝置上的資料可以用兩種方式刪除：在讀取畫面選擇存檔欄位的「刪除」（無法復原），或解除安裝本應用程式，應用程式的資料就會從裝置移除。已經建立的備份副本會保留在你自己的 Google 或 Apple 帳號中，直到你在那裡刪除為止。</p>
+    <p><strong>Android 免費版：</strong>廣告軟體收集的資訊由 Google 持有，而不是開發者，因此開發者無法查詢或刪除。你可以在裝置設定中重設或刪除廣告 ID，並在<a href="https://myadcenter.google.com/">我的廣告中心</a>管理 Google 廣告設定。購買紀錄由 Google Play 保存在你的 Google 帳號中。</p>
+    <h3>8. 兒童</h3>
+    <p>iPhone 版沒有廣告，也沒有應用程式內購買。Android 免費版會顯示由 Google 提供的廣告，並有可自由選擇的應用程式內購買。兩個版本都沒有聊天功能；除上述隱私權政策按鈕（以及 Android 免費版中點擊後可能開啟網頁或商店頁面的廣告）外，也沒有通往其他服務的連結。開發者不會故意收集任何人的個人資料，包括13歲以下的兒童。</p>
+    <p><strong>Android 免費版 &mdash; 出生年份：</strong>免費版第一次啟動時，會在載入任何廣告之前詢問一次你的出生年份。答案儲存在你的裝置上，不會傳送給開發者或廣告公司。如果開啟了 Android 備份，它可能會和其他設定一起包含在你自己的備份中（第 5 節）。如果依所選年份你可能未滿 14 歲，本應用程式會告知 Google AdMob 將你的廣告請求視為以兒童為對象處理：此時只會顯示非個人化廣告，而且只顯示普遍級（G）分級的廣告。其他使用者只會看到青少年（T）分級以下的廣告。如果你可能未滿 16 歲，無論你身在何處，本應用程式也會告知 Google 你可能未達同意年齡（以歐洲為準），因此你也只會看到非個人化廣告。獎勵廣告、戰鬥後的廣告與購買，在兩種情況下都以相同方式運作。iPhone 版沒有廣告，因此不會詢問這個問題。</p>
+    <h3>9. 變更</h3>
+    <p>如果本應用程式將來收集此處未說明的資訊，我們會在該版本發布之前，先更新本頁面以及 Google Play 與 App Store 上的隱私權資訊。</p>
+    <h3>10. 聯絡方式</h3>
+    <p>有關本政策的問題：<a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></p>
+  </section>
   </article>
 
   <footer>&copy; 2026 Yunjin Games &middot; <a href="https://yunjin-games.github.io/">yunjin-games.github.io</a> &middot; <a href="mailto:ferg7979biz@gmail.com">ferg7979biz@gmail.com</a></footer>
