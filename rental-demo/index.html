@@ -64,6 +64,13 @@ button:hover,.button:hover { background:#edf6f5; }
 .search-more summary { display:inline-flex; align-items:center; gap:6px; cursor:pointer; color:var(--plum); padding:3px 0; font-size:13px; font-weight:650; }
 .search-more summary .icon { width:14px; height:14px; }
 .search-more .filters { margin-top:10px; }
+.advanced-flags { display:flex; flex-wrap:wrap; gap:6px 14px; margin:10px 0 5px; }
+.field-flag { display:flex; align-items:center; gap:7px; min-height:34px; }
+.field-flag input { width:16px; min-height:0; height:16px; margin:0; accent-color:var(--plum); }
+.field-group { margin:0 0 16px; padding:0 0 16px; border-bottom:1px solid var(--line); }
+.field-group:last-child { margin-bottom:0; border-bottom:0; }
+.filename-field { display:grid; gap:5px; }
+.filename-field .button { justify-self:start; }
 .grid-actions { margin:0 0 8px; }
 .grid-tools button,.grid-actions .button,.grid-actions button,.tool-menu summary { min-height:31px; padding:4px 8px; font-size:13px; }
 .selection-label { min-width:0; font-size:13px; color:var(--muted); margin-right:auto; overflow-wrap:anywhere; }
@@ -91,6 +98,8 @@ summary::-webkit-details-marker { display:none; }
 .file-pick input { position:absolute; inset:0; opacity:0; cursor:pointer; }
 .file-pick:focus-within { outline:2px solid #258679; }
 .grid-column-options { width:min(290px,calc(100vw - 36px)); grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 8px; }
+.grid-column-options { max-height: min(460px,65vh); overflow-y:auto; }
+.document-menu .menu-popover { left:0; right:auto; }
 .grid-column-options p { grid-column:1/-1; }
 .grid-column-options label { display:flex; align-items:center; }
 .grid-column-options input { width:auto; min-height:0; }
@@ -172,7 +181,8 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
   .results-heading h2 { font-size:16px; }
   .selection-label { flex-basis:100%; }
   .results-heading,.grid-actions { position:relative; }
-  #grid-columns,.row-menu { position:static; }
+  #grid-columns,.row-menu,.document-menu { position:static; }
+  .document-menu .menu-popover { left:auto; right:0; }
   #grid-columns .menu-popover { width:min(290px,100%); }
   .contract-grid,.contract-grid thead,.contract-grid tbody { display:block; }
   .contract-grid colgroup { display:none; }
@@ -218,7 +228,88 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
       <button type="button" id="demo-export"><span data-icon="download"></span>JSONを保存</button>
       <label class="button file-pick"><span data-icon="upload"></span>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label></div>
     </details></div></div></header><div id="view" class="content"></div></main>
-  <div id="notice" role="status" hidden></div><script>const blank = {
+  <div id="notice" role="status" hidden></div><script>// Labels readable in the reference video. Each item shares its field name and type with the data model.
+const videoFields = {
+  application: [
+    ['receiptNo','受付番号'],['desiredContractOn','契約希望日','date'],['explanationOn','重要事項説明日','date'],
+    ['explanationMethod','重要事項説明の方法'],['explanationVideo','IT重説動画のファイル名','demoFilename'],
+    ['reviewRequestedOn','審査依頼日','date'],['managerApprovedOn','店長承認日','date'],
+    ['reviewNotifiedOn','審査結果通知日','date'],['documentRequestedOn','契約書作成依頼日','date'],
+    ['documentDueOn','契約書作成期限','date'],['depositPersonalOn','手付金入金日（個人）','date'],
+    ['depositCorporateOn','手付金入金日（法人）','date'],['cleaningOrderedOn','清掃発注日','date'],
+    ['cleaningDueOn','清掃完了予定日','date'],['documentsCompletedOn','書類完了日','date'],
+    ['paymentExempt','入金不要','flag'],['contactNotes','連絡事項','textarea'],
+    ['applicantAddress2','申込者住所2'],['brokerUsed','仲介業者の有無','yesNo'],['brokerOfficeName','仲介会社・店舗名'],
+    ['referralOffer','紹介特典'],['referralTransfer','紹介特典の住替','flag'],['moveInTransfer','入居特典の住替','flag'],
+    ['sublease','サブリース','flag'],['otherCompany','他社物件','flag'],
+  ],
+  party: [
+    ['paymentMethod','支払方法','paymentMethod'],['debitStartsMonth','口座振替開始月','month'],
+    ['companyAccountHolder','法人口座の名義人（社名）'],['accountRepresentative','法人口座の名義人（氏名）'],
+  ],
+  occupant: [
+    ['homePhone','自宅TEL','tel'],['homePhoneMemo','自宅TELコメント'],['mobilePhone','携帯TEL','tel'],
+    ['mobilePhoneMemo','携帯TELコメント'],['otherPhone','その他TEL','tel'],['otherPhoneMemo','その他TELコメント'],
+    ['supportEmail','リビングサポート用メールアドレス','email'],['remarks','入居者備考','textarea'],
+  ],
+  related: [
+    ['guarantorBirthOn','連帯保証人1 生年月日','date'],['guarantorPostal','連帯保証人1 郵便番号'],
+    ['guarantorMobile','連帯保証人1 携帯TEL','tel'],['guarantorEmployer','連帯保証人1 勤務先'],
+    ['secondGuarantor','連帯保証人2 氏名'],['secondGuarantorKana','連帯保証人2 カナ'],
+    ['secondGuarantorBirthOn','連帯保証人2 生年月日','date'],['secondGuarantorRelationship','連帯保証人2 続柄'],
+    ['secondGuarantorPostal','連帯保証人2 郵便番号'],['secondGuarantorAddress','連帯保証人2 住所'],
+    ['secondGuarantorPhone','連帯保証人2 TEL','tel'],['secondGuarantorMobile','連帯保証人2 携帯TEL','tel'],
+    ['secondGuarantorEmployer','連帯保証人2 勤務先'],['emergencyPostal','緊急連絡先の郵便番号'],
+    ['emergencyAddress','緊急連絡先の住所'],
+  ],
+  charges: [
+    ['depositMonths','敷金月数（例：1.5）'],['keyMoneyMonths','礼金月数（例：2.0）'],
+    ['disinfectionFee','消毒費','number'],['fireSafetyFee','消火用具費','number'],
+    ['brokerInternalShare','仲介手数料・自店配分（%）','number'],['brokerExternalShare','仲介手数料・業者配分（%）','number'],
+    ['advertisingAdvance','広告料・代払','number'],['advertisingPayment','広告料・支払','number'],
+    ['advertisingReceived','広告料・自店受取','number'],['advertisingOther1','広告料・他店1受取','number'],
+    ['advertisingOther2','広告料・他店2受取','number'],['advertisingAdvanceOffset','代払を差し引く','flag'],
+    ['advertisingPaymentOffset','支払を差し引く','flag'],['freeRentType','フリーレント方式','freeRentType'],
+    ['noNextMonthCharge','翌月分は請求しない','flag'],['moveOutMethod','退去精算方法'],
+    ['actualCostTerms','実費特約','yesNo'],['petTerms','ペット特約'],['moveOutShortfall','退去時不足金（円）','number'],
+    ['guaranteeLimit','保証限度額（円）','number'],['housingGuaranteeLimit','住宅保証限度額（円）','number'],
+  ],
+  services: [
+    ['supportEnabled','リビングサポート加入','flag'],['supportPayer','リビングサポート負担','payer'],
+    ['reliefEnabled','リリーフ加入','flag'],['reliefPayer','リリーフ負担','payer'],
+    ['waterFilterEnabled','浄水器利用','flag'],['townBillingFromMonth','町費の請求開始月','month'],
+    ['townBillingToMonth','町費の請求終了月','month'],['townMemo','町費備考'],
+  ],
+  parkingDetails: [
+    ['parkingUseType','駐車場形態'],['estimateFee','見積用駐車料金','number'],
+    ['includedTax','内消費税（1台目）','number'],['moveOutNote','駐車場退居時の注意事項','textarea'],
+  ],
+  review: [
+    ['guaranteeUsed','保証会社の有無','yesNo'],['otherGuarantorCompany','その他の保証会社名'],
+    ['guaranteeCompletedOn','保証審査完了日','date'],
+  ],
+  renewal: [['payer','更新事務手数料の負担','payer']],
+};
+
+const initialChargeItems = [
+  ['deposit','敷金'],['keyMoney','礼金'],['firstRent','初回家賃'],['brokerFee','仲介手数料'],
+  ['setup','事務手数料'],['guaranteeFee','初回保証料'],['guaranteeFee2','保証料2'],['insuranceFee','初回保険料'],
+  ['keyReplacement','鍵交換費'],['disinfectionFee','消毒費'],['fireSafetyFee','消火用具費'],
+  ['townJoiningFee','町費入会金'],['parkingInitial','駐車場初期費用'],['initialOther','初期その他'],
+  ['freeRent','フリーレント控除',-1],
+];
+
+function splitInitialCharges(charges, allocations, partyType) {
+  const result={personal:0,corporate:0};
+  for (const [key,,factor=1] of initialChargeItems) {
+    const payer=allocations?.[key] || partyType;
+    result[payer==='法人'?'corporate':'personal']+=Number(charges[key]||0)*factor;
+  }
+  return result;
+}
+
+
+const blank = {
   application: { receivedOn: '', source: '', broker: '', contact: '', memo: '', leaseType: '', brokerBranch: '', brokerPhone: '', brokerFax: '', moveInOn: '', keyDueOn: '', keyHandedOn: '', registeredOn: '' },
   party: { name: '', kana: '', type: '個人', phone: '', email: '', address: '', employer: '', emergency: '', vehicleNo: '', postalCode: '', employerPhone: '' },
   occupant: { name: '', kana: '', birthOn: '', phone: '', email: '', employer: '', employerPhone: '' },
@@ -237,7 +328,12 @@ Object.assign(blank.charges,{townJoiningFee:0,townMonthlyFee:0,waterFee:0,keyRep
 Object.assign(blank.services,{waterFilterBillingOn:'',waterFilterStartsOn:'',waterFilterEndsOn:'',townMonths:''});
 blank.parkingDetails={payer:'',proratedDays:0,proratedFee:0,depositMonths:0,deposit:0,secondCarTerms:'',mechanical:'',vehicleModel:'',manufacturer:'',color:''};
 Object.assign(blank.parkingDetails,{secondSpaceId:0,secondVehicleModel:'',secondManufacturer:'',secondColor:'',secondPlate:''});
-for (let i=1;i<=4;i++) {
+for (const [section,fields] of Object.entries(videoFields)) {
+  for (const [key,,type] of fields) blank[section][key]=type==='number'?0:'';
+}
+blank.billing=Object.fromEntries(initialChargeItems.map(([key])=>[key,'']));
+blank.billing.advancePayment='';
+for (let i=1;i<=10;i++) {
   for (const key of ['Name','Kana','Relationship','BirthOn','Employer']) blank.related[`member${i}${key}`]='';
 }
 function normalize(details = {}) {
@@ -260,9 +356,7 @@ function totals(charges, parkingFee = 0) {
   return {
     monthly: charges.rent + charges.common + charges.monthlyOther + parkingFee + (charges.supportFee ?? 0) + (charges.reliefFee ?? 0) +
       (charges.townMonthlyFee ?? 0) + (charges.waterFee ?? 0),
-    initial: charges.deposit + charges.keyMoney + charges.firstRent + charges.setup + charges.initialOther +
-      (charges.brokerFee ?? 0) + (charges.guaranteeFee ?? 0) + (charges.insuranceFee ?? 0) + (charges.parkingInitial ?? 0) +
-      (charges.townJoiningFee ?? 0) + (charges.keyReplacement ?? 0) + (charges.guaranteeFee2 ?? 0) - (charges.freeRent ?? 0),
+    initial: initialChargeItems.reduce((sum,[key,,factor=1])=>sum+(charges[key]??0)*factor,0),
     advancePayment: charges.advancePayment ?? 0,
   };
 }
@@ -278,6 +372,7 @@ const nextStatus = {
   APPROVED: {activate: 'ACTIVE'},
   ACTIVE: {end: 'ENDED', renew: 'ACTIVE'},
 };
+
 
 const view = document.querySelector('#view');
 const crumb = document.querySelector('#crumb');
@@ -336,10 +431,47 @@ sections.parkingDetails=['駐車場・車両',[['payer','駐車場費用の負�
 if(typeof renderDemoContractTools==='function') sections.parkingDetails[1].push(
   ['secondSpaceId','2台目の駐車区画','secondSpace'],['secondVehicleModel','2台目の車種'],['secondManufacturer','2台目のメーカー'],['secondColor','2台目の車体色'],['secondPlate','2台目の車両番号'],
 );
-const sectionOrder = ['application','party','occupant','related','charges','parkingDetails','services','review','insurance','renewal'];
+for (const [section,fields] of Object.entries(videoFields)) sections[section][1].push(...fields);
+sections.billing=['請求内訳',[
+  ...initialChargeItems.map(([key,label])=>[key,label+'の負担','payer']),
+  ['advancePayment','手付金の負担','payer'],
+]];
+const sectionOrder = ['application','party','occupant','related','charges','billing','parkingDetails','services','review','insurance','renewal'];
 const householdColumns=[['Name','同居人氏名'],['Kana','同居人カナ'],['Relationship','続柄'],['BirthOn','生年月日','date'],['Employer','勤務先']];
-const householdFields=Array.from({length:4},(_,i)=>householdColumns.map(([key,label,type])=>[`member${i+1}${key}`,label,type]));
+const householdFields=Array.from({length:10},(_,i)=>householdColumns.map(([key,label,type])=>[`member${i+1}${key}`,label,type]));
 sections.related[1].push(...householdFields.flat());
+const contractGroups = {
+  application: [
+    ['受付・重要事項説明','receiptNo receivedOn source desiredContractOn explanationOn explanationMethod explanationVideo leaseType'],
+    ['審査・書類・入居日程','reviewRequestedOn managerApprovedOn reviewNotifiedOn documentRequestedOn documentDueOn signedOn documentCreatedOn deliveryOn documentsCompletedOn cleaningOrderedOn cleaningDueOn moveInOn keyDueOn keyHandedOn registeredOn'],
+    ['入金日程','paymentDueOn paymentPersonalOn paymentCorporateOn depositPersonalOn depositCorporateOn paymentExempt'],
+    ['仲介・管理担当','brokerUsed broker brokerOfficeName brokerBranch brokerStaff brokerPhone brokerFax contact documentStaff propertyType manager sublease otherCompany'],
+    ['申込者','applicantName applicantKana applicantPhone applicantFax applicantEmail applicantPostal applicantAddress applicantAddress2'],
+    ['特典・連絡事項','contractYears specialTerms promotionType referrer referralOffer referralTransfer moveInOffer moveInTransfer memo contactNotes'],
+  ],
+  party: [['契約者・条件','name kana type phone email postalCode address employer employerPhone emergency vehicleNo housingAgent'],
+    ['支払方法・口座','paymentMethod debitStartsMonth bankName bankBranch bankAccountType bankAccountNo bankHolderKana bankHolderName companyAccountHolder accountRepresentative payoutTiming bankMemo']],
+  occupant: [['入居者基本情報','name kana birthOn gender annualIncome email supportEmail remarks'],
+    ['電話番号・コメント','phone phoneMemo homePhone homePhoneMemo mobilePhone mobilePhoneMemo otherPhone otherPhoneMemo'],
+    ['勤務先','employer employerKana employerPostal employerAddress employerAddress2 employerPhone employerFax'],
+    ['申込時住所','applicationPostal applicationAddress applicationAddress2']],
+  charges: [['月額費用','rent common monthlyOther supportFee reliefFee townMonthlyFee waterFee'],
+    ['入居初期費用','deposit depositMonths keyMoney keyMoneyMonths firstRent setup brokerFee brokerInternalShare brokerExternalShare guaranteeFee guaranteeFee2 insuranceFee disinfectionFee fireSafetyFee keyReplacement parkingInitial townJoiningFee initialOther advancePayment freeRentType freeRent noNextMonthCharge'],
+    ['広告料・保証上限','advertisingFee advertisingAdvance advertisingAdvanceOffset advertisingPayment advertisingPaymentOffset advertisingReceived advertisingOther1 advertisingOther2 guaranteeLimit housingGuaranteeLimit'],
+    ['退去・特約','moveOutMethod actualCostTerms petTerms moveOutCleaning moveOutShortfall']],
+};
+function groupedFields(fields, groups, renderField) {
+  const lookup=new Map(fields.map(field=>[field[0],field]));
+  function group(title, items) {
+    return `<section class="field-group"><h3>${title}</h3><div class="fields">${items.map(renderField).join('')}</div></section>`;
+  }
+  const result=groups.map(([title,keys])=>group(title,keys.split(' ').flatMap(key=>{
+    const item=lookup.get(key);
+    lookup.delete(key);
+    return item?[item]:[];
+  }))).join('');
+  return result+(lookup.size?group('その他',[...lookup.values()]):'');
+}
 let master;
 let renderCount = 0;
 let toastTimer;
@@ -367,6 +499,12 @@ function table(headers, rows) {
 function field(name, title, type='text', value='', required=false) {
   const shared = `name="${clean(name)}" ${required?'required':''}`;
   let control;
+  const choices={yesNo:['','有','無'],payer:['','個人','法人'],paymentMethod:['','銀行振込','自動振替','その他'],
+    freeRentType:['','1か月','日割','任意金額']};
+  if (type==='flag') return `<label class="field-flag"><input type="checkbox" name="${clean(name)}" value="yes" ${value==='yes'?'checked':''}>${clean(title)}</label>`;
+  if (type==='demoFilename') return `<div class="filename-field"><label>${clean(title)}<input ${shared} maxlength="240" value="${clean(value)}"></label>
+    <label class="button file-pick">ファイル名を取得<input type="file" accept="video/*" data-filename-for="${clean(name)}"></label></div>`;
+  if (choices[type]) return `<label>${clean(title)}<select ${shared}>${choices[type].map(item=>option(item,item||'選択なし',value)).join('')}</select></label>`;
   if (type === 'textarea') control=`<textarea ${shared} maxlength="2000">${clean(value)}</textarea>`;
   else if (type === 'date' || type === 'month') {
     const pattern=type==='date'?'[0-9]{4}-[0-9]{2}-[0-9]{2}':'[0-9]{4}-[0-9]{2}';
@@ -544,7 +682,7 @@ async function searchPage(token) {
       <label>契約区分<select name="partyType"><option value="">すべて</option><option>個人</option><option>法人</option></select></label>
       <label>検索対象<select name="target"><option value="">すべて</option><option value="parking">駐車場契約あり</option><option value="room">部屋のみ</option></select></label>
       ${field('startFrom','契約開始日（から）','date')}${field('startTo','契約開始日（まで）','date')}${field('renewFrom','次回更新日（から）','date')}${field('renewTo','次回更新日（まで）','date')}
-    </div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div><nav class="list-pager" aria-label="検索結果のページ"></nav></section><article class="print-sheet" id="grid-print-sheet"></article>`;
+    </div><div class="advanced-flags">${field('subleaseOnly','サブリースのみ','flag')}${field('fixedTermOnly','定期借家のみ','flag')}${field('shortfallOnly','退去時不足金あり','flag')}${field('hideOtherCompany','他社物件を表示しない','flag')}${field('moveOutOnly','退居予定者のみ','flag')}</div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div><nav class="list-pager" aria-label="検索結果のページ"></nav></section><article class="print-sheet" id="grid-print-sheet"></article>`;
   const form=view.querySelector('form');
   form.property.onchange=()=>{form.unit.innerHTML='<option value="">すべて</option>'+unitOptions(master.units.filter(u=>!form.property.value || u.property_id===Number(form.property.value)));};
   let request=0;
@@ -567,6 +705,9 @@ async function searchPage(token) {
     ['rent','賃料',r=>r.details.charges.rent,true],['common','共益費',r=>r.details.charges.common,true],
     ['parking','駐車区画',r=>r.parking],['parkingFee','駐車場月額',r=>r.parking_fee,true],
     ['monthly','月額合計',r=>r.totals.monthly,true],['ends','契約終了日',r=>r.ends_on],
+    ['receipt','受付番号',r=>r.details.application.receiptNo],['deposit','敷金',r=>r.details.charges.deposit,true],
+    ['keyMoney','礼金',r=>r.details.charges.keyMoney,true],['settlement','敷引・退去精算方式',r=>r.details.charges.moveOutMethod],
+    ['secondCar','2台目特約',r=>r.details.parkingDetails?.secondCarTerms],['parkingType','駐車場形態',r=>r.details.parkingDetails?.parkingUseType],
   ];
   const shown=new Set(['property','unit','starts','party','occupant','status','monthly']);
   const maxColumns=8;
@@ -697,6 +838,11 @@ async function searchPage(token) {
       && contains('employer',[row.details.party.employer,row.details.occupant?.employer].join(' ')) && contains('address',row.address)
       && contains('vehicle',row.details.party.vehicleNo) && (!criteria.partyType || criteria.partyType===row.details.party.type)
       && (!criteria.target || Boolean(row.parking)===(criteria.target==='parking'))
+      && (!criteria.subleaseOnly || row.details.application.sublease==='yes')
+      && (!criteria.fixedTermOnly || row.details.application.leaseType?.includes('定期'))
+      && (!criteria.shortfallOnly || Number(row.details.charges.moveOutShortfall)>0)
+      && (!criteria.hideOtherCompany || row.details.application.otherCompany!=='yes')
+      && (!criteria.moveOutOnly || Boolean(row.moveOutOn))
       && inRange(row.starts_on,criteria.startFrom,criteria.startTo)
       && inRange(row.details.renewal.nextOn,criteria.renewFrom,criteria.renewTo));
     drawGrid();
@@ -787,11 +933,28 @@ function contractPage(item) {
   const panels=sectionOrder.map((key,i)=>{
     const [name,fields]=sections[key];
     const renderField=([k,label,type,needed])=>field(`${key}.${k}`,label,type,data[key]?.[k] ?? (key==='application'&&k==='receivedOn'?today():key==='renewal'&&k==='noticeDays'?30:''),needed);
-    const body=key==='related'
-      ? '<h3>同居人情報</h3>'+table(['No.',...householdColumns.map(([,label])=>label)],householdFields.map((row,index)=>[
-        index+1,...row.map(([k,label,type])=>renderField([k,`${label} ${index+1}`,type])),
-      ]))+'<h3>保証人・緊急連絡先</h3><div class="fields">'+fields.filter(([k])=>!k.startsWith('member')).map(renderField).join('')+'</div>'
-      : `<div class="fields">${fields.map(renderField).join('')}</div>`;
+    let body;
+    if(key==='related') {
+      const householdTable=(rows,offset)=>table(['No.',...householdColumns.map(([,label])=>label)],rows.map((row,index)=>[
+        offset+index,...row.map(([k,label,type])=>renderField([k,`${label} ${offset+index}`,type])),
+      ]));
+      const extraOpen=householdFields.slice(4).some(row=>row.some(([k])=>data.related?.[k]));
+      const guarantors=fields.filter(([k])=>!k.startsWith('member') && k!=='occupants');
+      const contacts=[['連帯保証人1',guarantors.filter(([k])=>k.startsWith('guarantor') && k!=='guaranteeCompany')],
+        ['連帯保証人2',guarantors.filter(([k])=>k.startsWith('secondGuarantor'))],
+        ['緊急連絡先・その他',fields.filter(([k])=>k.startsWith('emergency') || ['occupants','guaranteeCompany'].includes(k))]];
+      body='<section class="field-group"><h3>同居人情報</h3>'+householdTable(householdFields.slice(0,4),1)+
+        `<details class="search-more" ${extraOpen?'open':''}><summary>同居人 5〜10人目${icon('chevron')}</summary>${householdTable(householdFields.slice(4),5)}</details></section>`+
+        contacts.map(([title,items])=>`<section class="field-group"><h3>${title}</h3><div class="fields">${items.map(renderField).join('')}</div></section>`).join('');
+    } else if(key==='billing') {
+      body=`<p class="review-note">デモの初期費用を項目ごとの負担先で集計します。負担先が空欄の項目は契約区分で集計します。</p>
+        <div class="metrics"><div><small>請求額（個人）</small><strong id="initial-personal"></strong></div><div><small>請求額（法人）</small><strong id="initial-corporate"></strong></div><div><small>手付金（別表示）</small><strong id="initial-advance"></strong></div></div>`+
+        table(['項目','金額','負担'],fields.map(([fieldKey,label,type])=>[
+          label.replace(/の負担$/,''),`<span data-bill-amount="${fieldKey}"></span>`,
+          renderField([fieldKey,label,type]),
+        ]));
+    } else if(contractGroups[key]) body=groupedFields(fields,contractGroups[key],renderField);
+    else body=`<div class="fields">${fields.map(renderField).join('')}</div>`;
     return `<section id="section-${key}" data-panel="${key}" ${i?'hidden':''}><h2>${name}</h2>${body}</section>`;
   }).join('');
   const transitions={DRAFT:[['approve','審査を承認'],['reject','却下する']],APPROVED:[['activate','契約を確定']],ACTIVE:[['renew','契約更新'],['end','契約終了']]};
@@ -829,11 +992,29 @@ function contractPage(item) {
     const ids=new Set([Number(form.parkingId.value),Number(second?.value)]);
     const fee=master.parking.filter(space=>ids.has(space.id)).reduce((sum,space)=>sum+space.fee,0);
     view.querySelector('#monthly').textContent=money(n('rent')+n('common')+n('monthlyOther')+n('supportFee')+n('reliefFee')+n('townMonthlyFee')+n('waterFee')+fee);
-    view.querySelector('#initial').textContent=money(n('deposit')+n('keyMoney')+n('firstRent')+n('setup')+n('initialOther')+n('brokerFee')+n('guaranteeFee')+n('insuranceFee')+n('parkingInitial')+n('townJoiningFee')+n('keyReplacement')+n('guaranteeFee2')-n('freeRent'));
+    const charges=Object.fromEntries(initialChargeItems.map(([key])=>[key,n(key)]));
+    const allocation=Object.fromEntries(sections.billing[1].map(([key])=>[key,form.elements.namedItem(`billing.${key}`).value]));
+    const split=splitInitialCharges(charges,allocation,form.elements.namedItem('party.type').value);
+    view.querySelector('#initial').textContent=money(split.personal+split.corporate);
+    view.querySelector('#initial-personal').textContent=money(split.personal);
+    view.querySelector('#initial-corporate').textContent=money(split.corporate);
+    view.querySelector('#initial-advance').textContent=money(n('advancePayment'));
+    form.querySelectorAll('[data-bill-amount]').forEach(cell=>{
+      const key=cell.dataset.billAmount;
+      cell.textContent=money(key==='freeRent'?-n(key):n(key));
+    });
   }
+  refreshTotals();
   form.unitId.onchange=()=>{const unit=parkingOptions();form.elements.namedItem('charges.rent').value=unit?.rent || 0;refreshTotals();};
   let dirty=false;
   form.addEventListener('input',()=>{dirty=true;refreshTotals();});
+  form.addEventListener('change',event=>{
+    const input=event.target;
+    if(!input.dataset.filenameFor || !input.files[0]) return;
+    form.elements.namedItem(input.dataset.filenameFor).value=input.files[0].name.slice(0,240);
+    input.value='';
+    dirty=true;
+  });
   form.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{
     const payload=Object.fromEntries(new FormData(form));
     const {unitId,parkingId,startsOn,endsOn}=payload;
@@ -1000,9 +1181,13 @@ function demoRequest(path,method,body) {
     const phone=digits(params.get('phone'));
     return demo.contracts.slice().reverse().map(demoDetail).filter(row=>{
       const {party,occupant,related}=row.details;
-      const searchable=[row.property,row.unit,row.address,row.branch,row.parking,party.name,party.kana,party.vehicleNo,party.employer,occupant.name,occupant.kana,occupant.employer,related.occupants,related.guarantor,related.guarantorKana];
+      const household=Object.entries(related).filter(([key])=>/^member\d+(Name|Kana)$/.test(key)).map(([,value])=>value);
+      const searchable=[row.property,row.unit,row.address,row.branch,row.parking,party.name,party.kana,party.vehicleNo,party.employer,
+        occupant.name,occupant.kana,occupant.employer,related.occupants,related.guarantor,related.guarantorKana,
+        related.secondGuarantor,related.secondGuarantorKana,row.details.application.receiptNo,...household];
       return searchable.join(' ').toLowerCase().includes(q)
-        && (!phone || [party.phone,occupant.phone,related.guarantorPhone].some(number=>digits(number).includes(phone)))
+        && (!phone || [party.phone,occupant.phone,occupant.homePhone,occupant.mobilePhone,occupant.otherPhone,
+          related.guarantorPhone,related.guarantorMobile,related.secondGuarantorPhone,related.secondGuarantorMobile].some(number=>digits(number).includes(phone)))
         && (!params.get('status') || params.get('status')===row.status)
         && (!params.get('unit') || Number(params.get('unit'))===row.unit_id)
         && (!params.get('property') || Number(params.get('property'))===demo.units.find(u=>u.id===row.unit_id).property_id);
@@ -1156,15 +1341,34 @@ function renderDemoContractTools(item) {
     demoEvent(contract,'履歴コメント：'+form.value.trim());
     render();
   }));
-  for (const title of ['送付状','重要事項説明（サンプル）']) {
-    add(title,()=>{
+  const split=splitInitialCharges(item.details.charges,item.details.billing,item.details.party.type);
+  const app=item.details.application;
+  const documents=[
+    ['送付状',[['ご案内','お申し込みに関する書類をご確認ください。']]],
+    ['重要事項説明書',[['説明日',app.explanationOn],['説明方法',app.explanationMethod],['契約の種類',app.leaseType]]],
+    ['申込書',[['受付番号',app.receiptNo],['申込日',app.receivedOn],['申込者',app.applicantName],['契約希望日',app.desiredContractOn]]],
+    ['概算費用見積書',[['月額合計',money(item.totals.monthly)],['初期費用・個人負担',money(split.personal)],['初期費用・法人負担',money(split.corporate)]]],
+    ['手付金確認票',[['手付金',money(item.totals.advancePayment)],['個人入金日',app.depositPersonalOn],['法人入金日',app.depositCorporateOn]]],
+    ['契約書',[['契約日',app.signedOn],['契約期間',(item.starts_on||'')+' ～ '+(item.ends_on||'')],['月額合計',money(item.totals.monthly)]]],
+  ];
+  const printMenu=document.createElement('details');
+  printMenu.className='tool-menu document-menu';
+  printMenu.innerHTML=`<summary>${icon('print')}帳票プレビュー</summary><div class="menu-popover"></div>`;
+  tools.append(printMenu);
+  for (const [title,rows] of documents) {
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=title;
+    button.onclick=()=>{
       const print=view.querySelector('.print-sheet');
       const template=print.innerHTML;
-      print.innerHTML=`<h1>${title}</h1><p>確認用サンプル</p><p>${clean(item.details.party.name)} 様</p>`+
-        table(['項目','内容'],[['物件・号室',clean(item.property+' '+item.unit)],['契約期間',clean((item.starts_on||'')+' ～ '+(item.ends_on||''))],['月額合計',money(item.totals.monthly)]]);
+      printMenu.open=false;
+      print.innerHTML=`<h1>${title}</h1><p>画面確認用のサンプル帳票</p><p>${clean(item.details.party.name)} 様</p>`+
+        table(['項目','内容'],[['物件・号室',item.property+' '+item.unit],...rows].map(row=>row.map(value=>clean(value||'—'))));
       window.addEventListener('afterprint',()=>{print.innerHTML=template;},{once:true});
       window.print();
-    });
+    };
+    printMenu.querySelector('.menu-popover').append(button);
   }
   for (const title of ['車庫承諾書作成依頼','契約書作成依頼']) {
     add(title,()=>demoDialog(title,field('value','依頼メモ','textarea'),form=>{
