@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>住まい台帳 | 賃貸管理</title><style>:root { font: 15px/1.6 'Yu Gothic UI', Meiryo, sans-serif; color: #211d27; background: #f8f7f9; --plum:#682456; --line:#e2dce6; --muted:#657080; }
+* { box-sizing:border-box; }
+body { margin:0; display:grid; grid-template-columns:205px minmax(0,1fr); min-height:100vh; }
+a { color:var(--plum); }
+.sidebar { background:#211e2a; color:#fff; display:flex; flex-direction:column; padding:26px 15px; position:sticky; top:0; height:100vh; }
+.brand { font-size:23px; font-weight:750; margin:0 9px 35px; }
+.brand span, .workspace, small { display:block; color:var(--muted); font-size:12px; }
+.brand span,.workspace { color:#d7cedc; }
+.sidebar nav { display:grid; gap:5px; }
+.sidebar nav a { padding:11px 13px; color:#f4eef6; text-decoration:none; border-radius:7px; font-weight:650; }
+.sidebar nav a.active,.sidebar nav a:hover { background:#683053; }
+.workspace { margin:auto 9px 0; }
+.top { display:flex; justify-content:space-between; color:#63596a; border-bottom:1px solid var(--line); padding:14px 4%; background:#fff; font-size:13px; }
+.content { padding:28px 4% 40px; max-width:1550px; margin:auto; }
+h1,h2,h3,p { margin:0; }
+h1 { font-size:32px; letter-spacing:-.04em; }
+h2 { font-size:20px; margin-bottom:14px; }
+h3 { font-size:16px; margin-bottom:10px; }
+.results-heading { display:flex; align-items:start; justify-content:space-between; gap:12px; }
+.heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
+.heading p { margin-top:4px; color:var(--muted); }
+.panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:18px; }
+.filters,.fields,.metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:12px; align-items:end; }
+.fields { grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); align-items:start; }
+label { display:grid; gap:5px; font-size:13px; font-weight:650; color:#463b4b; }
+input,select,textarea,button,.button { font:inherit; }
+input,select,textarea { width:100%; min-width:0; border:1px solid #d6ccd9; background:#fff; border-radius:6px; padding:8px 10px; color:#2d2431; min-height:42px; }
+textarea { min-height:86px; resize:vertical; }
+:focus-visible { outline:2px solid #a15a90; outline-offset:3px; }
+button,.button { display:inline-flex; min-height:41px; justify-content:center; align-items:center; padding:8px 15px; background:#fff; border:1px solid #d7cbd8; border-radius:6px; color:var(--plum); font-weight:700; cursor:pointer; text-decoration:none; }
+button:hover,.button:hover { background:#f4eaf3; }
+.primary { background:var(--plum); border-color:var(--plum); color:#fff; }
+.primary:hover { background:#4e1940; }
+.actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; align-items:center; }
+.table-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; text-align:left; min-width:620px; }
+th,td { border-bottom:1px solid #ede8ef; padding:12px 10px; }
+th { color:#5e5368; background:#f7f3f8; font-size:13px; font-weight:650; }
+.status { display:inline-block; padding:3px 9px; border-radius:20px; background:#f3e9f2; color:#602349; font-size:12px; font-weight:700; white-space:nowrap; }
+.status[data-status=ACTIVE],.status[data-status=APPROVED] { background:#e9f4ef; color:#245940; }
+.status[data-status=REJECTED] { background:#f8e8e7; color:#963638; }
+.tabs { display:flex; flex-wrap:wrap; gap:3px; margin:10px 0 16px; border-bottom:1px solid var(--line); }
+.tabs button { border:0; border-radius:0; border-bottom:3px solid transparent; background:white; }
+.tabs button[aria-selected=true] { border-color:var(--plum); background:#faf4fa; }
+.metrics { margin:0 0 16px; }
+.metrics > div { border-left:3px solid #b28bad; background:#f8f2f8; padding:8px 12px; }
+.metrics strong { display:block; font-size:22px; font-variant-numeric:tabular-nums; }
+.review-note { color:var(--muted); margin:8px 0 12px; }
+.history { margin:0; padding-left:22px; color:#554b5a; }
+.print-sheet { display:none; }
+#notice { position:fixed; bottom:18px; right:18px; max-width:min(460px,90vw); padding:12px 18px; border-radius:8px; color:#fff; background:#33283b; z-index:2; }
+#notice.error { background:#892b37; }
+@media(max-width:700px) {
+  body { display:block; }
+  .sidebar { position:relative; height:auto; padding:12px; }
+  .brand { margin:0 0 8px; }
+  .sidebar nav { display:flex; overflow-x:auto; }
+  .sidebar nav a { white-space:nowrap; }
+  .workspace { display:none; }
+  .content { padding:18px 12px; }
+  .panel { padding:13px; }
+}
+@media print {
+  body { display:block; background:#fff; }
+  .sidebar,.top,.content > :not(.print-sheet),#notice { display:none !important; }
+  .content { padding:0; }
+  .print-sheet { display:block; color:#111; }
+  .print-sheet table { min-width:0; margin:18px 0; }
+  .print-sheet p { margin:12px 0; }
+}
+
+    .demo-tools{margin:12px 24px 0;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff4d8;border-radius:8px}
+    .demo-tools p{margin:0 auto 0 0;font-size:14px}.demo-tools input{max-width:15rem}
+    @media print{.demo-tools{display:none!important}}
+    </style></head>
+<body>
+  <aside class="sidebar"><div class="brand">住まい台帳<span>賃貸・契約管理</span></div><nav aria-label="業務メニュー"><a href="#search">契約・入居者</a><a href="#properties">物件管理</a><a href="#units">部屋管理</a><a href="#parking">駐車区画</a></nav><span class="workspace">お客様向けデモ</span></aside>
+  <main><header class="top"><span>管理業務 / <b id="crumb">契約・入居者</b></span><span>賃貸管理</span></header><aside class="demo-tools" aria-label="デモデータ">
+    <p><strong>体験版</strong>　架空のデータでお試しください。保存時にJSONファイルをダウンロードします。</p>
+    <button type="button" id="demo-export">JSONを保存</button>
+    <label>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label>
+    </aside><div id="view" class="content" aria-live="polite"></div></main>
+  <div id="notice" role="status" hidden></div><script>const blank = {
+  application: { receivedOn: '', source: '', broker: '', contact: '', memo: '', leaseType: '', brokerBranch: '', brokerPhone: '', brokerFax: '', moveInOn: '', keyDueOn: '', keyHandedOn: '', registeredOn: '' },
+  party: { name: '', kana: '', type: '個人', phone: '', email: '', address: '', employer: '', emergency: '', vehicleNo: '', postalCode: '', employerPhone: '' },
+  occupant: { name: '', kana: '', birthOn: '', phone: '', email: '', employer: '', employerPhone: '' },
+  related: { occupants: '', guarantor: '', guarantorPhone: '', guaranteeCompany: '', guarantorKana: '', guarantorRelationship: '', guarantorAddress: '', emergencyKana: '', emergencyPhone: '', emergencyMobile: '', emergencyRelationship: '' },
+  charges: { rent: 0, common: 0, monthlyOther: 0, deposit: 0, keyMoney: 0, firstRent: 0, setup: 0, initialOther: 0, supportFee: 0, reliefFee: 0, brokerFee: 0, guaranteeFee: 0, insuranceFee: 0, parkingInitial: 0, advancePayment: 0 },
+  services: { supportStartsOn: '', supportBillingMonth: '', supportEndsOn: '', reliefStartsOn: '', reliefBillingMonth: '', reliefEndsOn: '' },
+  review: { reviewer: '', reviewedOn: '', note: '', guaranteeResult: '', guaranteeNumber: '' },
+  insurance: { provider: '', policy: '', startsOn: '', endsOn: '' },
+  renewal: { nextOn: '', fee: 0, noticeDays: 30, penalty: '', memo: '' },
+};
+const maxYen = 100000000;
+function normalize(details = {}) {
+  if (!details || typeof details !== 'object') throw Error('入力内容が正しくありません。');
+  return Object.fromEntries(Object.entries(blank).map(([section, values]) => {
+    const source = details[section] ?? {};
+    return [section, Object.fromEntries(Object.entries(values).map(([key, fallback]) => {
+      const value = source[key] ?? fallback;
+      if (typeof fallback === 'number') {
+        const n = value === '' ? 0 : Number(value);
+        if (!Number.isSafeInteger(n) || n < 0 || n > maxYen) throw Error('金額・日数は正の整数で入力してください。');
+        return [key, n];
+      }
+      if (typeof value !== 'string' || value.length > 2000) throw Error('入力内容が長すぎるか、形式が正しくありません。');
+      return [key,value.trim()];
+    }))];
+  }));
+}
+function totals(charges, parkingFee = 0) {
+  return {
+    monthly: charges.rent + charges.common + charges.monthlyOther + parkingFee + (charges.supportFee ?? 0) + (charges.reliefFee ?? 0),
+    initial: charges.deposit + charges.keyMoney + charges.firstRent + charges.setup + charges.initialOther +
+      (charges.brokerFee ?? 0) + (charges.guaranteeFee ?? 0) + (charges.insuranceFee ?? 0) + (charges.parkingInitial ?? 0),
+    advancePayment: charges.advancePayment ?? 0,
+  };
+}
+function dateOrNull(value) {
+  if (value === undefined || value === null || value === '') return null;
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw Error('日付の形式が正しくありません。');
+  const date = new Date(value + 'T00:00:00Z');
+  if (Number.isNaN(+date) || date.toISOString().slice(0,10) !== value) throw Error('日付が正しくありません。');
+  return value;
+}
+const nextStatus = {
+  DRAFT: {approve: 'APPROVED', reject: 'REJECTED'},
+  APPROVED: {activate: 'ACTIVE'},
+  ACTIVE: {end: 'ENDED', renew: 'ACTIVE'},
+};
+
+const view = document.querySelector('#view');
+const crumb = document.querySelector('#crumb');
+const message = document.querySelector('#notice');
+const labels = {DRAFT:'審査待ち',APPROVED:'承認済み',ACTIVE:'契約中',REJECTED:'却下',ENDED:'終了'};
+const money = amount => new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(amount || 0);
+const clean = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const badge = status => `<span class="status" data-status="${clean(status)}">${clean(labels[status])}</span>`;
+const option = (value,text,selected) => `<option value="${clean(value)}" ${String(value)===String(selected)?'selected':''}>${clean(text)}</option>`;
+const today = () => new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo'}).format(new Date());
+const sections = {
+  application:['申込',[['receivedOn','受付日','date'],['source','申込経路'],['broker','仲介会社'],['contact','担当者'],['memo','申込メモ','textarea']]],
+  charges:['賃料・初期費用',[['rent','月額家賃','number'],['common','共益費','number'],['monthlyOther','月額その他','number'],['deposit','敷金','number'],['keyMoney','礼金','number'],['firstRent','初回家賃','number'],['setup','事務手数料','number'],['initialOther','初期その他','number']]],
+  party:['契約者',[['name','契約者名','text',true],['kana','契約者名カナ'],['type','契約区分','partyType'],['phone','電話番号','tel'],['email','メールアドレス','email'],['address','住所'],['employer','勤務先'],['emergency','緊急連絡先'],['vehicleNo','車両番号']]],
+  related:['同居人・保証人',[['occupants','同居人','textarea'],['guarantor','保証人氏名'],['guarantorPhone','保証人電話番号','tel'],['guaranteeCompany','保証会社']]],
+  review:['審査',[['reviewer','審査担当'],['reviewedOn','審査日','date'],['note','審査メモ・却下理由','textarea']]],
+  insurance:['保険契約',[['provider','保険会社'],['policy','証券番号'],['startsOn','保険開始日','date'],['endsOn','保険終了日','date']]],
+  renewal:['更新',[['nextOn','次回更新予定日','date'],['fee','更新事務手数料','number'],['noticeDays','解約予告日数','number'],['penalty','違約金条件'],['memo','更新メモ','textarea']]],
+};
+sections.application[1].push(['leaseType','契約の種類'],['brokerBranch','仲介店舗'],['brokerPhone','仲介電話番号','tel'],['brokerFax','仲介FAX','tel'],['moveInOn','入居予定日','date'],['keyDueOn','鍵渡予定日','date'],['keyHandedOn','鍵渡日','date'],['registeredOn','不動産登記日','date']);
+sections.party[1].push(['postalCode','郵便番号'],['employerPhone','勤務先電話番号','tel']);
+sections.occupant = ['入居者', [['name','入居者名'],['kana','入居者名カナ'],['birthOn','生年月日','date'],['phone','入居者電話番号','tel'],['email','メールアドレス','email'],['employer','勤務先'],['employerPhone','勤務先電話番号','tel']]];
+sections.related[1].push(['guarantorKana','保証人氏名カナ'],['guarantorRelationship','保証人続柄'],['guarantorAddress','保証人住所'],['emergencyKana','緊急連絡先カナ'],['emergencyPhone','緊急連絡先電話番号','tel'],['emergencyMobile','緊急連絡先携帯番号','tel'],['emergencyRelationship','緊急連絡先続柄']);
+sections.charges[1].push(['supportFee','月額リビングサポート料','number'],['reliefFee','月額リリーフ料','number'],['brokerFee','仲介手数料','number'],['guaranteeFee','初回保証料','number'],['insuranceFee','初回保険料','number'],['parkingInitial','駐車場初期費用','number'],['advancePayment','手付金（入金済み）','number']);
+sections.services = ['付帯サービス', [['supportStartsOn','リビングサポート開始日','date'],['supportBillingMonth','リビングサポート請求開始月','month'],['supportEndsOn','リビングサポート解約日','date'],['reliefStartsOn','リリーフ開始日','date'],['reliefBillingMonth','リリーフ請求開始月','month'],['reliefEndsOn','リリーフ解約日','date']]];
+sections.review[1].push(['guaranteeResult','保証会社審査結果'],['guaranteeNumber','保証番号']);
+const sectionOrder = ['application','party','occupant','related','charges','services','review','insurance','renewal'];
+let master;
+let renderCount = 0;
+let toastTimer;
+
+const api = (...args) => demoApi(...args);
+function toast(text,error=false) {
+  message.textContent=text;
+  message.className=error?'error':'';
+  message.hidden=false;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>message.hidden=true,4000);
+}
+async function submit(button, fn) {
+  button.disabled=true;
+  try { await fn(); } catch(error) { toast(error.message,true); }
+  finally { button.disabled=false; }
+}
+function heading(title, subtitle, action='') {
+  crumb.textContent=title;
+  return `<header class="heading"><div><h1>${clean(title)}</h1><p>${clean(subtitle)}</p></div>${action}</header>`;
+}
+function table(headers, rows) {
+  return `<div class="table-scroll"><table><thead><tr>${headers.map(x=>`<th scope="col">${clean(x)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(row=>`<tr>${row.map(x=>`<td>${x}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}">該当するデータはありません。</td></tr>`}</tbody></table></div>`;
+}
+function field(name, title, type='text', value='', required=false) {
+  const shared = `name="${clean(name)}" ${required?'required':''}`;
+  let control;
+  if (type === 'textarea') control=`<textarea ${shared} maxlength="2000">${clean(value)}</textarea>`;
+  else if (type === 'partyType') control=`<select ${shared}>${['個人','法人'].map(item=>option(item,item,value)).join('')}</select>`;
+  else control=`<input ${shared} type="${type}" value="${clean(value)}" ${type==='number'?'min="0" max="100000000" step="1"':'maxlength="240"'}>`;
+  return `<label>${clean(title)}${control}</label>`;
+}
+const propertyOptions = () => master.properties.map(item=>option(item.id,item.name)).join('');
+const unitOptions = units => units.map(item=>option(item.id,`${item.property} / ${item.label}（${item.floor_plan}）`)).join('');
+
+async function searchPage(token) {
+  view.innerHTML = heading('契約・入居者検索','物件、部屋、入居者から契約を探します。','<a class="button primary" href="#new">新規申込</a>') +
+    `<form class="panel" id="search"><div class="filters">${field('q','物件・氏名・勤務先・車両番号','search')}${field('phone','電話番号','tel')}
+    <label>物件<select name="property"><option value="">すべて</option>${propertyOptions()}</select></label>
+    <label>部屋<select name="unit"><option value="">すべて</option>${unitOptions(master.units)}</select></label>
+    <label>契約状況<select name="status"><option value="">すべて</option>${Object.entries(labels).map(([key,label])=>option(key,label)).join('')}</select></label>
+    <button class="primary">検索する</button></div></form><section class="panel"><div class="results-heading"><h2>検索結果 <small id="count"></small></h2><button type="button" id="export">CSV出力</button></div><div id="results"></div></section>`;
+  const form=view.querySelector('form');
+  form.property.onchange=()=>{form.unit.innerHTML='<option value="">すべて</option>'+unitOptions(master.units.filter(u=>!form.property.value || u.property_id===Number(form.property.value)));};
+  let request=0;
+  let currentRows=[];
+  view.querySelector('#export').onclick=()=>{
+    const headers=['契約者','物件','部屋','駐車区画','月額合計','状態'];
+    const rows=currentRows.map(r=>[r.details.party.name,r.property,r.unit,r.parking,r.totals.monthly,labels[r.status]]);
+    const encode=value=>{
+      const text=String(value ?? '');
+      const safe=/^[\s]*[=+\-@\t\r]/.test(text)?`'${text}`:text;
+      return `"${safe.replaceAll('"','""')}"`;
+    };
+    const url=URL.createObjectURL(new Blob(['\uFEFF',[headers,...rows].map(row=>row.map(encode).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
+    const link=document.createElement('a');link.href=url;link.download='契約検索結果.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  };
+  async function refresh() {
+    const current=++request;
+    const rows=await api('contracts?'+new URLSearchParams(new FormData(form)));
+    if (current!==request || token!==renderCount) return;
+    currentRows=rows;
+    view.querySelector('#count').textContent=`${rows.length} 件`;
+    view.querySelector('#results').innerHTML=table(['契約者','物件・部屋','駐車区画','月額合計','状態',''], rows.map(r=>[
+      clean(r.details.party.name),`${clean(r.property)}<small>${clean(r.unit)} ${clean(r.floor_plan)}</small>`,clean(r.parking || '—'),money(r.totals.monthly),badge(r.status),`<a class="button" href="#contract/${r.id}">契約を開く</a>`,
+    ]));
+  }
+  form.onsubmit=e=>{e.preventDefault();submit(form.querySelector('button'),refresh);};
+  await refresh();
+}
+
+function masterPage(kind) {
+  const names={properties:'物件管理',units:'部屋管理',parking:'駐車区画'};
+  const propertyName=id=>master.properties.find(p=>p.id===id)?.name;
+  const rows=master[kind].map(item=>kind==='properties'?[item.name,item.address,item.branch]:[propertyName(item.property_id),item.label,kind==='units'?item.floor_plan:money(item.fee),...(kind==='units'?[money(item.rent)]:[])]);
+  const cols={properties:['物件名','所在地','管理店'],units:['物件','部屋番号','間取り','月額家賃'],parking:['物件','区画番号','月額利用料','契約状況','契約期間','契約台帳']};
+  const tableRows = rows.map((row,index)=>{
+    const cells = row.map(clean);
+    if (kind !== 'parking') return cells;
+    const space = master.parking[index];
+    if (!space.active_contract_id) return [...cells,'空き','—','—'];
+    return [...cells,'契約中',clean(`${space.starts_on} ～ ${space.ends_on}`),`<a class="button" href="#contract/${space.active_contract_id}">契約を開く</a>`];
+  });
+  const fields=kind==='properties'?field('name','物件名','text','',true)+field('address','所在地','text','',true)+field('branch','管理店','text','',true):
+    `<label>物件<select name="property" required><option value="">選択してください</option>${propertyOptions()}</select></label>`+field('label',cols[kind][1],'text','',true)+(kind==='units'?field('floorPlan','間取り','text','',true):'')+field('fee',kind==='units'?'月額家賃':'月額利用料','number',0,true);
+  const newContract = kind === 'parking' ? '<a class="button primary" href="#new">駐車区画付きの申込を作成</a>' : '';
+  view.innerHTML=heading(names[kind],kind==='parking'?'契約期間と空き状況を確認できます。':'契約に使用する台帳を管理します。',newContract)+`<section class="panel">${table(cols[kind],tableRows)}</section><form class="panel"><h2>新規登録</h2><div class="fields">${fields}</div><div class="actions"><button class="primary">登録する</button></div></form>`;
+  const form=view.querySelector('form');
+  form.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{await api(`master/${kind}`,'POST',Object.fromEntries(new FormData(form)));master=await api('master');masterPage(kind);toast('台帳に登録しました。');});};
+}
+
+function contractPage(item) {
+  const data=item?.details || {};
+  const editable=!item || item.status==='DRAFT';
+  const title=item ? `契約台帳 #${item.id}` : '新規申込';
+  const total=`<div class="metrics"><div><small>月額合計（税込）</small><strong id="monthly">${money(item?.totals.monthly)}</strong></div><div><small>初期費用合計</small><strong id="initial">${money(item?.totals.initial)}</strong></div></div>`;
+  const tabs=sectionOrder.map((key,i)=>`<button type="button" role="tab" data-tab="${key}" aria-controls="section-${key}" aria-selected="${i===0}">${sections[key][0]}</button>`).join('');
+  const panels=sectionOrder.map((key,i)=>{
+    const [name,fields]=sections[key];
+    return `<section id="section-${key}" data-panel="${key}" ${i?'hidden':''}><h2>${name}</h2><div class="fields">${fields.map(([k,label,type,needed])=>field(`${key}.${k}`,label,type,data[key]?.[k] ?? (key==='application'&&k==='receivedOn'?today():key==='renewal'&&k==='noticeDays'?30:''),needed)).join('')}</div></section>`;
+  }).join('');
+  const transitions={DRAFT:[['approve','審査を承認'],['reject','却下する']],APPROVED:[['activate','契約を確定']],ACTIVE:[['renew','契約更新'],['end','契約終了']]};
+  const controls=item ? (transitions[item.status]||[]).map(([command,label])=>`<button type="button" data-command="${command}">${label}</button>`).join('') : '';
+  const history=item?`<section class="panel"><h2>操作履歴</h2><ul class="history">${item.events.map(e=>`<li>${clean(new Date(e.created_at).toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'}))}　${clean(e.event)}</li>`).join('')}</ul></section>`:'';
+  const payments=item?`<section class="panel"><h2>入金履歴 <small>合計 ${money(item.payments.reduce((s,p)=>s+p.amount,0))}</small></h2>${table(['入金日','入金額','メモ'],item.payments.map(p=>[clean(p.received_on),money(p.amount),clean(p.memo)]))}${['APPROVED','ACTIVE'].includes(item.status)?`<form id="payment"><div class="filters">${field('receivedOn','入金日','date',today(),true)}${field('amount','入金額','number','',true)}${field('memo','メモ')}<button>入金を記録</button></div></form>`:''}</section>`:'';
+  const print=item?`<article class="print-sheet"><h1>賃貸契約内容確認書</h1><p>契約番号 ${item.id} / ${clean(labels[item.status])} / 確認用</p>${table(['項目','内容'],[['物件',clean(item.property)],['所在地',clean(item.address)],['部屋',clean(item.unit)],['契約者',clean(item.details.party.name)],['契約期間',`${clean(item.starts_on)} ～ ${clean(item.ends_on)}`],['駐車区画',clean(item.parking || 'なし')],['月額合計',money(item.totals.monthly)],['初期費用',money(item.totals.initial)]])}<p>担当者　　　　　　　　　　確認日　　　　　年　　　月　　　日</p></article>`:'';
+  view.innerHTML=heading(title,'部屋、契約者、賃料と審査情報をまとめて確認します。','<a href="#search" class="button">検索一覧へ</a>')+
+    `${total}<form class="panel" id="editor"><fieldset ${editable?'':'disabled'} style="border:0;padding:0;margin:0;min-width:0"><h2>契約の基本情報 ${item?badge(item.status):''}</h2><div class="fields"><label>物件・部屋<select name="unitId" required><option value="">選択してください</option>${unitOptions(master.units)}</select></label><label>駐車区画<select name="parkingId"><option value="">契約なし</option></select></label>${field('startsOn','契約開始日','date',item?.starts_on)}${field('endsOn','契約終了日','date',item?.ends_on)}</div>
+    <div class="tabs" role="tablist" aria-label="契約情報">${tabs}</div>${panels}</fieldset><div class="actions">${editable?'<button class="primary">申込を保存</button>':''}${controls}${item?'<button type="button" id="print">契約内容確認書を印刷</button>':''}</div></form>${payments}${history}${print}`;
+  const form=view.querySelector('#editor');
+  // Keep section navigation usable in read-only contracts while disabling input controls.
+  if (!editable) {
+    form.querySelector('fieldset').disabled=false;
+    form.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true);
+  }
+  const selectTab=key=>{form.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===key)));form.querySelectorAll('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==key);};
+  form.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
+  form.addEventListener('invalid',event=>{const panel=event.target.closest('[data-panel]');if(panel) selectTab(panel.dataset.panel);},true);
+  form.unitId.value=item?.unit_id || '';
+  function parkingOptions(selected) {
+    const unit=master.units.find(u=>u.id===Number(form.unitId.value));
+    form.parkingId.innerHTML='<option value="">契約なし</option>'+master.parking.filter(p=>p.property_id===unit?.property_id).map(p=>option(p.id,`${p.label} · ${money(p.fee)}`,selected)).join('');
+    return unit;
+  }
+  parkingOptions(item?.parking_id);
+  function refreshTotals() {
+    const n=k=>Number(form.elements.namedItem(`charges.${k}`).value||0);
+    const fee=master.parking.find(p=>p.id===Number(form.parkingId.value))?.fee || 0;
+    view.querySelector('#monthly').textContent=money(n('rent')+n('common')+n('monthlyOther')+n('supportFee')+n('reliefFee')+fee);
+    view.querySelector('#initial').textContent=money(n('deposit')+n('keyMoney')+n('firstRent')+n('setup')+n('initialOther')+n('brokerFee')+n('guaranteeFee')+n('insuranceFee')+n('parkingInitial'));
+  }
+  form.unitId.onchange=()=>{const unit=parkingOptions();form.elements.namedItem('charges.rent').value=unit?.rent || 0;refreshTotals();};
+  let dirty=false;
+  form.addEventListener('input',()=>{dirty=true;refreshTotals();});
+  form.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{
+    const payload=Object.fromEntries(new FormData(form));
+    const {unitId,parkingId,startsOn,endsOn}=payload;
+    const details=Object.fromEntries(Object.entries(sections).map(([key,[,fields]])=>[key,Object.fromEntries(fields.map(([name])=>[name,payload[`${key}.${name}`]]))]));
+    const result=await api(item?`contracts/${item.id}`:'contracts',item?'PUT':'POST',{unitId,parkingId,startsOn,endsOn,revision:item?.revision,details});
+    if(item) contractPage(result); else location.hash=`contract/${result.id}`;
+    toast('申込を保存しました。');
+  });};
+  form.querySelectorAll('[data-command]').forEach(button=>button.onclick=()=>submit(button, async()=>{
+    if(dirty) {toast('先に変更を保存してください。',true);return;}
+    const action=button.dataset.command;
+    let endsOn;
+    if(action==='renew') {endsOn=prompt('更新後の契約終了日（YYYY-MM-DD）',item.ends_on);if(endsOn===null)return;}
+    else if(!confirm(`${button.textContent} 操作を実行しますか？`)) return;
+    const result=await api(`contracts/${item.id}/status`,'POST',{action,revision:item.revision,endsOn});
+    contractPage(result);toast('契約の状態を更新しました。');
+  }));
+  const printButton=view.querySelector('#print');
+  if(printButton)printButton.onclick=()=>window.print();
+  const payment=view.querySelector('#payment');
+  if(payment)payment.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{const result=await api(`contracts/${item.id}/payments`,'POST',Object.fromEntries(new FormData(payment)));contractPage(result);toast('入金を記録しました。');});};
+}
+
+async function render() {
+  const token=++renderCount;
+  const route=location.hash.slice(1)||'search';
+  document.querySelectorAll('.sidebar a').forEach(a=>a.classList.toggle('active',a.hash===`#${/^(contract\/|new$)/.test(route)?'search':route}`));
+  window.scrollTo(0,0);
+  try {
+    if (!master || route==='parking') master=await api('master');
+    if(token!==renderCount)return;
+    if(route==='new') return contractPage();
+    if(/^contract\/\d+$/.test(route)) {const item=await api(`contracts/${route.split('/')[1]}`);if(token===renderCount)contractPage(item);return;}
+    if(['units','properties','parking'].includes(route))return masterPage(route);
+    await searchPage(token);
+  } catch(error) {
+    if(token===renderCount)view.innerHTML=`<section class="panel"><h1>読込エラー</h1><p>${clean(error.message)}</p><a href="#search">検索一覧へ</a></section>`;
+  }
+}
+window.addEventListener('hashchange',render);
+const demoKey = 'sumai-rental-demo-v1';
+const sample = {
+  version: 1,
+  properties: [{id:1,name:'青空レジデンス',address:'福岡市（サンプル）',branch:'中央店'}],
+  units: [{id:1,property_id:1,label:'101',floor_plan:'2LDK',rent:84000},
+    {id:2,property_id:1,label:'202',floor_plan:'1LDK',rent:69000}],
+  parking: [{id:1,property_id:1,label:'P-01',fee:5500},{id:2,property_id:1,label:'P-02',fee:5500}],
+  contracts: [{
+    id:1,revision:1,unit_id:1,parking_id:1,status:'ACTIVE',starts_on:'2026-12-01',ends_on:'2027-11-30',
+    details:normalize({party:{name:'サンプル契約者'},charges:{rent:84000,common:3000}}),payments:[],events:[],
+  }],
+};
+
+function readDemo() {
+  try {
+    const data = localStorage.getItem(demoKey);
+    if (data) return JSON.parse(data);
+  } catch { /* The demo remains usable without browser storage. */ }
+  return structuredClone(sample);
+}
+let demo = readDemo();
+function exportDemo() {
+  const file = new Blob([JSON.stringify(demo,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(file);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'sumai-demo.json';
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function persistDemo() {
+  try { localStorage.setItem(demoKey,JSON.stringify(demo)); }
+  catch { /* The downloaded JSON is the fallback. */ }
+}
+const demoId = rows => Math.max(0,...rows.map(row=>row.id))+1;
+function demoCheck(condition,message) { if (!condition) throw Error(message); }
+function demoDetail(contract) {
+  const unit = demo.units.find(row=>row.id===contract.unit_id);
+  const property = demo.properties.find(row=>row.id===unit.property_id);
+  const parking = demo.parking.find(row=>row.id===contract.parking_id);
+  return {...contract,unit:unit.label,floor_plan:unit.floor_plan,property:property.name,branch:property.branch,
+    address:property.address,parking:parking?.label,totals:totals(contract.details.charges,parking?.fee)};
+}
+function demoEvent(contract,event) {
+  contract.events.unshift({event,created_at:new Date().toISOString()});
+}
+function demoRequest(path,method,body) {
+  const [route,query] = path.split('?');
+  if (route==='master') return {
+    properties:demo.properties,
+    units:demo.units.map(unit=>({...unit,property:demo.properties.find(p=>p.id===unit.property_id).name})),
+    parking:demo.parking.map(space=>{
+      const active=demo.contracts.find(c=>c.parking_id===space.id && c.status==='ACTIVE');
+      return {...space,active_contract_id:active?.id,starts_on:active?.starts_on,ends_on:active?.ends_on};
+    }),
+  };
+  if (route.startsWith('master/')) {
+    const kind=route.split('/')[1];
+    const rows=demo[kind];
+    const id=demoId(rows);
+    if (kind==='properties') rows.push({id,name:body.name,address:body.address,branch:body.branch});
+    else {
+      const property_id=Number(body.property);
+      demoCheck(!rows.some(row=>row.property_id===property_id && row.label===body.label),'同じ番号が登録されています。');
+      rows.push({id,property_id,label:body.label,...(kind==='units'?{floor_plan:body.floorPlan,rent:Number(body.fee)}:{fee:Number(body.fee)})});
+    }
+    return {id};
+  }
+  if (route==='contracts' && method==='GET') {
+    const params=new URLSearchParams(query);
+    const q=(params.get('q')||'').toLowerCase();
+    const digits=value=>String(value||'').replace(/\D/g,'');
+    const phone=digits(params.get('phone'));
+    return demo.contracts.slice().reverse().map(demoDetail).filter(row=>{
+      const {party,occupant,related}=row.details;
+      const searchable=[row.property,row.unit,row.address,row.branch,row.parking,party.name,party.kana,party.vehicleNo,party.employer,occupant.name,occupant.kana,occupant.employer,related.occupants,related.guarantor,related.guarantorKana];
+      return searchable.join(' ').toLowerCase().includes(q)
+        && (!phone || [party.phone,occupant.phone,related.guarantorPhone].some(number=>digits(number).includes(phone)))
+        && (!params.get('status') || params.get('status')===row.status)
+        && (!params.get('unit') || Number(params.get('unit'))===row.unit_id)
+        && (!params.get('property') || Number(params.get('property'))===demo.units.find(u=>u.id===row.unit_id).property_id);
+    });
+  }
+  const [,id,action]=route.split('/');
+  let contract=demo.contracts.find(row=>row.id===Number(id));
+  if (route==='contracts' || method==='PUT') {
+    if (method==='PUT') demoCheck(contract?.status==='DRAFT' && contract.revision===body.revision,'申込を読み直してください。');
+    const unit=demo.units.find(row=>row.id===Number(body.unitId));
+    const parking=body.parkingId && demo.parking.find(row=>row.id===Number(body.parkingId));
+    demoCheck(unit && (!body.parkingId || parking?.property_id===unit.property_id),'部屋・駐車区画を確認してください。');
+    const start=dateOrNull(body.startsOn), end=dateOrNull(body.endsOn);
+    demoCheck(!start || !end || start<=end,'終了日は開始日以降を選択してください。');
+    const details=normalize(body.details);
+    demoCheck(details.party.name,'契約者名を入力してください。');
+    if (!contract) {
+      contract={id:demoId(demo.contracts),revision:0,status:'DRAFT',payments:[],events:[]};
+      demo.contracts.push(contract);
+    }
+    Object.assign(contract,{revision:contract.revision+1,unit_id:unit.id,parking_id:parking?.id??null,starts_on:start,ends_on:end,details});
+    demoEvent(contract,method==='PUT'?'申込を更新':'申込を登録');
+  } else {
+    demoCheck(contract,'対象データが見つかりません。');
+    if (action==='status') {
+      const status=nextStatus[contract.status]?.[body.action];
+      demoCheck(Object.values(nextStatus[contract.status]||{}).includes(status) && contract.revision===body.revision,'現在の状態では操作できません。');
+      if (body.action==='activate') {
+        demoCheck(contract.starts_on && contract.ends_on,'契約開始日と終了日を設定してください。');
+        demoCheck(!demo.contracts.some(row=>row.status==='ACTIVE' && (row.unit_id===contract.unit_id ||
+          (contract.parking_id && row.parking_id===contract.parking_id))),'同じ部屋・駐車区画に有効な契約があります。');
+      }
+      if (body.action==='reject') demoCheck(contract.details.review.note,'審査メモに理由を入力してください。');
+      if (body.action==='renew') {
+        const end=dateOrNull(body.endsOn);
+        demoCheck(end && end>contract.ends_on,'更新後の終了日は現在の終了日より後にしてください。');
+        contract.ends_on=end;
+      }
+      contract.status=status;
+      contract.revision++;
+      demoEvent(contract,{approve:'審査を承認',reject:'審査を却下',activate:'契約を確定',renew:'契約を更新',end:'契約を終了'}[body.action]);
+    }
+    if (action==='payments') {
+      const amount=Number(body.amount), received_on=dateOrNull(body.receivedOn);
+      demoCheck(['APPROVED','ACTIVE'].includes(contract.status) && received_on && Number.isInteger(amount) &&
+        amount>0 && amount<=maxYen,'入金日と入金額を確認してください。');
+      contract.payments.unshift({amount,received_on,memo:String(body.memo||'')});
+      demoEvent(contract,'入金を記録');
+    }
+  }
+  return demoDetail(contract);
+}
+async function demoApi(path,method='GET',body) {
+  const result=demoRequest(path,method,body);
+  if (method!=='GET') { persistDemo(); exportDemo(); }
+  return structuredClone(result);
+}
+
+function parseDemo(text) {
+  const data=JSON.parse(text);
+  const validId=value=>Number.isSafeInteger(value) && value>0;
+  demoCheck(data?.version===1,'住まい台帳デモのJSONを選択してください。');
+  for (const key of ['properties','units','parking','contracts']) {
+    const rows=data[key];
+    demoCheck(Array.isArray(rows) && rows.length<=1000 && rows.every(row=>validId(row?.id)) &&
+      new Set(rows.map(row=>row.id)).size===rows.length,'台帳データを確認してください。');
+  }
+  const propertyExists=id=>data.properties.some(row=>row.id===id);
+  for (const row of [...data.units,...data.parking]) {
+    demoCheck(propertyExists(row.property_id),'物件情報を確認してください。');
+  }
+  for (const row of data.contracts) {
+    const unit=data.units.find(unit=>unit.id===row.unit_id);
+    demoCheck(unit && (row.parking_id===null || data.parking.some(p=>p.id===row.parking_id && p.property_id===unit.property_id)) &&
+      ['DRAFT','APPROVED','ACTIVE','REJECTED','ENDED'].includes(row.status) && validId(row.revision) &&
+      Array.isArray(row.events) && Array.isArray(row.payments),'契約データを確認してください。');
+    dateOrNull(row.starts_on);
+    dateOrNull(row.ends_on);
+    row.details=normalize(row.details);
+  }
+  return data;
+}
+document.querySelector('#demo-export').onclick=exportDemo;
+document.querySelector('#demo-import').onchange=async event=>{
+  const control=event.currentTarget;
+  try {
+    const file=control.files[0];
+    if (!file) return;
+    demoCheck(file.size<=5_000_000,'JSONファイルは5 MBまでです。');
+    const imported=parseDemo(await file.text());
+    if (!confirm('このブラウザのデモデータをファイルの内容で置き換えますか？')) return;
+    demo=imported;
+    persistDemo();
+    master=undefined;
+    location.hash='search';
+    await render();
+    toast('デモデータを読み込みました。');
+  } catch (error) { toast(error.message,true); }
+  finally { control.value=''; }
+};
+
+render();</script>
+</body></html>
