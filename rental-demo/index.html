@@ -1,92 +1,180 @@
 <!doctype html>
 <html lang="ja">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>住まい台帳 | 賃貸管理</title><style>:root { font: 15px/1.6 'Yu Gothic UI', Meiryo, sans-serif; color: #211d27; background: #f8f7f9; --plum:#682456; --line:#e2dce6; --muted:#657080; }
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>住まい台帳 | 賃貸管理</title><style>:root { font:15px/1.5 'Yu Gothic UI', Meiryo, sans-serif; color:#1e2c3a; background:#f3f6f8; --plum:#145c5c; --line:#dce5eb; --muted:#516575; }
 * { box-sizing:border-box; }
-body { margin:0; display:grid; grid-template-columns:205px minmax(0,1fr); min-height:100vh; }
+body { margin:0; display:grid; grid-template-columns:190px minmax(0,1fr); min-height:100vh; }
+main { min-width:0; }
 a { color:var(--plum); }
-.sidebar { background:#211e2a; color:#fff; display:flex; flex-direction:column; padding:26px 15px; position:sticky; top:0; height:100vh; }
-.brand { font-size:23px; font-weight:750; margin:0 9px 35px; }
-.brand span, .workspace, small { display:block; color:var(--muted); font-size:12px; }
-.brand span,.workspace { color:#d7cedc; }
+.icon { display:block; width:17px; height:17px; flex:none; }
+[data-icon] { display:inline-flex; flex:none; }
+.sidebar { background:#102a34; color:#edf7f6; display:flex; flex-direction:column; padding:20px 12px; position:sticky; top:0; height:100vh; }
+.brand { display:flex; align-items:center; gap:10px; font-size:19px; font-weight:750; margin:1px 5px 31px; color:inherit; text-decoration:none; white-space:nowrap; }
+.brand-mark { display:grid; place-items:center; border-radius:10px; width:36px; height:36px; background:#8cddd1; color:#123839; }
+.brand-mark .icon { width:21px;height:21px; }
+small { display:block; color:var(--muted); font-size:12px; }
+.brand small { color:#b4c8cd; font-weight:500; }
+.workspace { color:#a9c3c7; font-size:12px; }
 .sidebar nav { display:grid; gap:5px; }
-.sidebar nav a { padding:11px 13px; color:#f4eef6; text-decoration:none; border-radius:7px; font-weight:650; }
-.sidebar nav a.active,.sidebar nav a:hover { background:#683053; }
+.sidebar nav a { display:flex; gap:9px; align-items:center; padding:9px 10px; color:#d8e7e9; text-decoration:none; border-radius:7px; font-weight:650; font-size:14px; }
+.sidebar nav a.active,.sidebar nav a:hover { background:#214653; color:#fff; }
+.sidebar nav a.active .icon { color:#94e2d5; }
 .workspace { margin:auto 9px 0; }
-.top { display:flex; justify-content:space-between; color:#63596a; border-bottom:1px solid var(--line); padding:14px 4%; background:#fff; font-size:13px; }
-.content { padding:28px 4% 40px; max-width:1550px; margin:auto; }
+.top { position:relative; z-index:8; color:var(--muted); border-bottom:1px solid var(--line); background:white; font-size:13px; }
+.top-inner { max-width:1640px; min-height:51px; margin:auto; padding:6px clamp(14px,2.4vw,36px); display:flex; gap:8px; justify-content:space-between; align-items:center; }
+.breadcrumb,.demo-tools { display:flex; align-items:center; gap:7px; min-width:0; }
+.breadcrumb b { color:#263f50; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.breadcrumb .icon,.demo-tools .icon { width:14px; height:14px; }
+.demo-tag { background:#e8f5ef; color:#215e51; padding:3px 8px; border-radius:5px; white-space:nowrap; font-size:12px; font-weight:750; }
+.content { padding:16px clamp(14px,2.4vw,36px) 30px; max-width:1640px; margin:auto; }
 h1,h2,h3,p { margin:0; }
-h1 { font-size:32px; letter-spacing:-.04em; }
-h2 { font-size:20px; margin-bottom:14px; }
+h1 { font-size:clamp(21px,2.25vw,29px); letter-spacing:-.035em; }
+h2 { font-size:18px; margin-bottom:12px; }
 h3 { font-size:16px; margin-bottom:10px; }
-.results-heading { display:flex; align-items:start; justify-content:space-between; gap:12px; }
-.heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
+.results-heading { display:flex; align-items:center; justify-content:space-between; gap:8px 12px; flex-wrap:wrap; margin-bottom:8px; }
+.results-heading h2 { display:flex; align-items:center; gap:8px; margin:0; }
+.results-heading small { background:#e9f1f3; border-radius:20px; padding:2px 9px; color:#345668; white-space:nowrap; }
+.heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 12px; margin-bottom:11px; }
 .heading p { margin-top:4px; color:var(--muted); }
-.panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:18px; }
+.heading p:empty { display:none; }
+.panel { background:#fff; border:1px solid var(--line); border-radius:11px; padding:16px; margin-bottom:13px; min-width:0; }
+.search-panel { padding:12px 14px 9px; }
+.search-fields { display:grid; grid-template-columns:minmax(0,1.8fr) repeat(4,minmax(0,1fr)) auto; gap:8px; align-items:end; }
+.search-buttons { display:flex; gap:5px; align-items:center; }
+.keyword-input { position:relative; display:block; }
+.keyword-input .icon { position:absolute; left:10px; top:10px; color:#58717e; }
+.keyword-input input { padding-left:32px; }
+.search-fields input,.search-fields select,.search-buttons button { min-height:37px; padding-top:5px; padding-bottom:5px; }
 .filters,.fields,.metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:12px; align-items:end; }
-.fields { grid-template-columns:repeat(auto-fit,minmax(235px,1fr)); align-items:start; }
-label { display:grid; gap:5px; font-size:13px; font-weight:650; color:#463b4b; }
+.fields { grid-template-columns:repeat(auto-fit,minmax(min(100%,215px),1fr)); align-items:start; }
+label { display:grid; gap:4px; font-size:13px; font-weight:650; color:#304757; min-width:0; }
 input,select,textarea,button,.button { font:inherit; }
-input,select,textarea { width:100%; min-width:0; border:1px solid #d6ccd9; background:#fff; border-radius:6px; padding:8px 10px; color:#2d2431; min-height:42px; }
+input,select,textarea { width:100%; min-width:0; border:1px solid #cedbe0; background:#fff; border-radius:6px; padding:8px 10px; color:#243c49; min-height:40px; }
 textarea { min-height:86px; resize:vertical; }
-:focus-visible { outline:2px solid #a15a90; outline-offset:3px; }
-button,.button { display:inline-flex; min-height:41px; justify-content:center; align-items:center; padding:8px 15px; background:#fff; border:1px solid #d7cbd8; border-radius:6px; color:var(--plum); font-weight:700; cursor:pointer; text-decoration:none; }
-button:hover,.button:hover { background:#f4eaf3; }
+:focus-visible { outline:2px solid #258679; outline-offset:2px; }
+button,.button { display:inline-flex; min-height:37px; justify-content:center; align-items:center; gap:6px; padding:6px 11px; background:#fff; border:1px solid #cedbe0; border-radius:7px; color:var(--plum); font-weight:700; cursor:pointer; text-decoration:none; }
+button:hover,.button:hover { background:#edf6f5; }
 .primary { background:var(--plum); border-color:var(--plum); color:#fff; }
-.primary:hover { background:#4e1940; }
+.primary:hover { background:#104a4b; }
 .actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; align-items:center; }
-.table-scroll { overflow-x:auto; }
+.table-scroll { min-width:0; }
 .grid-tools,.grid-actions { display:flex; flex-wrap:wrap; gap:7px; align-items:center; }
-.search-more { margin-top:12px; }
-.search-more summary { cursor:pointer; color:var(--plum); }
+.search-more { margin-top:5px; }
+.search-more summary { display:inline-flex; align-items:center; gap:6px; cursor:pointer; color:var(--plum); padding:3px 0; font-size:13px; font-weight:650; }
+.search-more summary .icon { width:14px; height:14px; }
 .search-more .filters { margin-top:10px; }
-.grid-actions { margin:0 0 10px; }
-.grid-tools button,.grid-actions .button,.grid-actions button { min-height:34px; padding:4px 10px; font-size:13px; }
-.grid-tools details { position:relative; z-index:4; }
-.grid-tools summary { cursor:pointer; border:1px solid var(--line); border-radius:6px; padding:5px 10px; color:var(--plum); }
-.grid-column-options { position:absolute; right:0; display:grid; grid-template-columns:repeat(2,max-content); gap:8px 16px; padding:12px; background:white; border:1px solid var(--line); box-shadow:0 6px 20px #211e2a22; }
+.grid-actions { margin:0 0 8px; }
+.grid-tools button,.grid-actions .button,.grid-actions button,.tool-menu summary { min-height:31px; padding:4px 8px; font-size:13px; }
+.selection-label { min-width:0; font-size:13px; color:var(--muted); margin-right:auto; overflow-wrap:anywhere; }
+.selection-label strong { color:#254557; padding-left:5px; }
+.tool-menu { position:relative; }
+.tool-menu[open] { z-index:6; }
+.tool-menu summary { display:flex; align-items:center; gap:6px; cursor:pointer; border:1px solid #cedbe0; border-radius:7px; color:var(--plum); background:white; font-weight:700; list-style:none; }
+summary::-webkit-details-marker { display:none; }
+.menu-popover { position:absolute; z-index:1; top:calc(100% + 5px); right:0; display:grid; gap:5px; width:220px; padding:8px; background:#fff; border:1px solid var(--line); border-radius:9px; box-shadow:0 8px 22px #223f5626; }
+.menu-popover p { padding:4px; color:var(--muted); font-size:12px; }
+.menu-popover .button,.menu-popover > button { justify-content:flex-start; border-color:transparent; width:100%; }
+.file-pick { position:relative; overflow:hidden; }
+.file-pick input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.file-pick:focus-within { outline:2px solid #258679; }
+.grid-column-options { width:min(290px,calc(100vw - 36px)); grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 8px; }
+.grid-column-options p { grid-column:1/-1; }
 .grid-column-options label { display:flex; align-items:center; }
 .grid-column-options input { width:auto; min-height:0; }
-.contract-grid-scroll { overflow:auto; max-height:540px; border:1px solid #d8d3dd; }
-.contract-grid { width:max-content; min-width:100%; border-collapse:separate; border-spacing:0; font-size:13px; }
-.contract-grid th,.contract-grid td { padding:5px 9px; white-space:nowrap; border-right:1px solid #e4dfe7; border-bottom:1px solid #e4dfe7; }
-.contract-grid thead { position:sticky; top:0; z-index:2; }
-.contract-grid th { background:#f3edf5; }
-.contract-grid th button { min-height:0; padding:0; border:0; border-radius:0; background:transparent; display:flex; justify-content:space-between; width:100%; gap:9px; }
-.contract-grid th input { width:100%; min-width:82px; max-width:140px; min-height:27px; padding:2px 5px; font-size:12px; }
-.contract-grid tr:nth-child(even) td { background:#faf8fb; }
-.contract-grid tbody tr:hover td { background:#f4edf6; }
-.contract-grid tbody tr.selected td { background:#e8d8ec; }
+.contract-grid-wrap { border:1px solid var(--line); border-radius:8px; }
+.contract-grid { width:100%; min-width:0; table-layout:fixed; font-size:13px; }
+.contract-grid .expand-col { width:40px; }
+.contract-grid th,.contract-grid td { padding:4px 8px; overflow-wrap:anywhere; border-bottom:1px solid #e5edf0; }
+.contract-grid th { background:#eef4f6; color:#314c5c; }
+.contract-grid th button { min-height:24px; padding:0; border:0; background:transparent; display:flex; justify-content:space-between; width:100%; gap:4px; text-align:left; font-size:12px; }
+.contract-grid th button .icon { width:12px; height:12px; opacity:.7; }
+.contract-grid th input { width:100%; min-height:27px; padding:2px 4px; font-size:12px; }
+.contract-grid tr:nth-child(even) td { background:#f8fbfc; }
+.contract-grid tbody tr[data-contract]:hover td { background:#eff7f7; }
+.contract-grid tbody tr.selected td { background:#e5f4ef; }
+.contract-grid tbody tr.selected td:first-child { box-shadow:inset 3px 0 #268b7b; }
+.contract-grid tbody tr:last-child td { border-bottom:0; }
+.icon-button { min-height:26px; width:26px; padding:0; background:transparent; border-color:transparent; }
+.icon-button[aria-expanded="true"] .icon { transform:rotate(180deg); }
+.contract-grid td.expand-cell { padding:2px 4px; text-align:center; }
+.expanded-row dl { display:grid; grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); gap:9px; margin:7px 0 9px; }
+.expanded-row dt { font-size:12px; color:var(--muted); }
+.expanded-row dd { margin:0; overflow-wrap:anywhere; }
+.expanded-row .button { margin-bottom:6px; }
 .contract-grid .grid-number { text-align:right; font-variant-numeric:tabular-nums; }
-.grid-open { font-weight:700; }
 .demo-dialog { width:min(520px,calc(100% - 32px)); border:1px solid var(--line); border-radius:10px; padding:22px; }
 .demo-dialog::backdrop { background:#211e2a88; }
 .demo-dialog ul { max-height:180px; overflow:auto; }
-table { width:100%; border-collapse:collapse; text-align:left; min-width:620px; }
-th,td { border-bottom:1px solid #ede8ef; padding:12px 10px; }
-th { color:#5e5368; background:#f7f3f8; font-size:13px; font-weight:650; }
-.status { display:inline-block; padding:3px 9px; border-radius:20px; background:#f3e9f2; color:#602349; font-size:12px; font-weight:700; white-space:nowrap; }
+table { width:100%; border-collapse:collapse; text-align:left; table-layout:fixed; }
+th,td { border-bottom:1px solid #e6edf0; padding:9px 8px; overflow-wrap:anywhere; }
+th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
+.status { display:inline-block; padding:2px 7px; border-radius:20px; background:#fbf1db; color:#785111; font-size:12px; font-weight:700; }
 .status[data-status=ACTIVE],.status[data-status=APPROVED] { background:#e9f4ef; color:#245940; }
 .status[data-status=REJECTED] { background:#f8e8e7; color:#963638; }
 .tabs { display:flex; flex-wrap:wrap; gap:3px; margin:10px 0 16px; border-bottom:1px solid var(--line); }
 .tabs button { border:0; border-radius:0; border-bottom:3px solid transparent; background:white; }
-.tabs button[aria-selected=true] { border-color:var(--plum); background:#faf4fa; }
+.tabs button[aria-selected=true] { border-color:var(--plum); background:#e9f5f3; }
 .metrics { margin:0 0 16px; }
-.metrics > div { border-left:3px solid #b28bad; background:#f8f2f8; padding:8px 12px; }
+.metrics > div { border-left:3px solid #80b8af; background:#eef7f6; padding:8px 12px; }
 .metrics strong { display:block; font-size:22px; font-variant-numeric:tabular-nums; }
 .review-note { color:var(--muted); margin:8px 0 12px; }
 .history { margin:0; padding-left:22px; color:#554b5a; }
 .print-sheet { display:none; }
-#notice { position:fixed; bottom:18px; right:18px; max-width:min(460px,90vw); padding:12px 18px; border-radius:8px; color:#fff; background:#33283b; z-index:2; }
+#notice { position:fixed; bottom:18px; right:18px; max-width:min(460px,90vw); padding:12px 18px; border-radius:8px; color:#fff; background:#163b46; z-index:12; }
 #notice.error { background:#892b37; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.date-field { position:relative; min-width:0; }
+.date-field input { padding-right:37px; }
+.date-field > button { position:absolute; right:3px; bottom:3px; width:32px; min-height:34px; padding:0; border:0; background:transparent; }
+.date-field:has(input:disabled) > button { display:none; }
+.jp-calendar { position:fixed; inset:auto; margin:0; z-index:20; width:min(298px,calc(100vw - 16px)); max-height:calc(100dvh - 16px); overflow:auto; padding:11px; border:1px solid #cedbe0; border-radius:11px; color:#203a48; background:#fff; box-shadow:0 10px 32px #102a3433; }
+.calendar-head,.calendar-foot { display:flex; align-items:center; justify-content:space-between; }
+.calendar-head button { padding:0; width:32px; min-height:31px; }
+.calendar-choices { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:2px; margin:7px 0; text-align:center; }
+.calendar-choices.months { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.calendar-choices span { font-size:12px; color:var(--muted); }
+.calendar-choices button { min-height:32px; padding:2px; border-color:transparent; font-size:14px; }
+.calendar-choices button[aria-current] { border-color:#77a7ab; }
+.calendar-choices button[aria-pressed=true] { background:var(--plum); color:white; }
+.calendar-foot { border-top:1px solid var(--line); padding-top:7px; }
+.calendar-foot button { min-height:30px; font-size:13px; }
+@media(max-width:1160px) {
+  .search-fields { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
 @media(max-width:700px) {
   body { display:block; }
-  .sidebar { position:relative; height:auto; padding:12px; }
-  .brand { margin:0 0 8px; }
-  .sidebar nav { display:flex; overflow-x:auto; }
-  .sidebar nav a { white-space:nowrap; }
+  .sidebar { position:relative; height:auto; padding:10px 12px; }
+  .brand { margin:0 0 7px; }
+  .brand small { display:none; }
+  .sidebar nav { grid-template-columns:repeat(2,minmax(0,1fr)); gap:3px; }
+  .sidebar nav a { padding:5px 7px; }
   .workspace { display:none; }
-  .content { padding:18px 12px; }
-  .panel { padding:13px; }
+  .content { padding:12px; }
+  .panel { padding:10px; }
+  .search-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .search-fields .keyword,.search-buttons { grid-column:1/-1; }
+  .search-buttons button { flex:1; }
+  .results-heading h2 { font-size:16px; }
+  .selection-label { flex-basis:100%; }
+  .results-heading,.grid-actions { position:relative; }
+  #grid-columns,.row-menu { position:static; }
+  #grid-columns .menu-popover { width:min(290px,100%); }
+  .contract-grid,.contract-grid thead,.contract-grid tbody { display:block; }
+  .contract-grid colgroup { display:none; }
+  .contract-grid thead tr,.contract-grid tbody tr[data-contract] { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .contract-grid thead th:last-child { display:none; }
+  .contract-grid th,.contract-grid td { min-width:0; }
+  .contract-grid tbody tr[data-contract] { position:relative; padding:6px 34px 6px 5px; border-bottom:1px solid var(--line); }
+  .contract-grid tbody tr.selected { background:#e5f4ef; box-shadow:inset 3px 0 #268b7b; }
+  .contract-grid tbody tr[data-contract] td { text-align:left; border:0; padding:3px 5px; background:transparent; }
+  .contract-grid tbody tr.selected td:first-child { box-shadow:none; }
+  .contract-grid td[data-label]::before { content:attr(data-label); display:block; color:var(--muted); font-size:11px; }
+  .contract-grid tbody tr[data-contract] .expand-cell { position:absolute; right:4px; top:6px; }
+  .contract-grid .expanded-row,.contract-grid .expanded-row td,.contract-grid .empty-row,.contract-grid .empty-row td { display:block; }
+  .expanded-row dl { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .table-scroll th,.table-scroll td { padding:5px 3px; }
+  .table-scroll .date-field input { padding:5px; }
+  .table-scroll .date-field label { overflow-wrap:anywhere; }
+  .table-scroll .date-field > button { position:static; }
 }
 @media print {
   body { display:block; background:#fff; }
@@ -96,18 +184,22 @@ th { color:#5e5368; background:#f7f3f8; font-size:13px; font-weight:650; }
   .print-sheet table { min-width:0; margin:18px 0; }
   .print-sheet p { margin:12px 0; }
 }
-
-    .demo-tools{margin:12px 24px 0;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff4d8;border-radius:8px}
-    .demo-tools p{margin:0 auto 0 0;font-size:14px}.demo-tools input{max-width:15rem}
-    @media print{.demo-tools{display:none!important}}
-    </style></head>
+</style></head>
 <body>
-  <aside class="sidebar"><div class="brand">住まい台帳<span>賃貸・契約管理</span></div><nav aria-label="業務メニュー"><a href="#search">契約・入居者</a><a href="#properties">物件管理</a><a href="#units">部屋管理</a><a href="#parking">駐車区画</a></nav><span class="workspace">お客様向けデモ</span></aside>
-  <main><header class="top"><span>管理業務 / <b id="crumb">契約・入居者</b></span><span>賃貸管理</span></header><aside class="demo-tools" aria-label="デモデータ">
-    <p><strong>体験版</strong>　架空のデータでお試しください。保存時にJSONファイルをダウンロードします。</p>
-    <button type="button" id="demo-export">JSONを保存</button>
-    <label>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label>
-    </aside><div id="view" class="content" aria-live="polite"></div></main>
+  <aside class="sidebar">
+    <a class="brand" href="#search"><span class="brand-mark" data-icon="home"></span><span>住まい台帳<small>賃貸・契約管理</small></span></a>
+    <nav aria-label="業務メニュー">
+      <a href="#search"><span data-icon="file"></span>契約・入居者</a><a href="#properties"><span data-icon="building"></span>物件管理</a>
+      <a href="#units"><span data-icon="room"></span>部屋管理</a><a href="#parking"><span data-icon="parking"></span>駐車区画</a>
+    </nav><span class="workspace">お客様向けデモ</span>
+  </aside>
+  <main><header class="top"><div class="top-inner"><div class="breadcrumb"><span>管理業務</span><span data-icon="right"></span><b id="crumb">契約・入居者</b></div><div class="demo-tools" aria-label="デモデータ">
+    <span class="demo-tag">体験版</span>
+    <details class="tool-menu"><summary><span data-icon="file"></span>データ<span data-icon="chevron"></span></summary>
+      <div class="menu-popover"><p>架空のデータでお試しください。保存時にJSONをダウンロードします。</p>
+      <button type="button" id="demo-export"><span data-icon="download"></span>JSONを保存</button>
+      <label class="button file-pick"><span data-icon="upload"></span>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label></div>
+    </details></div></div></header><div id="view" class="content"></div></main>
   <div id="notice" role="status" hidden></div><script>const blank = {
   application: { receivedOn: '', source: '', broker: '', contact: '', memo: '', leaseType: '', brokerBranch: '', brokerPhone: '', brokerFax: '', moveInOn: '', keyDueOn: '', keyHandedOn: '', registeredOn: '' },
   party: { name: '', kana: '', type: '個人', phone: '', email: '', address: '', employer: '', emergency: '', vehicleNo: '', postalCode: '', employerPhone: '' },
@@ -172,6 +264,29 @@ const nextStatus = {
 const view = document.querySelector('#view');
 const crumb = document.querySelector('#crumb');
 const message = document.querySelector('#notice');
+const iconPaths = {
+  home:'<path d="m3 10 9-7 9 7v10H3z"/><path d="M9 20v-6h6v6"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
+  building:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 21v-3h4v3"/>',
+  room:'<path d="M5 21h14M7 21V4h10v17m-4-8h1"/>',
+  parking:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 17V7h3a3 3 0 0 1 0 6h-3"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  filter:'<path d="M4 7h16M7 12h10m-7 5h4"/>',
+  columns:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M9 5v14m6-14v14"/>',
+  print:'<path d="M7 8V3h10v5m0 8h3v-6H4v6h3m0-2h10v7H7z"/>',
+  download:'<path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/>',
+  upload:'<path d="M12 16V4m-4 4 4-4 4 4M4 16v5h16v-5"/>',
+  file:'<path d="M6 3h8l4 4v14H6zm8 0v5h5M9 13h6m-6 4h6"/>',
+  chevron:'<path d="m6 9 6 6 6-6"/>',
+  left:'<path d="m15 6-6 6 6 6"/>',
+  right:'<path d="m9 6 6 6-6 6"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 5h.01m4 0h.01m4 0h.01"/>',
+  coins:'<circle cx="12" cy="12" r="9"/><path d="m8 8 4 5 4-5m-8 5h8m-8 3h8m-4-3v5"/>',
+  dots:'<path d="M5 12h.01m7 0h.01m7 0h.01" stroke-width="3"/>',
+  sort:'<path d="M9 7h.01m-3 3 3-3 3 3m0 4 3 3 3-3"/>',
+};
+const icon = name => `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]}</svg>`;
+document.querySelectorAll('[data-icon]').forEach(node=>{node.innerHTML=icon(node.dataset.icon);});
 const labels = {DRAFT:'審査待ち',APPROVED:'承認済み',ACTIVE:'契約中',REJECTED:'却下',ENDED:'終了'};
 const money = amount => new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(amount || 0);
 const clean = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -235,32 +350,175 @@ function field(name, title, type='text', value='', required=false) {
   const shared = `name="${clean(name)}" ${required?'required':''}`;
   let control;
   if (type === 'textarea') control=`<textarea ${shared} maxlength="2000">${clean(value)}</textarea>`;
+  else if (type === 'date' || type === 'month') {
+    const pattern=type==='date'?'[0-9]{4}-[0-9]{2}-[0-9]{2}':'[0-9]{4}-[0-9]{2}';
+    const placeholder=type==='date'?'YYYY-MM-DD':'YYYY-MM';
+    return `<div class="date-field"><label>${clean(title)}<input ${shared} type="text" lang="ja" data-jp-date="${type}" autocomplete="off" spellcheck="false" maxlength="${placeholder.length}" pattern="${pattern}" placeholder="${placeholder}" value="${clean(value)}"></label><button type="button" data-calendar aria-label="${clean(title)}のカレンダーを開く" aria-expanded="false">${icon('calendar')}</button></div>`;
+  }
   else if (type === 'secondSpace') control=`<select ${shared}></select>`;
   else if (type === 'partyType') control=`<select ${shared}>${['個人','法人'].map(item=>option(item,item,value)).join('')}</select>`;
   else control=`<input ${shared} type="${type}" value="${clean(value)}" ${type==='number'?'min="0" max="100000000" step="1"':'maxlength="240"'}>`;
   return `<label>${clean(title)}${control}</label>`;
 }
+const padDate = value => String(value).padStart(2,'0');
+function dateParts(value) {
+  const match=/^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(value);
+  if (!match) return null;
+  const [year,month,day]=match.slice(1).map(Number);
+  if (!year || month<1 || month>12) return null;
+  if (match[3] && (!day || day>calendarDate(year,month+1,0).getUTCDate())) return null;
+  return {year,month,day};
+}
+function calendarDate(year,month,day) {
+  const date=new Date(0);
+  date.setUTCFullYear(year,month-1,day);
+  return date;
+}
+function validateCalendarValue(input) {
+  const parts=dateParts(input.value);
+  const error=!input.value
+    ? (input.required?'日付を入力してください。':'')
+    : (parts && (input.dataset.jpDate==='date' ? parts.day : !parts.day)?'':
+      (input.dataset.jpDate==='date'?'日付を YYYY-MM-DD 形式で入力してください。':'年月を YYYY-MM 形式で入力してください。'));
+  input.setCustomValidity(error);
+}
+document.addEventListener('input',event=>{
+  if (event.target.matches?.('[data-jp-date]')) validateCalendarValue(event.target);
+});
+document.addEventListener('invalid',event=>{
+  if (event.target.matches?.('[data-jp-date]')) validateCalendarValue(event.target);
+},true);
+
+let dismissCalendar;
+document.addEventListener('click',event=>{
+  const trigger=event.target.closest('[data-calendar]');
+  if (!trigger) return;
+  const input=trigger.parentElement.querySelector('[data-jp-date]');
+  if (!input.disabled) openCalendar(trigger,input);
+});
+function openCalendar(trigger,input) {
+  const alreadyOpen=trigger.getAttribute('aria-expanded')==='true';
+  dismissCalendar?.();
+  if (alreadyOpen) return;
+  const monthOnly=input.dataset.jpDate==='month';
+  const todayValue=today();
+  const current=dateParts(todayValue);
+  const selected=dateParts(input.value);
+  let {year,month}=selected || current;
+  const popup=document.createElement('div');
+  popup.className='jp-calendar';
+  popup.setAttribute('popover','auto');
+  popup.setAttribute('role','dialog');
+  popup.setAttribute('aria-label',monthOnly?'年月を選択':'日付を選択');
+  (trigger.closest('dialog') || document.body).append(popup);
+  const usePopover=typeof popup.showPopover==='function';
+  if (!usePopover) popup.classList.add('calendar-fallback');
+  trigger.setAttribute('aria-expanded','true');
+  const cleanup=()=>{
+    popup.remove();
+    trigger.setAttribute('aria-expanded','false');
+    if (dismissCalendar===cleanup) dismissCalendar=undefined;
+  };
+  dismissCalendar=cleanup;
+  popup.addEventListener('toggle',event=>{if(event.newState==='closed') cleanup();});
+  popup.addEventListener('keydown',event=>{
+    if(event.key!=='Escape') return;
+    event.preventDefault();
+    event.stopPropagation();
+    cleanup();
+    trigger.focus();
+  });
+  function pick(value) {
+    input.value=value;
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+    cleanup();
+    trigger.focus();
+  }
+  function position() {
+    const rect=trigger.parentElement.getBoundingClientRect();
+    const left=Math.max(8,Math.min(rect.left,window.innerWidth-popup.offsetWidth-8));
+    const below=rect.bottom+6;
+    const top=below+popup.offsetHeight<=window.innerHeight-8?below:Math.max(8,rect.top-popup.offsetHeight-6);
+    popup.style.left=`${left}px`;
+    popup.style.top=`${top}px`;
+  }
+  function draw(focus) {
+    const caption=monthOnly?`${year}年`:`${year}年${month}月`;
+    const offset=calendarDate(year,month,1).getUTCDay();
+    const days=calendarDate(year,month+1,0).getUTCDate();
+    const options=monthOnly ? Array.from({length:12},(_,i)=>i+1) : Array.from({length:days},(_,i)=>i+1);
+    const weeks=monthOnly?'':['日','月','火','水','木','金','土'].map(day=>`<span aria-hidden="true">${day}</span>`).join('')+'<span></span>'.repeat(offset);
+    popup.innerHTML=`<div class="calendar-head"><button type="button" data-step="-1" aria-label="${monthOnly?'前年':'前月'}">${icon('left')}</button><strong aria-live="polite">${caption}</strong><button type="button" data-step="1" aria-label="${monthOnly?'翌年':'翌月'}">${icon('right')}</button></div>
+      <div class="calendar-choices ${monthOnly?'months':''}">${weeks}${options.map(n=>{
+        const value=`${String(year).padStart(4,'0')}-${padDate(monthOnly?n:month)}${monthOnly?'':'-'+padDate(n)}`;
+        const label=monthOnly?`${year}年${n}月`:`${caption}${n}日`;
+        return `<button type="button" data-date="${value}" aria-label="${label}" aria-pressed="${value===input.value}"${value===(monthOnly?todayValue.slice(0,7):todayValue)?' aria-current="date"':''}>${n}${monthOnly?'月':''}</button>`;
+      }).join('')}</div><div class="calendar-foot"><button type="button" data-clear>クリア</button><button type="button" data-today>${monthOnly?'今月':'今日'}</button></div>`;
+    position();
+    if(focus) popup.querySelector(focus)?.focus({preventScroll:true});
+  }
+  popup.onclick=event=>{
+    const button=event.target.closest('button');
+    if (!button) return;
+    if (button.hasAttribute('data-clear')) return pick('');
+    if (button.hasAttribute('data-today')) return pick(monthOnly?today().slice(0,7):today());
+    if (button.dataset.date) return pick(button.dataset.date);
+    const step=Number(button.dataset.step);
+    const next=calendarDate(year+(monthOnly?step:0),month+(monthOnly?0:step),1);
+    if(next.getUTCFullYear()<1 || next.getUTCFullYear()>9999) return;
+    year=next.getUTCFullYear();
+    month=next.getUTCMonth()+1;
+    draw(`[data-step="${step}"]`);
+  };
+  if(usePopover) popup.showPopover();
+  draw();
+  (popup.querySelector('[aria-pressed="true"]') || popup.querySelector('[aria-current="date"]') ||
+    popup.querySelector('[data-date]'))?.focus({preventScroll:true});
+}
+function renewalDate(value) {
+  return new Promise(resolve=>{
+    const dialog=document.createElement('dialog');
+    dialog.className='demo-dialog';
+    dialog.innerHTML=`<h2>契約更新</h2><form>${field('endsOn','更新後の契約終了日','date',value,true)}
+      <div class="actions"><button class="primary">更新する</button><button type="button" data-close>キャンセル</button></div></form>`;
+    dialog.querySelector('form').onsubmit=event=>{
+      event.preventDefault();
+      dialog.close(new FormData(event.currentTarget).get('endsOn'));
+    };
+    dialog.querySelector('[data-close]').onclick=()=>dialog.close();
+    dialog.addEventListener('close',()=>{
+      dismissCalendar?.();
+      dialog.remove();
+      resolve(dialog.returnValue || null);
+    },{once:true});
+    document.body.append(dialog);
+    dialog.showModal();
+  });
+}
 const propertyOptions = () => master.properties.map(item=>option(item.id,item.name)).join('');
 const unitOptions = units => units.map(item=>option(item.id,`${item.property} / ${item.label}（${item.floor_plan}）`)).join('');
 
 async function searchPage(token) {
-  view.innerHTML = heading('契約・入居者検索','物件、部屋、入居者から契約を探します。','<a class="button primary" href="#new">新規申込</a>') +
-    `<form class="panel" id="search"><div class="filters">${field('q','物件・氏名・勤務先・車両番号','search')}${field('phone','電話番号','tel')}
+  view.innerHTML = heading('契約・入居者検索','',`<a class="button primary" href="#new">${icon('plus')}新規申込</a>`) +
+    `<form class="panel search-panel" id="search"><div class="search-fields"><label class="keyword">キーワード<span class="keyword-input">${icon('search')}<input name="q" type="search" placeholder="物件名・氏名・勤務先・車両番号"></span></label>${field('phone','電話番号','tel')}
     <label>物件<select name="property"><option value="">すべて</option>${propertyOptions()}</select></label>
     <label>部屋<select name="unit"><option value="">すべて</option>${unitOptions(master.units)}</select></label>
     <label>契約状況<select name="status"><option value="">すべて</option>${Object.entries(labels).map(([key,label])=>option(key,label)).join('')}</select></label>
-    <button class="primary">検索する</button><button type="reset">クリア</button></div><details class="search-more"><summary>詳しい検索条件</summary><div class="filters">
+    <div class="search-buttons"><button class="primary" type="submit">${icon('search')}検索</button><button type="reset">クリア</button></div></div><details class="search-more"><summary>${icon('filter')}詳しい検索条件${icon('chevron')}</summary><div class="filters">
       ${field('branch','管理店')}${field('manager','物件担当者')}${field('employer','勤務先')}${field('address','住所')}${field('vehicle','車両番号')}
       <label>契約区分<select name="partyType"><option value="">すべて</option><option>個人</option><option>法人</option></select></label>
       <label>検索対象<select name="target"><option value="">すべて</option><option value="parking">駐車場契約あり</option><option value="room">部屋のみ</option></select></label>
       ${field('startFrom','契約開始日（から）','date')}${field('startTo','契約開始日（まで）','date')}${field('renewFrom','次回更新日（から）','date')}${field('renewTo','次回更新日（まで）','date')}
-    </div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><details id="grid-columns"><summary>表示列</summary></details><button type="button" id="grid-print">印刷プレビュー</button><button type="button" id="export">CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-scroll" tabindex="0" aria-label="契約検索結果一覧"></div></section><article class="print-sheet" id="grid-print-sheet"></article>`;
+    </div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div></section><article class="print-sheet" id="grid-print-sheet"></article>`;
   const form=view.querySelector('form');
   form.property.onchange=()=>{form.unit.innerHTML='<option value="">すべて</option>'+unitOptions(master.units.filter(u=>!form.property.value || u.property_id===Number(form.property.value)));};
   let request=0;
   let currentRows=[];
   let sourceRows=[];
   let selected;
+  let expanded;
+  let showFilters=false;
   let sort={key:'',direction:1};
   const columns=[
     ['property','物件名',r=>r.property],['unit','号室',r=>r.unit],['starts','契約日',r=>r.details.application.signedOn || r.starts_on],
@@ -273,25 +531,54 @@ async function searchPage(token) {
     ['parking','駐車区画',r=>r.parking],['parkingFee','駐車場月額',r=>r.parking_fee,true],
     ['monthly','月額合計',r=>r.totals.monthly,true],['ends','契約終了日',r=>r.ends_on],
   ];
-  const hidden=new Set();
+  const shown=new Set(['property','unit','starts','party','occupant','status','monthly']);
+  const maxColumns=8;
   const filters=new Map();
   const grid=view.querySelector('#results');
   const columnPicker=view.querySelector('#grid-columns');
-  const activeColumns=()=>columns.filter(([key])=>!hidden.has(key));
-  columnPicker.insertAdjacentHTML('beforeend',`<div class="grid-column-options">${columns.map(([key,label])=>`<label><input type="checkbox" value="${key}" checked>${label}</label>`).join('')}</div>`);
+  const activeColumns=()=>columns.filter(([key])=>shown.has(key));
+  columnPicker.insertAdjacentHTML('beforeend',`<div class="menu-popover grid-column-options"><p>最大8列。すべての項目は各行の詳細で確認できます。</p>${columns.map(([key,label])=>`<label><input type="checkbox" value="${key}" ${shown.has(key)?'checked':''}>${label}</label>`).join('')}</div>`);
   columnPicker.onchange=event=>{
     const control=event.target;
-    if (!control.checked && activeColumns().length===1) {control.checked=true;return;}
-    if (control.checked) hidden.delete(control.value);
-    else {hidden.add(control.value);filters.delete(control.value);}
+    if (!control.checked && shown.size===1) {control.checked=true;return;}
+    if (control.checked && shown.size===maxColumns) {
+      control.checked=false;
+      toast('表示できるのは8列までです。別の列を外してから選択してください。',true);
+      return;
+    }
+    if (control.checked) shown.add(control.value);
+    else {shown.delete(control.value);filters.delete(control.value);}
+    drawGrid();
+  };
+  const filterButton=view.querySelector('#grid-filter');
+  filterButton.onclick=()=>{
+    showFilters=!showFilters;
+    filterButton.setAttribute('aria-pressed',String(showFilters));
+    if (!showFilters) filters.clear();
     drawGrid();
   };
   function drawGrid() {
-    const oldScroll=grid.scrollLeft;
     const cols=activeColumns();
-    grid.innerHTML=`<table class="contract-grid"><thead><tr><th scope="col" rowspan="2">No.</th><th scope="col" rowspan="2">詳細</th>${cols.map(([key,label])=>`<th scope="col" aria-sort="${key===sort.key?(sort.direction===1?'ascending':'descending'):'none'}"><button type="button" data-sort="${key}">${label}<span aria-hidden="true">${key===sort.key?(sort.direction===1?'▲':'▼'):'↕'}</span></button></th>`).join('')}</tr><tr>${cols.map(([key,label])=>`<th><input type="search" data-filter="${key}" aria-label="${label}で絞り込む" value="${clean(filters.get(key))}"></th>`).join('')}</tr></thead><tbody></tbody></table>`;
-    grid.scrollLeft=oldScroll;
+    const widths={unit:0.56,type:0.8,property:1.5,party:1.55,occupant:1.35,status:0.9};
+    const total=cols.reduce((sum,[key])=>sum+(widths[key]||1),0);
+    const colSizes=cols.map(([key])=>{
+      const ratio=(widths[key]||1)/total;
+      return `<col style="width:calc(${(ratio*100).toFixed(3)}% - ${(ratio*40).toFixed(3)}px)">`;
+    }).join('');
+    grid.innerHTML=`<table class="contract-grid"><colgroup>${colSizes}<col class="expand-col"></colgroup><thead><tr>${cols.map(([key,label])=>`<th scope="col" aria-sort="${key===sort.key?(sort.direction===1?'ascending':'descending'):'none'}"><button type="button" data-sort="${key}"><span>${label}</span>${key===sort.key? `<span aria-hidden="true">${sort.direction===1?'▲':'▼'}</span>`:icon('sort')}</button></th>`).join('')}<th scope="col"><span class="sr-only">詳細</span></th></tr>${showFilters?`<tr class="column-filters">${cols.map(([key,label])=>`<th><input type="search" data-filter="${key}" aria-label="${label}で絞り込む" value="${clean(filters.get(key))}"></th>`).join('')}<th></th></tr>`:''}</thead><tbody></tbody></table>`;
     showRows();
+  }
+  function cellValue(row,key,value,numeric) {
+    if (key==='status') return badge(row.status);
+    const result=value(row);
+    return numeric && result!=null ? money(result) : clean(result || '—');
+  }
+  function gridRow(row,cols) {
+    const isOpen=row.id===expanded;
+    const detailId=`grid-detail-${row.id}`;
+    const cells=cols.map(([key,label,value,numeric])=>`<td data-label="${label}" class="${numeric?'grid-number':''}">${cellValue(row,key,value,numeric)}</td>`).join('');
+    const details=isOpen?`<tr class="expanded-row" id="${detailId}"><td colspan="${cols.length+1}"><dl>${columns.map(([key,label,value,numeric])=>`<div><dt>${label}</dt><dd>${cellValue(row,key,value,numeric)}</dd></div>`).join('')}</dl><a class="button" href="#contract/${row.id}">${icon('file')}契約台帳を開く</a></td></tr>`:'';
+    return `<tr data-contract="${row.id}" class="${row.id===selected?'selected':''}">${cells}<td class="expand-cell"><button type="button" class="icon-button" data-expand="${row.id}" aria-label="契約 #${row.id} の詳細" aria-expanded="${isOpen}" ${isOpen?`aria-controls="${detailId}"`:''}>${icon('chevron')}</button></td></tr>${details}`;
   }
   function showRows() {
     const cols=activeColumns();
@@ -304,16 +591,25 @@ async function searchPage(token) {
     }
     if (!currentRows.some(row=>row.id===selected)) selected=currentRows[0]?.id;
     view.querySelector('#count').textContent=`${currentRows.length} 件`;
-    grid.querySelector('tbody').innerHTML=currentRows.length?currentRows.map((row,index)=>`<tr data-contract="${row.id}" class="${row.id===selected?'selected':''}"><td>${index+1}</td><td><a class="grid-open" aria-label="契約 #${row.id} を開く" href="#contract/${row.id}">開く</a></td>${cols.map(([key,,value,numeric])=>`<td${numeric?' class="grid-number"':''}>${key==='status'?badge(row.status):numeric&&value(row)!=null?money(value(row)):clean(value(row) || '—')}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${cols.length+2}">該当するデータはありません。</td></tr>`;
+    if (!currentRows.some(row=>row.id===expanded)) expanded=undefined;
+    grid.querySelector('tbody').innerHTML=currentRows.length?currentRows.map(row=>gridRow(row,cols)).join(''):`<tr class="empty-row"><td colspan="${cols.length+1}">該当するデータはありません。</td></tr>`;
     drawActions();
   }
   function drawActions() {
     const row=currentRows.find(r=>r.id===selected);
     const target=view.querySelector('#grid-actions');
-    target.innerHTML=row?`<a class="button" href="#contract/${row.id}">契約内容・変更</a><a class="button" href="#contract/${row.id}/payments">入金状況</a><a class="button" href="#contract/${row.id}/end">退居・終了</a>`:'';
-    if (row && typeof renderDemoActions==='function') renderDemoActions(target,row);
+    target.innerHTML=row?`<span class="selection-label">選択中 <strong>${clean(row.details.party.name)}</strong></span><a class="button" href="#contract/${row.id}">${icon('file')}契約内容・変更</a><a class="button" href="#contract/${row.id}/payments">${icon('coins')}入金状況</a><details class="tool-menu row-menu"><summary>${icon('dots')}その他の操作</summary><div class="menu-popover"><a class="button" href="#contract/${row.id}/end">退居・終了</a></div></details>`:'';
+    if (row && typeof renderDemoActions==='function') renderDemoActions(target.querySelector('.menu-popover'),row);
   }
   grid.onclick=event=>{
+    const expander=event.target.closest('[data-expand]');
+    if (expander) {
+      selected=Number(expander.dataset.expand);
+      expanded=expanded===selected?undefined:selected;
+      showRows();
+      grid.querySelector(`[data-expand="${selected}"]`).focus({preventScroll:true});
+      return;
+    }
     const key=event.target.closest('[data-sort]')?.dataset.sort;
     if (key) {
       sort={key,direction:sort.key===key?-sort.direction:1};
@@ -336,7 +632,7 @@ async function searchPage(token) {
     window.print();
   };
   view.querySelector('#export').onclick=()=>{
-    const cols=activeColumns();
+    const cols=columns;
     const headers=cols.map(([,label])=>label);
     const rows=currentRows.map(row=>cols.map(([, ,value])=>value(row)));
     const encode=value=>{
@@ -362,11 +658,12 @@ async function searchPage(token) {
       && inRange(row.details.renewal.nextOn,criteria.renewFrom,criteria.renewTo));
     drawGrid();
   }
-  form.onsubmit=e=>{e.preventDefault();submit(form.querySelector('button'),refresh);};
+  const searchButton=form.querySelector('[type=submit]');
+  form.onsubmit=e=>{e.preventDefault();submit(searchButton,refresh);};
   form.onreset=()=>queueMicrotask(()=>{
     form.property.onchange();
     filters.clear();
-    submit(form.querySelector('button'),refresh);
+    submit(searchButton,refresh);
   });
   await refresh();
 }
@@ -459,7 +756,7 @@ function contractPage(item) {
     if(dirty) {toast('先に変更を保存してください。',true);return;}
     const action=button.dataset.command;
     let endsOn;
-    if(action==='renew') {endsOn=prompt('更新後の契約終了日（YYYY-MM-DD）',item.ends_on);if(endsOn===null)return;}
+    if(action==='renew') {endsOn=await renewalDate(item.ends_on);if(endsOn===null)return;}
     else if(!confirm(`${button.textContent} 操作を実行しますか？`)) return;
     const result=await api(`contracts/${item.id}/status`,'POST',{action,revision:item.revision,endsOn});
     contractPage(result);toast('契約の状態を更新しました。');
@@ -471,6 +768,7 @@ function contractPage(item) {
 }
 
 async function render() {
+  dismissCalendar?.();
   const token=++renderCount;
   const route=location.hash.slice(1)||'search';
   document.querySelectorAll('.sidebar a').forEach(a=>a.classList.toggle('active',a.hash===`#${/^(contract\/|new$)/.test(route)?'search':route}`));
