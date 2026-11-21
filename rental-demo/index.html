@@ -2,12 +2,13 @@
 <html lang="ja">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>住まい台帳 | 賃貸管理</title><style>:root { font:15px/1.5 'Yu Gothic UI', Meiryo, sans-serif; color:#1e2c3a; background:#f3f6f8; --plum:#145c5c; --line:#dce5eb; --muted:#516575; }
 * { box-sizing:border-box; }
+html { scrollbar-gutter:stable; scroll-padding-top:65px; }
 body { margin:0; display:grid; grid-template-columns:190px minmax(0,1fr); min-height:100vh; }
-main { min-width:0; }
+main { min-width:0; grid-column:2; }
 a { color:var(--plum); }
 .icon { display:block; width:17px; height:17px; flex:none; }
 [data-icon] { display:inline-flex; flex:none; }
-.sidebar { background:#102a34; color:#edf7f6; display:flex; flex-direction:column; padding:20px 12px; position:sticky; top:0; height:100vh; }
+.sidebar { background:#102a34; color:#edf7f6; display:flex; flex-direction:column; padding:20px 12px; position:fixed; inset:0 auto 0 0; width:190px; z-index:9; }
 .brand { display:flex; align-items:center; gap:10px; font-size:19px; font-weight:750; margin:1px 5px 31px; color:inherit; text-decoration:none; white-space:nowrap; }
 .brand-mark { display:grid; place-items:center; border-radius:10px; width:36px; height:36px; background:#8cddd1; color:#123839; }
 .brand-mark .icon { width:21px;height:21px; }
@@ -19,8 +20,8 @@ small { display:block; color:var(--muted); font-size:12px; }
 .sidebar nav a.active,.sidebar nav a:hover { background:#214653; color:#fff; }
 .sidebar nav a.active .icon { color:#94e2d5; }
 .workspace { margin:auto 9px 0; }
-.top { position:relative; z-index:8; color:var(--muted); border-bottom:1px solid var(--line); background:white; font-size:13px; }
-.top-inner { max-width:1640px; min-height:51px; margin:auto; padding:6px clamp(14px,2.4vw,36px); display:flex; gap:8px; justify-content:space-between; align-items:center; }
+.top { position:sticky; top:0; z-index:8; color:var(--muted); border-bottom:1px solid var(--line); background:white; font-size:13px; }
+.top-inner { max-width:1640px; height:51px; margin:auto; padding:6px clamp(14px,2.4vw,36px); display:flex; gap:8px; justify-content:space-between; align-items:center; }
 .breadcrumb,.demo-tools { display:flex; align-items:center; gap:7px; min-width:0; }
 .breadcrumb b { color:#263f50; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .breadcrumb .icon,.demo-tools .icon { width:14px; height:14px; }
@@ -36,6 +37,7 @@ h3 { font-size:16px; margin-bottom:10px; }
 .heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 12px; margin-bottom:11px; }
 .heading p { margin-top:4px; color:var(--muted); }
 .heading p:empty { display:none; }
+.heading-actions { display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
 .panel { background:#fff; border:1px solid var(--line); border-radius:11px; padding:16px; margin-bottom:13px; min-width:0; }
 .search-panel { padding:12px 14px 9px; }
 .search-fields { display:grid; grid-template-columns:minmax(0,1.8fr) repeat(4,minmax(0,1fr)) auto; gap:8px; align-items:end; }
@@ -66,6 +68,18 @@ button:hover,.button:hover { background:#edf6f5; }
 .grid-tools button,.grid-actions .button,.grid-actions button,.tool-menu summary { min-height:31px; padding:4px 8px; font-size:13px; }
 .selection-label { min-width:0; font-size:13px; color:var(--muted); margin-right:auto; overflow-wrap:anywhere; }
 .selection-label strong { color:#254557; padding-left:5px; }
+.list-pager { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px 12px; margin-top:9px; color:var(--muted); font-size:13px; }
+.list-pager[hidden] { display:none; }
+.list-pager > div { display:flex; gap:7px; align-items:center; }
+.list-pager button { min-height:30px; padding:3px 8px; font-size:13px; }
+.list-pager button:disabled { opacity:.45; cursor:default; }
+.master-search { width:min(100%,245px); }
+.master-search input { min-height:35px; padding-top:5px; padding-bottom:5px; }
+.master-panel table { font-size:13px; }
+.master-panel td,.master-panel th { padding:6px 9px; }
+.master-panel tbody tr:nth-child(even) { background:#f8fbfc; }
+.master-panel tbody tr:hover { background:#eff7f7; }
+.master-link { font-weight:650; }
 .tool-menu { position:relative; }
 .tool-menu[open] { z-index:6; }
 .tool-menu summary { display:flex; align-items:center; gap:6px; cursor:pointer; border:1px solid #cedbe0; border-radius:7px; color:var(--plum); background:white; font-weight:700; list-style:none; }
@@ -141,8 +155,10 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
   .search-fields { grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 @media(max-width:700px) {
+  html { scroll-padding-top:140px; }
   body { display:block; }
-  .sidebar { position:relative; height:auto; padding:10px 12px; }
+  .sidebar { position:sticky; inset:0 auto auto; width:auto; padding:10px 12px; }
+  .top { position:relative; }
   .brand { margin:0 0 7px; }
   .brand small { display:none; }
   .sidebar nav { grid-template-columns:repeat(2,minmax(0,1fr)); gap:3px; }
@@ -172,11 +188,13 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
   .contract-grid .expanded-row,.contract-grid .expanded-row td,.contract-grid .empty-row,.contract-grid .empty-row td { display:block; }
   .expanded-row dl { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .table-scroll th,.table-scroll td { padding:5px 3px; }
+  .master-panel td,.master-panel th { padding:5px 4px; }
   .table-scroll .date-field input { padding:5px; }
   .table-scroll .date-field label { overflow-wrap:anywhere; }
   .table-scroll .date-field > button { position:static; }
 }
 @media print {
+  html { scrollbar-gutter:auto; }
   body { display:block; background:#fff; }
   .sidebar,.top,.content > :not(.print-sheet),#notice { display:none !important; }
   .content { padding:0; }
@@ -498,10 +516,26 @@ function renewalDate(value) {
 }
 const propertyOptions = () => master.properties.map(item=>option(item.id,item.name)).join('');
 const unitOptions = units => units.map(item=>option(item.id,`${item.property} / ${item.label}（${item.floor_plan}）`)).join('');
+const listLimit = (top, rowHeight) => window.innerWidth<=700 ? 8 :
+  Math.max(6,Math.min(20,Math.floor((window.innerHeight-top)/rowHeight)));
+function listPager(target,page,total,limit,changePage) {
+  const pages=Math.max(1,Math.ceil(total/limit));
+  target.hidden=pages===1;
+  if (pages===1) {target.replaceChildren();return;}
+  target.innerHTML=`<span>${(page-1)*limit+1}–${Math.min(page*limit,total)} / ${total}件</span>
+    <div><button type="button" data-page="-1" ${page===1?'disabled':''}>${icon('left')}前へ</button>
+    <span>${page} / ${pages}</span><button type="button" data-page="1" ${page===pages?'disabled':''}>次へ${icon('right')}</button></div>`;
+  target.querySelectorAll('[data-page]').forEach(button=>button.onclick=()=>{
+    const direction=button.dataset.page;
+    changePage(page+Number(direction));
+    const next=target.querySelector(`[data-page="${direction}"]:not(:disabled)`);
+    (next||target.querySelector('[data-page]:not(:disabled)'))?.focus({preventScroll:true});
+  });
+}
 
 async function searchPage(token) {
   view.innerHTML = heading('契約・入居者検索','',`<a class="button primary" href="#new">${icon('plus')}新規申込</a>`) +
-    `<form class="panel search-panel" id="search"><div class="search-fields"><label class="keyword">キーワード<span class="keyword-input">${icon('search')}<input name="q" type="search" placeholder="物件名・氏名・勤務先・車両番号"></span></label>${field('phone','電話番号','tel')}
+    `<form class="panel search-panel" id="contract-search-form"><div class="search-fields"><label class="keyword">キーワード<span class="keyword-input">${icon('search')}<input name="q" type="search" placeholder="物件名・氏名・勤務先・車両番号"></span></label>${field('phone','電話番号','tel')}
     <label>物件<select name="property"><option value="">すべて</option>${propertyOptions()}</select></label>
     <label>部屋<select name="unit"><option value="">すべて</option>${unitOptions(master.units)}</select></label>
     <label>契約状況<select name="status"><option value="">すべて</option>${Object.entries(labels).map(([key,label])=>option(key,label)).join('')}</select></label>
@@ -510,7 +544,7 @@ async function searchPage(token) {
       <label>契約区分<select name="partyType"><option value="">すべて</option><option>個人</option><option>法人</option></select></label>
       <label>検索対象<select name="target"><option value="">すべて</option><option value="parking">駐車場契約あり</option><option value="room">部屋のみ</option></select></label>
       ${field('startFrom','契約開始日（から）','date')}${field('startTo','契約開始日（まで）','date')}${field('renewFrom','次回更新日（から）','date')}${field('renewTo','次回更新日（まで）','date')}
-    </div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div></section><article class="print-sheet" id="grid-print-sheet"></article>`;
+    </div></details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div><nav class="list-pager" aria-label="検索結果のページ"></nav></section><article class="print-sheet" id="grid-print-sheet"></article>`;
   const form=view.querySelector('form');
   form.property.onchange=()=>{form.unit.innerHTML='<option value="">すべて</option>'+unitOptions(master.units.filter(u=>!form.property.value || u.property_id===Number(form.property.value)));};
   let request=0;
@@ -518,6 +552,9 @@ async function searchPage(token) {
   let sourceRows=[];
   let selected;
   let expanded;
+  let page=1;
+  const limit=listLimit(445,31);
+  const pager=view.querySelector('.list-pager');
   let showFilters=false;
   let sort={key:'',direction:1};
   const columns=[
@@ -589,10 +626,13 @@ async function searchPage(token) {
       currentRows.sort((a,b)=>sort.direction*(numeric?Number(value(a)||0)-Number(value(b)||0):
         String(value(a)??'').localeCompare(String(value(b)??''),'ja',{numeric:true})));
     }
-    if (!currentRows.some(row=>row.id===selected)) selected=currentRows[0]?.id;
+    page=Math.min(page,Math.max(1,Math.ceil(currentRows.length/limit)));
+    const visibleRows=currentRows.slice((page-1)*limit,page*limit);
+    if (!visibleRows.some(row=>row.id===selected)) selected=visibleRows[0]?.id;
     view.querySelector('#count').textContent=`${currentRows.length} 件`;
-    if (!currentRows.some(row=>row.id===expanded)) expanded=undefined;
-    grid.querySelector('tbody').innerHTML=currentRows.length?currentRows.map(row=>gridRow(row,cols)).join(''):`<tr class="empty-row"><td colspan="${cols.length+1}">該当するデータはありません。</td></tr>`;
+    if (!visibleRows.some(row=>row.id===expanded)) expanded=undefined;
+    grid.querySelector('tbody').innerHTML=visibleRows.length?visibleRows.map(row=>gridRow(row,cols)).join(''):`<tr class="empty-row"><td colspan="${cols.length+1}">該当するデータはありません。</td></tr>`;
+    listPager(pager,page,currentRows.length,limit,next=>{page=next;showRows();});
     drawActions();
   }
   function drawActions() {
@@ -613,6 +653,7 @@ async function searchPage(token) {
     const key=event.target.closest('[data-sort]')?.dataset.sort;
     if (key) {
       sort={key,direction:sort.key===key?-sort.direction:1};
+      page=1;
       drawGrid();
       grid.querySelector(`[data-sort="${key}"]`).focus({preventScroll:true});
       return;
@@ -623,6 +664,7 @@ async function searchPage(token) {
   grid.oninput=event=>{
     if (!event.target.dataset.filter) return;
     filters.set(event.target.dataset.filter,event.target.value);
+    page=1;
     showRows();
   };
   view.querySelector('#grid-print').onclick=()=>{
@@ -648,6 +690,7 @@ async function searchPage(token) {
     const criteria=Object.fromEntries(new FormData(form));
     const rows=await api('contracts?'+new URLSearchParams(new FormData(form)));
     if (current!==request || token!==renderCount) return;
+    page=1;
     const contains=(key,value)=>String(value||'').toLowerCase().includes(criteria[key].trim().toLowerCase());
     const inRange=(value,from,to)=>(!from || (value && value>=from)) && (!to || (value && value<=to));
     sourceRows=rows.filter(row=>contains('branch',row.branch) && contains('manager',row.details.application.manager)
@@ -671,21 +714,68 @@ async function searchPage(token) {
 function masterPage(kind) {
   const names={properties:'物件管理',units:'部屋管理',parking:'駐車区画'};
   const propertyName=id=>master.properties.find(p=>p.id===id)?.name;
-  const rows=master[kind].map(item=>kind==='properties'?[item.name,item.address,item.branch]:[propertyName(item.property_id),item.label,kind==='units'?item.floor_plan:money(item.fee),...(kind==='units'?[money(item.rent)]:[])]);
   const cols={properties:['物件名','所在地','管理店'],units:['物件','部屋番号','間取り','月額家賃'],parking:['物件','区画番号','月額利用料','契約状況','契約期間','契約台帳']};
-  const tableRows = rows.map((row,index)=>{
-    const cells = row.map(clean);
-    if (kind !== 'parking') return cells;
-    const space = master.parking[index];
-    if (!space.active_contract_id) return [...cells,'空き','—','—'];
-    return [...cells,'契約中',clean(`${space.starts_on} ～ ${space.ends_on}`),`<a class="button" href="#contract/${space.active_contract_id}">契約を開く</a>`];
-  });
-  const fields=kind==='properties'?field('name','物件名','text','',true)+field('address','所在地','text','',true)+field('branch','管理店','text','',true):
-    `<label>物件<select name="property" required><option value="">選択してください</option>${propertyOptions()}</select></label>`+field('label',cols[kind][1],'text','',true)+(kind==='units'?field('floorPlan','間取り','text','',true):'')+field('fee',kind==='units'?'月額家賃':'月額利用料','number',0,true);
-  const newContract = kind === 'parking' ? '<a class="button primary" href="#new">駐車区画付きの申込を作成</a>' : '';
-  view.innerHTML=heading(names[kind],kind==='parking'?'契約期間と空き状況を確認できます。':'契約に使用する台帳を管理します。',newContract)+`<section class="panel">${table(cols[kind],tableRows)}</section><form class="panel"><h2>新規登録</h2><div class="fields">${fields}</div><div class="actions"><button class="primary">登録する</button></div></form>`;
-  const form=view.querySelector('form');
-  form.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{await api(`master/${kind}`,'POST',Object.fromEntries(new FormData(form)));master=await api('master');masterPage(kind);toast('台帳に登録しました。');});};
+  const titles={properties:'物件一覧',units:'部屋一覧',parking:'駐車区画一覧'};
+  const register=`<button type="button" class="primary" id="master-add">${icon('plus')}新規登録</button>`;
+  const contractLink=kind==='parking'?`<a class="button" href="#new">${icon('file')}駐車区画付き申込</a>`:'';
+  view.innerHTML=heading(names[kind],'',`<div class="heading-actions">${contractLink}${register}</div>`)
+    +`<section class="panel master-panel"><div class="results-heading"><h2>${titles[kind]} <small id="master-count"></small></h2>
+    <label class="master-search"><span class="sr-only">${titles[kind]}を検索</span><span class="keyword-input">${icon('search')}<input id="master-search" type="search" placeholder="キーワードで絞り込む"></span></label></div>
+    <div id="master-list"></div><nav class="list-pager" aria-label="${titles[kind]}のページ"></nav></section>`;
+  const list=view.querySelector('#master-list');
+  const search=view.querySelector('#master-search');
+  const pager=view.querySelector('.list-pager');
+  const count=view.querySelector('#master-count');
+  const add=view.querySelector('#master-add');
+  const limit=listLimit(290,34);
+  let page=1;
+  function entries(item) {
+    if (kind==='properties') return [item.name,item.address,item.branch];
+    const base=[propertyName(item.property_id),item.label];
+    if (kind==='units') return [...base,item.floor_plan,money(item.rent)];
+    return [...base,money(item.fee),item.active_contract_id?'契約中':'空き',item.active_contract_id?`${item.starts_on} ～ ${item.ends_on}`:'—'];
+  }
+  function draw() {
+    const term=search.value.trim().toLocaleLowerCase('ja');
+    const filtered=master[kind].filter(item=>entries(item).some(value=>String(value??'').toLocaleLowerCase('ja').includes(term)));
+    count.textContent=`${filtered.length} 件`;
+    page=Math.min(page,Math.max(1,Math.ceil(filtered.length/limit)));
+    const rows=filtered.slice((page-1)*limit,page*limit).map(item=>{
+      const cells=entries(item).map(clean);
+      if (kind!=='parking') return cells;
+      return [...cells,item.active_contract_id?`<a class="master-link" href="#contract/${item.active_contract_id}">契約を開く</a>`:'—'];
+    });
+    list.innerHTML=table(cols[kind],rows);
+    listPager(pager,page,filtered.length,limit,next=>{page=next;draw();});
+  }
+  search.oninput=()=>{page=1;draw();};
+  add.onclick=()=>{
+    const fields=kind==='properties'?field('name','物件名','text','',true)+field('address','所在地','text','',true)+field('branch','管理店','text','',true):
+      `<label>物件<select name="property" required><option value="">選択してください</option>${propertyOptions()}</select></label>`+field('label',cols[kind][1],'text','',true)+(kind==='units'?field('floorPlan','間取り','text','',true):'')+field('fee',kind==='units'?'月額家賃':'月額利用料','number',0,true);
+    const dialog=document.createElement('dialog');
+    dialog.className='demo-dialog master-dialog';
+    dialog.innerHTML=`<h2>${names[kind]}の新規登録</h2><form><div class="fields">${fields}</div><p class="review-note" role="alert"></p><div class="actions"><button class="primary" type="submit">登録する</button><button type="button" data-close>キャンセル</button></div></form>`;
+    const form=dialog.querySelector('form');
+    dialog.querySelector('[data-close]').onclick=()=>dialog.close();
+    dialog.addEventListener('close',()=>{dialog.remove();add.focus({preventScroll:true});},{once:true});
+    form.onsubmit=async event=>{
+      event.preventDefault();
+      event.submitter.disabled=true;
+      try {
+        await api(`master/${kind}`,'POST',Object.fromEntries(new FormData(form)));
+        master=await api('master');
+        search.value='';
+        page=Math.max(1,Math.ceil(master[kind].length/limit));
+        draw();
+        dialog.close();
+        toast('台帳に登録しました。');
+      } catch (error) {dialog.querySelector('[role=alert]').textContent=error.message;}
+      finally {event.submitter.disabled=false;}
+    };
+    document.body.append(dialog);
+    dialog.showModal();
+  };
+  draw();
 }
 
 function contractPage(item) {
@@ -771,27 +861,45 @@ async function render() {
   dismissCalendar?.();
   const token=++renderCount;
   const route=location.hash.slice(1)||'search';
-  document.querySelectorAll('.sidebar a').forEach(a=>a.classList.toggle('active',a.hash===`#${/^(contract\/|new$)/.test(route)?'search':route}`));
-  window.scrollTo(0,0);
+  const menuRoute=/^(contract\/|new$)/.test(route)?'search':route;
+  document.querySelectorAll('.sidebar nav a').forEach(link=>{
+    const active=link.hash===`#${menuRoute}`;
+    link.classList.toggle('active',active);
+    if(active) link.setAttribute('aria-current','page');
+    else link.removeAttribute('aria-current');
+  });
+  document.querySelector('.demo-tools details')?.removeAttribute('open');
   try {
     if (!master || route==='parking') master=await api('master');
     if(token!==renderCount)return;
-    if(route==='new') return contractPage();
+    if(route==='new') {
+      contractPage();
+      window.scrollTo(0,0);
+      return;
+    }
     if(/^contract\/\d+(\/(payments|end))?$/.test(route)) {
       const [,id,section]=route.split('/');
       const item=await api(`contracts/${id}`);
       if(token!==renderCount)return;
       contractPage(item);
       if(section==='payments') view.querySelector('#payment-history')?.scrollIntoView();
-      if(section==='end') view.querySelector('#editor .actions')?.scrollIntoView();
+      else if(section==='end') view.querySelector('#editor .actions')?.scrollIntoView();
+      else window.scrollTo(0,0);
       return;
     }
-    if(['units','properties','parking'].includes(route))return masterPage(route);
-    await searchPage(token);
+    if(['units','properties','parking'].includes(route)) {
+      masterPage(route);
+      window.scrollTo(0,0);
+      return;
+    }
+    const loading=searchPage(token);
+    window.scrollTo(0,0);
+    await loading;
   } catch(error) {
     if(token===renderCount)view.innerHTML=`<section class="panel"><h1>読込エラー</h1><p>${clean(error.message)}</p><a href="#search">検索一覧へ</a></section>`;
   }
 }
+if ('scrollRestoration' in history) history.scrollRestoration='manual';
 window.addEventListener('hashchange',render);
 const demoKey = 'sumai-rental-demo-v1';
 const sample = {
