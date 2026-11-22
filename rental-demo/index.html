@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-design="blueprint">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>住まい台帳 | 賃貸管理</title><style>:root { font:15px/1.5 'Yu Gothic UI', Meiryo, sans-serif; color:#1e2c3a; background:#f3f6f8; --plum:#145c5c; --line:#dce5eb; --muted:#516575; }
 * { box-sizing:border-box; }
 html { scrollbar-gutter:stable; scroll-padding-top:65px; }
@@ -630,6 +630,234 @@ body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
   .contract-detail { padding: var(--space-2); }
   .detail-summary, .detail-card { padding: var(--space-3); }
 }
+
+/* Shared comparison strip */
+:root {
+  --design-strip-height: 42px;
+  --design-nav-height: 0px;
+  --shell-nav: var(--color-surface);
+  --shell-nav-ink: var(--color-muted);
+  --shell-nav-current: var(--color-selected);
+  --shell-nav-current-ink: var(--color-primary-hover);
+  --shell-contrast: var(--color-surface);
+  --design-table-head: var(--color-canvas);
+  --design-accent-border: var(--color-border);
+  --comparison-surface: var(--color-surface);
+}
+html { scroll-padding-top: calc(var(--design-nav-height) + var(--header-height) + var(--design-strip-height) + 8px); }
+.top { background: var(--shell-contrast); }
+.design-strip { border-top: 1px solid var(--color-border); background: var(--comparison-surface); }
+.design-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  max-width: 1640px;
+  min-height: var(--design-strip-height);
+  margin-inline: auto;
+  padding-inline: clamp(14px, 2.4vw, 36px);
+}
+.design-tabs { display: flex; flex-wrap: wrap; gap: var(--space-1); align-items: center; }
+.design-tabs button {
+  --swatch: #2563eb;
+  min-height: 29px;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.design-tabs button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--swatch); }
+.design-tabs [data-design-choice=ledger] { --swatch: #b3412b; }
+.design-tabs [data-design-choice=night] { --swatch: #7194cc; }
+.design-tabs [data-design-choice=atelier] { --swatch: #95567c; }
+.design-tabs [data-design-choice=field] { --swatch: #3d886b; }
+.design-tabs [aria-selected=true] { border-color: var(--design-accent-border); background: var(--color-selected); color: var(--color-primary-hover); }
+.design-originals { color: var(--color-primary-hover); font-size: 12px; text-underline-offset: 3px; white-space: nowrap; }
+.sidebar { background: var(--shell-nav); }
+.sidebar nav a, .sidebar .workspace, .sidebar .brand small { color: var(--shell-nav-ink); }
+.sidebar nav a.active, .sidebar nav a.active .icon { background: var(--shell-nav-current); color: var(--shell-nav-current-ink); }
+.contract-grid th, .contract-grid .column-filters th, th { background: var(--design-table-head); color: var(--color-muted); }
+.brand-mark, .detail-summary, .detail-toggle, .search-submit { border-color: var(--design-accent-border); }
+.contract-grid tbody tr.detail-open td { border-bottom-color: var(--design-accent-border); }
+.detail-toggle[aria-expanded=true] { color: var(--shell-contrast); }
+.contract-grid-wrap { max-height: max(300px, calc(100dvh - var(--design-nav-height) - 382px)); }
+.contract-grid-wrap:has(.contract-detail) { max-height: max(220px, calc(100dvh - var(--design-nav-height) - 496px)); }
+.master-panel tbody tr:nth-child(even) { background: var(--color-canvas); }
+.work-card:hover, .master-panel tbody tr:hover { background: var(--color-hover); }
+.tabs button[aria-selected=true], .metrics > div { background: var(--color-selected); }
+.metrics > div { border-color: var(--color-primary); }
+
+/* Blue administrative workspace */
+:root[data-design=blueprint] {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1e40af;
+  --color-selected: #eaf2ff;
+  --design-accent-border: #c2d6fb;
+  --design-table-head: #f0f5ff;
+  --table-row-height: 44px;
+  --radius-panel: 6px;
+}
+[data-design=blueprint] .results-panel { border-top: 2px solid #bfd4fd; }
+[data-design=blueprint] .results-heading h2 { color: #182f53; }
+
+/* Horizontal ledgers and office layouts */
+@media (min-width: 701px) {
+  :root:is([data-design=ledger], [data-design=field]) { --design-nav-height: 78px; }
+  :is([data-design=ledger], [data-design=field]) body { display: block; }
+  :is([data-design=ledger], [data-design=field]) .sidebar {
+    position: sticky;
+    inset: 0 auto auto;
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-3);
+    width: 100%;
+    height: var(--design-nav-height);
+    padding: 5px clamp(14px, 2.4vw, 36px);
+    border: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  :is([data-design=ledger], [data-design=field]) .brand { flex: none; align-self: center; margin: 0; }
+  :is([data-design=ledger], [data-design=field]) .workspace { display: none; }
+  :is([data-design=ledger], [data-design=field]) .demo-navigation { display: flex; align-content: center; flex-wrap: wrap; }
+  :is([data-design=ledger], [data-design=field]) .demo-navigation a { min-height: 29px; gap: 5px; }
+  :is([data-design=ledger], [data-design=field]) .top { top: var(--design-nav-height); }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  :root:is([data-design=ledger], [data-design=field]) { --design-nav-height: 104px; }
+}
+
+:root[data-design=ledger] {
+  --color-canvas: #f6f4ef;
+  --color-surface: #fffefa;
+  --color-text: #282523;
+  --color-muted: #625851;
+  --color-primary: #9f351e;
+  --color-primary-hover: #7c2918;
+  --color-selected: #f7eae3;
+  --color-hover: #f1ebe3;
+  --color-border: #d7cfc1;
+  --design-accent-border: #d5b9aa;
+  --design-table-head: #eee9de;
+  --radius-control: 2px;
+  --radius-panel: 2px;
+  --table-row-height: 37px;
+  --shadow-overlay: none;
+}
+[data-design=ledger] .sidebar nav a { border-radius: 0; border-bottom: 2px solid transparent; }
+[data-design=ledger] .sidebar nav a.active { border-bottom-color: var(--color-primary); }
+[data-design=ledger] .contract-grid :is(th, td):not(:last-child) { border-inline-end: 1px solid var(--color-border); }
+[data-design=ledger] .brand-mark { border: 0; background: var(--color-selected); color: var(--color-primary); }
+[data-design=ledger] .results-panel { padding-inline: 12px; }
+[data-design=ledger] .detail-card h3 { padding-bottom: 7px; border-bottom: 1px solid var(--color-border); }
+[data-design=ledger] .work-cards { grid-template-columns: minmax(0, 1fr); gap: 0; border-block-start: 1px solid var(--color-border); }
+[data-design=ledger] .work-card { margin: 0; border-top: 0; border-radius: 0; }
+[data-design=ledger] :is(#editor, .master-panel) { border-top: 2px solid var(--design-accent-border); }
+
+/* Dark operations desk */
+:root[data-design=night] {
+  color-scheme: dark;
+  --color-canvas: #101521;
+  --color-surface: #1b2333;
+  --color-border: #364357;
+  --color-control-border: #60728f;
+  --color-text: #edf4ff;
+  --color-muted: #b6c6df;
+  --color-primary: #70d9eb;
+  --color-primary-hover: #a1eff8;
+  --color-selected: #173a49;
+  --color-hover: #26334a;
+  --shell-nav: #141b29;
+  --shell-contrast: #1b2333;
+  --design-table-head: #202c40;
+  --design-accent-border: #50788b;
+  --sidebar-width: 192px;
+  --status-pending-bg: #4e381d;
+  --status-pending-text: #ffdc93;
+  --status-active-bg: #153d34;
+  --status-active-text: #a8f1ce;
+  --status-rejected-bg: #532b39;
+  --status-rejected-text: #ffd5e0;
+  --status-approved-text: #bdeff8;
+  --status-neutral-text: #d9e8fa;
+}
+[data-design=night] .brand-mark { border-color: #50788b; }
+[data-design=night] :is(button, .button, input, select, textarea, .tool-menu summary, .tabs button, dialog) { background: var(--color-surface); color: var(--color-text); }
+[data-design=night] :is(button.primary, .button.primary, .detail-toggle[aria-expanded=true], .calendar-choices button[aria-pressed=true]) { background: var(--color-primary); border-color: var(--color-primary); color: #0b2230; }
+[data-design=night] :is(button.primary, .button.primary, .detail-toggle[aria-expanded=true]):hover { background: var(--color-primary-hover); color: #0b2230; }
+[data-design=night] :is(button:disabled, input:disabled, select:disabled, textarea:disabled) { background: var(--color-hover); color: var(--color-muted); }
+[data-design=night] :is(.detail-toggle:not([aria-expanded=true]), .search-submit, .design-tabs [aria-selected=true]) { background: var(--color-selected); color: var(--color-primary-hover); }
+[data-design=night] .design-tabs button[aria-selected=false] { background: transparent; }
+[data-design=night] :is(.history, .jp-calendar, .menu-popover, .review-note, .demo-dialog h2) { color: var(--color-muted); }
+[data-design=night] .master-panel tbody tr:nth-child(even), [data-design=night] .contract-grid tr:nth-child(even) td { background: transparent; }
+[data-design=night] .top, [data-design=night] .panel { box-shadow: none; }
+[data-design=night] :is(.tabs button[aria-selected=true], .detail-slot h4) { background: var(--color-selected); color: var(--color-primary-hover); }
+
+/* Warm plum cards */
+:root[data-design=atelier] {
+  --color-canvas: #f5efe8;
+  --color-surface: #fffcf8;
+  --color-border: #e5d6d4;
+  --color-control-border: #8b7380;
+  --color-text: #352632;
+  --color-muted: #684f5d;
+  --color-primary: #793f61;
+  --color-primary-hover: #622b4c;
+  --color-selected: #f3e4ee;
+  --color-hover: #f2e8e5;
+  --shell-nav: #492d43;
+  --shell-nav-ink: #f1dfea;
+  --shell-nav-current: #694462;
+  --shell-nav-current-ink: #fff5fb;
+  --design-accent-border: #dec1d4;
+  --radius-control: 9px;
+  --radius-panel: 14px;
+  --sidebar-width: 224px;
+  --table-row-height: 48px;
+}
+[data-design=atelier] .brand { color: #fff5fb; }
+[data-design=atelier] .sidebar nav a:not(.active):hover { background: #5c3954; color: #fff5fb; }
+[data-design=atelier] .detail-summary { background: var(--color-selected); }
+[data-design=atelier] .work-card { min-height: 85px; align-items: center; }
+[data-design=atelier] .results-heading h2 { font-size: 19px; }
+[data-design=atelier] .design-tabs button { border-radius: var(--radius-pill); }
+[data-design=atelier] #editor .tabs button { border-radius: var(--radius-control) var(--radius-control) 0 0; }
+
+/* Sage forms and grouped navigation */
+:root[data-design=field] {
+  --color-canvas: #ebf2ed;
+  --color-surface: #fff;
+  --color-border: #cddfd3;
+  --color-control-border: #6f8778;
+  --color-text: #1b3228;
+  --color-muted: #435e50;
+  --color-primary: #21644d;
+  --color-primary-hover: #164e3b;
+  --color-selected: #dff0e6;
+  --color-hover: #eaf5ee;
+  --design-table-head: #e6f3ea;
+  --design-accent-border: #adcdbb;
+  --radius-control: 10px;
+  --radius-panel: 12px;
+  --table-row-height: 41px;
+}
+[data-design=field] .brand-mark { border-color: var(--design-accent-border); }
+[data-design=field] .sidebar nav a { border-radius: var(--radius-pill); }
+[data-design=field] .results-panel .grid-actions:not(:empty) { border-left: 4px solid var(--color-primary); }
+[data-design=field] .work-card { border-left: 3px solid var(--design-accent-border); }
+[data-design=field] :is(.detail-banner, .status-filters) { border: 1px solid var(--design-accent-border); }
+[data-design=field] #editor .tabs button[aria-selected=true] { border-radius: var(--radius-pill); border-bottom-color: transparent; color: var(--color-primary-hover); }
+
+@media (max-width: 700px) {
+  html { scroll-padding-top: 230px; }
+  .design-inner { padding: var(--space-1) var(--space-3); flex-wrap: wrap; gap: 3px; }
+  .design-tabs { gap: 2px; }
+  .design-tabs button { min-height: 26px; padding-inline: 5px; font-size: 11px; gap: 3px; }
+  .design-originals { margin-left: auto; }
+  .contract-grid-wrap, .contract-grid-wrap:has(.contract-detail) { max-height: none; }
+}
 </style></head>
 <body>
   <aside class="sidebar">
@@ -644,7 +872,15 @@ body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
       <div class="menu-popover"><p>架空のデータでお試しください。保存時にJSONをダウンロードします。</p>
       <button type="button" id="demo-export"><span data-icon="download"></span>JSONを保存</button>
       <label class="button file-pick"><span data-icon="upload"></span>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label></div>
-    </details></div></div></div></header><div id="view" class="content"></div></main>
+    </details></div></div></div><div class="design-strip"><div class="design-inner">
+    <div class="design-tabs" role="tablist" aria-label="Stitchデザイン案">
+      <button id="design-blueprint" type="button" role="tab" data-design-choice="blueprint" aria-controls="view" aria-selected="true">ブループリント</button>
+      <button id="design-ledger" type="button" role="tab" data-design-choice="ledger" aria-controls="view" aria-selected="false" tabindex="-1">台帳グリッド</button>
+      <button id="design-night" type="button" role="tab" data-design-choice="night" aria-controls="view" aria-selected="false" tabindex="-1">ナイトデスク</button>
+      <button id="design-atelier" type="button" role="tab" data-design-choice="atelier" aria-controls="view" aria-selected="false" tabindex="-1">アトリエ</button>
+      <button id="design-field" type="button" role="tab" data-design-choice="field" aria-controls="view" aria-selected="false" tabindex="-1">フィールドノート</button>
+    </div><a class="design-originals" href="./stitch/index.html">Stitch原案</a>
+    </div></div></header><div id="view" class="content" role="tabpanel" aria-labelledby="design-blueprint"></div></main>
   <div id="notice" role="status" hidden></div><script>// Labels readable in the reference video. Each item shares its field name and type with the data model.
 const videoFields = {
   application: [
@@ -1148,8 +1384,15 @@ function renewalDate(value) {
 }
 const propertyOptions = () => master.properties.map(item=>option(item.id,item.name)).join('');
 const unitOptions = units => units.map(item=>option(item.id,`${item.property} / ${item.label}（${item.floor_plan}）`)).join('');
-const listLimit = (top, rowHeight) => window.innerWidth<=700 ? 8 :
-  Math.max(6,Math.min(20,Math.floor((window.innerHeight-top)/rowHeight)));
+function listLimit(top,rowHeight) {
+  if (window.innerWidth<=700) return 8;
+  if (demoMode) {
+    const layout=getComputedStyle(view);
+    top+=parseInt(layout.getPropertyValue('--design-strip-height'),10)||0;
+    top+=parseInt(layout.getPropertyValue('--design-nav-height'),10)||0;
+  }
+  return Math.max(6,Math.min(20,Math.floor((window.innerHeight-top)/rowHeight)));
+}
 function listPager(target,page,total,limit,changePage) {
   const pages=Math.max(1,Math.ceil(total/limit));
   target.hidden=pages===1;
@@ -1458,7 +1701,7 @@ function masterPage(kind) {
   const pager=view.querySelector('.list-pager');
   const count=view.querySelector('#master-count');
   const add=view.querySelector('#master-add');
-  const limit=listLimit(290,34);
+  const limit=listLimit(demoMode?322:290,demoMode&&kind==='parking'?44:34);
   let page=1;
   function entries(item) {
     if (kind==='properties') return demoMode?[item.code||String(item.id),item.name,item.address,item.branch,item.ownerName]:[item.name,item.address,item.branch];
@@ -1710,7 +1953,7 @@ async function render() {
     if(token===renderCount) {
       if(scrollTarget) scrollTarget.scrollIntoView();
       else window.scrollTo(0,0);
-      if(demoMode && renderedRoute!==route) crumb.focus({preventScroll:true});
+      if(demoMode && renderedRoute!==undefined && renderedRoute!==route) crumb.focus({preventScroll:true});
       renderedRoute=route;
     }
   }
@@ -2175,7 +2418,7 @@ function demoWorkPage(route) {
     ${report?`<button type="button" id="work-print">${icon('print')}印刷</button>`:''}<label class="master-search"><span class="sr-only">一覧を検索</span><span class="keyword-input">${icon('search')}<input id="work-query" type="search" placeholder="キーワードで絞り込む"></span></label></div></div>
     <div id="work-list"></div><nav class="list-pager" aria-label="一覧のページ"></nav></section><article class="print-sheet" id="work-print-sheet"></article>`;
   const query=view.querySelector('#work-query');
-  const limit=listLimit(290,34);
+  const limit=listLimit(322,34);
   let page=1;
   function visible() {
     const term=query.value.trim().toLocaleLowerCase('ja');
@@ -2246,6 +2489,47 @@ document.querySelector('#demo-import').onchange=async event=>{
   } catch (error) { toast(error.message,true); }
   finally { control.value=''; }
 };
+
+const designTabs=[...document.querySelectorAll('[data-design-choice]')];
+const originalDesignLink=document.querySelector('.design-originals');
+
+function updateOriginalDesignLink() {
+  const route=location.hash.slice(1)||'search';
+  const page=route.match(/^contract\/\d+(?:\/(payments|end))?$/)
+    ? route.split('/')[2]||'contract' : route;
+  const params=new URLSearchParams({design:document.documentElement.dataset.design,page});
+  originalDesignLink.href='./stitch/index.html?'+params;
+}
+
+function selectDesign(tab,remember=false) {
+  document.documentElement.dataset.design=tab.dataset.designChoice;
+  for (const choice of designTabs) {
+    choice.setAttribute('aria-selected',String(choice===tab));
+    choice.tabIndex=choice===tab?0:-1;
+  }
+  view.setAttribute('aria-labelledby',tab.id);
+  if (remember) {
+    const url=new URL(location.href);
+    url.searchParams.set('design',tab.dataset.designChoice);
+    try { history.replaceState(history.state,'',url); } catch { /* File previews still switch design. */ }
+  }
+  updateOriginalDesignLink();
+}
+
+const requestedDesign=new URLSearchParams(location.search).get('design');
+selectDesign(designTabs.find(tab=>tab.dataset.designChoice===requestedDesign)||designTabs[0]);
+for (const [index,tab] of designTabs.entries()) {
+  tab.onclick=()=>selectDesign(tab,true);
+  tab.onkeydown=event=>{
+    const destinations={ArrowLeft:index-1,ArrowRight:index+1,Home:0,End:designTabs.length-1};
+    if (!Object.hasOwn(destinations,event.key)) return;
+    event.preventDefault();
+    const next=designTabs[(destinations[event.key]+designTabs.length)%designTabs.length];
+    selectDesign(next,true);
+    next.focus();
+  };
+}
+window.addEventListener('hashchange',updateOriginalDesignLink);
 
 render();</script>
 </body></html>

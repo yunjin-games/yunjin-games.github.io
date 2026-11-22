@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stitch原案 | 住まい台帳</title>
+  <style>
+    :root { color:#18263c;background:#f5f7fb;font:14px/1.5 "Yu Gothic UI",Meiryo,sans-serif;color-scheme:light; }
+    * { box-sizing:border-box; }
+    body { margin:0; }
+    a { color:#2246a5;text-underline-offset:3px; }
+    :focus-visible { outline:2px solid #315ad0;outline-offset:2px; }
+    header { position:sticky;top:0;background:#fff;border-bottom:1px solid #dbe3ed;z-index:1; }
+    .header-inner { max-width:1540px;padding:14px 24px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap; }
+    h1,h2,p { margin:0; }
+    h1 { font-size:21px; }
+    h2 { font-size:18px; }
+    .layout { display:grid;grid-template-columns:230px minmax(0,1fr);align-items:start;gap:20px;max-width:1540px;margin:24px auto;padding:0 24px; }
+    .panel { background:#fff;border:1px solid #dbe3ed;border-radius:8px;min-width:0; }
+    .routes { padding:12px; }
+    .routes strong { display:block;padding:4px 8px 8px; }
+    .routes a { display:block;padding:7px 8px;border-radius:4px;text-decoration:none;color:#34435b; }
+    .routes a[aria-current] { background:#eaf1ff;color:#2346a5;font-weight:700; }
+    .routes a:hover,.tabs button:hover { background:#edf2f9; }
+    .tabs { display:flex;gap:6px;flex-wrap:wrap; }
+    .tabs button,.action { padding:7px 9px;background:#fff;color:#273b61;border:1px solid #cad5e5;border-radius:5px;cursor:pointer;font:inherit;white-space:nowrap;text-decoration:none; }
+    .tabs button[aria-pressed=true] { color:#1943a8;background:#eaf1ff;border-color:#a7c0f6;font-weight:700; }
+    .artboard-head { display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid #dbe3ed; }
+    .artboard-meta { display:flex;flex-wrap:wrap;align-items:center;gap:7px; }
+    .artboard-meta a[hidden] { display:none; }
+    #preview { display:block;width:100%;height:auto;border-radius:0 0 8px 8px; }
+    #preview[hidden] { display:none; }
+    #missing { padding:24px 16px;color:#4f617d; }
+    @media(max-width:720px) {
+      .header-inner,.layout { padding-inline:12px; }
+      .layout { grid-template-columns:minmax(0,1fr);gap:10px;margin:12px auto; }
+      .routes nav { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .routes a { overflow-wrap:anywhere; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="header-inner">
+    <h1>住まい台帳 · Stitch原案</h1><div id="designs" class="tabs" aria-label="デザイン案"></div>
+  </div></header>
+  <main class="layout">
+    <aside class="panel routes"><strong id="page-heading">画面一覧</strong><nav id="pages" aria-labelledby="page-heading"></nav></aside>
+    <section class="panel" aria-labelledby="screen-name">
+      <div class="artboard-head"><h2 id="screen-name"></h2><div class="artboard-meta">
+        <a class="action" id="working-demo" href="../index.html">操作できるデモを開く</a>
+        <a class="action" id="download-image" download hidden>画像を保存</a>
+        <a class="action" id="download-design" download hidden>全画面画像（ZIP）</a>
+      </div></div>
+      <img id="preview" decoding="async" hidden alt="">
+      <p id="missing" hidden>この画面のStitch原案は準備中です。</p>
+    </section>
+  </main>
+  <script type="application/json" id="manifest">{"designs": [{"id": "blueprint", "title": "ブループリント", "available": ["search", "contract", "home", "applications", "new", "payments", "end"]}, {"id": "ledger", "title": "台帳グリッド", "available": ["search", "contract", "home", "applications", "new"]}, {"id": "night", "title": "ナイトデスク", "available": ["search", "contract", "home", "applications", "new", "payments", "end"]}, {"id": "atelier", "title": "アトリエ", "available": ["search", "contract", "home", "applications", "new"]}, {"id": "field", "title": "フィールドノート", "available": ["search", "contract", "home", "applications", "new", "payments", "end"]}], "pages": [{"id": "search", "hash": "#search", "title": "契約・入居者検索"}, {"id": "contract", "hash": "#contract/15", "title": "契約台帳"}, {"id": "home", "hash": "#home", "title": "ホームメニュー"}, {"id": "applications", "hash": "#applications", "title": "申込一覧"}, {"id": "new", "hash": "#new", "title": "新規申込"}, {"id": "payments", "hash": "#contract/15/payments", "title": "入金状況"}, {"id": "end", "hash": "#contract/15/end", "title": "退居・契約終了"}, {"id": "moveouts", "hash": "#moveouts", "title": "退居予定一覧"}, {"id": "daily", "hash": "#daily", "title": "日報一覧"}, {"id": "claims", "hash": "#claims", "title": "クレーム情報一覧"}, {"id": "master", "hash": "#master", "title": "マスタ管理"}, {"id": "properties", "hash": "#properties", "title": "物件管理"}, {"id": "units", "hash": "#units", "title": "部屋管理"}, {"id": "parking", "hash": "#parking", "title": "駐車区画"}, {"id": "new-parking", "hash": "#new-parking", "title": "駐車場単独の新規申込"}, {"id": "general-search", "hash": "#general-search", "title": "汎用検索"}, {"id": "occupancy", "hash": "#occupancy", "title": "入居状況報告書"}, {"id": "reports", "hash": "#reports", "title": "管理レポート"}, {"id": "screening", "hash": "#screening", "title": "審査"}]}</script>
+  <script>
+    const {designs,pages}=JSON.parse(document.querySelector('#manifest').textContent);
+    const byId=id=>document.getElementById(id);
+    const params=new URLSearchParams(location.search);
+    let current=designs.find(design=>design.id===params.get('design'))||designs[0];
+    let page=pages.find(entry=>entry.id===params.get('page'))||pages[0];
+    const href=(design,screen)=>'?'+new URLSearchParams({design:design.id,page:screen.id});
+    const buttons=designs.map(design=>{
+      const button=document.createElement('button');
+      button.type='button';
+      button.textContent=design.title;
+      button.onclick=()=>{current=design;draw();};
+      byId('designs').append(button);
+      return button;
+    });
+    const links=pages.map(entry=>{
+      const anchor=document.createElement('a');
+      anchor.textContent=entry.title;
+      anchor.onclick=event=>{
+        if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey) return;
+        event.preventDefault();
+        page=entry;
+        draw();
+      };
+      byId('pages').append(anchor);
+      return anchor;
+    });
+    function draw() {
+      buttons.forEach((button,index)=>button.setAttribute('aria-pressed',String(designs[index]===current)));
+      links.forEach((link,index)=>{
+        link.href=href(current,pages[index]);
+        if(pages[index]===page) link.setAttribute('aria-current','page');
+        else link.removeAttribute('aria-current');
+      });
+      byId('screen-name').textContent=page.title+' · '+current.title;
+      byId('working-demo').href='../index.html?'+new URLSearchParams({design:current.id})+page.hash;
+      const available=current.available.includes(page.id);
+      const preview=byId('preview');
+      const download=byId('download-image');
+      preview.hidden=download.hidden=!available;
+      byId('missing').hidden=available;
+      if(available) {
+        preview.alt='Stitch原案 · '+page.title+' · '+current.title;
+        preview.src=download.href=current.id+'/'+page.id+'.webp';
+      } else {
+        preview.removeAttribute('src');
+      }
+      const archive=byId('download-design');
+      archive.hidden=!current.archive;
+      if(current.archive) archive.href=current.archive;
+      try { history.replaceState(history.state,'',href(current,page)); } catch {}
+    }
+    draw();
+  </script>
+</body>
+</html>
