@@ -452,7 +452,98 @@ body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
 .contract-grid tbody tr[data-contract].selected td { background: var(--color-selected); }
 .contract-grid tbody tr.selected td:first-child { box-shadow: inset 3px 0 var(--color-primary); }
 .contract-grid td.expand-cell .icon-button { width: 28px; min-height: 28px; }
-.expanded-row td { background: var(--color-canvas); }
+.contract-grid .expanded-row > td { padding: 0; background: var(--color-canvas); }
+.contract-detail {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.detail-summary, .detail-card, .detail-unset {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+}
+.detail-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border-color: #d5dafc;
+}
+.detail-identity, .detail-summary-side { display: flex; align-items: center; min-width: 0; gap: var(--space-3); }
+.detail-summary-side { flex-wrap: wrap; }
+.detail-property-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-panel);
+  background: var(--color-selected);
+  color: var(--color-primary);
+}
+.detail-property-icon .icon { width: 21px; height: 21px; }
+.contract-detail dl { margin: 0; }
+.detail-summary dl { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.contract-detail dt { color: var(--color-muted); font-size: var(--font-label); }
+.contract-detail dd { color: var(--color-text); font-weight: 600; }
+.detail-summary [data-detail-field=property] dd { font-size: var(--font-section); font-weight: 750; }
+.detail-summary [data-detail-field=monthly] dd { font-size: 19px; font-weight: 750; }
+.detail-summary .button { margin: 0; }
+.detail-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.detail-card { padding: var(--space-3) var(--space-4); }
+.detail-card h3, .detail-unset h3 {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0 0 var(--space-3);
+  color: var(--color-text);
+  font-size: var(--font-body);
+}
+.detail-card h3 .icon { color: var(--color-primary); }
+.detail-card dl, .detail-unset dl {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 110px), 1fr));
+  gap: var(--space-2) var(--space-3);
+}
+.detail-slot {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+.detail-card dl + .detail-slot { margin-top: var(--space-2); }
+.detail-slot:last-child { padding-bottom: 0; }
+.detail-slot h4 {
+  margin: 0;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-hover);
+  color: var(--color-muted);
+  font-size: var(--font-label);
+  white-space: nowrap;
+}
+.detail-unset > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--control-height-compact);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-muted);
+  cursor: pointer;
+  list-style: none;
+}
+.detail-unset > summary:hover { background: var(--color-hover); }
+.detail-unset[open] > summary .icon { transform: rotate(180deg); }
+.detail-unset > summary span { margin-left: auto; }
+.detail-unset-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); padding: var(--space-3); border-top: 1px solid var(--color-border); }
+.detail-unset:not([open]) .detail-unset-groups { display: none; }
+.detail-unset-groups h3 { margin-bottom: var(--space-1); }
 .search-empty {
   display: grid;
   justify-items: center;
@@ -467,13 +558,17 @@ body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
 
 @media (min-width: 701px) {
   .contract-grid-wrap { max-height: max(336px, calc(100dvh - 330px)); overflow: auto; }
+  .contract-grid-wrap:has(.contract-detail) { max-height: max(240px, calc(100dvh - 452px)); }
   .contract-grid thead { position: sticky; top: 0; z-index: 1; }
-  .contract-grid :is(th, td:first-child) :focus-visible { outline-offset: -2px; }
+  .contract-grid :is(th, tr[data-contract] td:first-child) :focus-visible { outline-offset: -2px; }
 }
 @media (max-width: 1020px) {
   .search-fields { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
   .search-fields .keyword { grid-column: span 2; }
   .search-buttons { justify-content: flex-end; }
+}
+@media (max-width: 1000px) {
+  .detail-cards, .detail-unset-groups { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 700px) {
   html { scroll-padding-top: 230px; }
@@ -497,6 +592,8 @@ body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
   .contract-grid tbody tr.selected { background: var(--color-selected); box-shadow: inset 3px 0 var(--color-primary); }
   .contract-grid tbody tr.selected td:first-child { box-shadow: none; }
   .contract-grid tbody tr[data-contract] .expand-cell { min-height: 32px; }
+  .contract-detail { padding: var(--space-2); }
+  .detail-summary, .detail-card { padding: var(--space-3); }
 }
 </style></head>
 <body>
@@ -713,6 +810,7 @@ const iconPaths = {
   search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
   building:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 21v-3h4v3"/>',
   room:'<path d="M5 21h14M7 21V4h10v17m-4-8h1"/>',
+  users:'<circle cx="9" cy="8" r="3"/><path d="M3 19v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2m2-6a4 4 0 0 1 4 4v2m-4-8a3 3 0 0 0 0-6"/>',
   parking:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 17V7h3a3 3 0 0 1 0 6h-3"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   filter:'<path d="M4 7h16M7 12h10m-7 5h4"/>',
@@ -1086,6 +1184,16 @@ async function searchPage(token) {
       [`parkingPrice${index}`,`駐車場${index+1} 料金`,r=>r.parkingSpaces?.[index]?.fee,true],
     ]),
   ];
+  const columnsByKey=new Map(columns.map(column=>[column[0],column]));
+  const detailGroups=[
+    ['契約者・入居者','users',['party','occupant','type','agent']],
+    ['契約条件・管理','file',['starts','ends','fixedEnds','propertyCode','branch','category','manager','broker','receipt','terms']],
+    ['賃料・初期費用','coins',['rent','common','parkingFee','deposit','keyMoney']],
+    ['駐車場','parking',['parking','parkingType','secondCar'],[0,1,2].map(index=>[
+      `${index+1}台目`,[`parkingProperty${index}`,`parkingLabel${index}`,`parkingPrice${index}`],
+    ])],
+    ['退居・精算','calendar',['notified','moveOutPlanned','moveOutActual','moveOutSettled','settlement']],
+  ];
   const shown=new Set(['property','unit','starts','party','occupant','status','monthly']);
   const maxColumns=8;
   const filters=new Map();
@@ -1128,6 +1236,40 @@ async function searchPage(token) {
     const result=value(row);
     return numeric && result!=null ? money(result) : clean(result || '—');
   }
+  function detailField(row,[key,label,value,numeric]) {
+    return `<div data-detail-field="${key}"><dt>${label}</dt><dd>${cellValue(row,key,value,numeric)}</dd></div>`;
+  }
+  function detailPanel(row,contractLink) {
+    const missing=[];
+    const fields=keys=>keys.map(key=>columnsByKey.get(key));
+    const list=items=>items.map(column=>detailField(row,column)).join('');
+    const filledItems=(keys,empty)=>fields(keys).filter(column=>{
+      const value=column[2](row);
+      if (value!=null && String(value).trim() && value!=='—') return true;
+      empty.push(column);
+      return false;
+    });
+    const cards=detailGroups.map(([title,mark,keys,parts=[]])=>{
+      const empty=[];
+      const populated=filledItems(keys,empty);
+      const subgroups=parts.map(([label,partKeys])=>{
+        const items=list(filledItems(partKeys,empty));
+        return items?`<div class="detail-slot"><h4>${label}</h4><dl>${items}</dl></div>`:'';
+      }).join('');
+      if (empty.length) missing.push([title,empty]);
+      if (!populated.length && !subgroups) return '';
+      return `<section class="detail-card"><h3>${icon(mark)}${title}</h3>${populated.length?`<dl>${list(populated)}</dl>`:''}${subgroups}</section>`;
+    }).join('');
+    const missingCount=missing.reduce((count,[,items])=>count+items.length,0);
+    const optional=missingCount?`<details class="detail-unset"><summary>${icon('chevron')}未登録の項目 <span>${missingCount}件</span></summary>
+      <div class="detail-unset-groups">${missing.map(([title,items])=>`<section><h3>${title}</h3><dl>${list(items)}</dl></section>`).join('')}</div></details>`:'';
+    return `<section class="contract-detail" aria-label="契約の概要">
+      <div class="detail-summary">
+        <div class="detail-identity"><span class="detail-property-icon">${icon('building')}</span><dl>${list(fields(['property','unit']))}</dl></div>
+        <div class="detail-summary-side"><dl>${list(fields(['status','monthly']))}</dl>${contractLink}</div>
+      </div><div class="detail-cards">${cards}</div>${optional}
+    </section>`;
+  }
   function gridRow(row,cols) {
     const isOpen=row.id===expanded;
     const detailId=`grid-detail-${row.id}`;
@@ -1136,7 +1278,12 @@ async function searchPage(token) {
       const cell=demoMode?`<span class="grid-value" title="${key==='status'?clean(labels[row.status]):content}">${content}</span>`:content;
       return `<td data-label="${label}" class="${numeric?'grid-number':''}">${cell}</td>`;
     }).join('');
-    const details=isOpen?`<tr class="expanded-row" id="${detailId}"><td colspan="${cols.length+1}"><dl>${columns.map(([key,label,value,numeric])=>`<div><dt>${label}</dt><dd>${cellValue(row,key,value,numeric)}</dd></div>`).join('')}</dl><a class="button" href="#contract/${row.id}">${icon('file')}契約台帳を開く</a></td></tr>`:'';
+    let details='';
+    if (isOpen) {
+      const contractLink=`<a class="button" href="#contract/${row.id}">${icon('file')}契約台帳を開く</a>`;
+      const content=demoMode?detailPanel(row,contractLink):`<dl>${columns.map(column=>detailField(row,column)).join('')}</dl>${contractLink}`;
+      details=`<tr class="expanded-row" id="${detailId}"><td colspan="${cols.length+1}">${content}</td></tr>`;
+    }
     return `<tr data-contract="${row.id}" class="${row.id===selected?'selected':''}">${cells}<td class="expand-cell"><button type="button" class="icon-button" data-expand="${row.id}" aria-label="契約 #${row.id} の詳細" aria-expanded="${isOpen}" ${isOpen?`aria-controls="${detailId}"`:''}>${icon('chevron')}</button></td></tr>${details}`;
   }
   function showRows() {
