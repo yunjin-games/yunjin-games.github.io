@@ -2498,6 +2498,8 @@ function updateOriginalDesignLink() {
   const page=route.match(/^contract\/\d+(?:\/(payments|end))?$/)
     ? route.split('/')[2]||'contract' : route;
   const params=new URLSearchParams({design:document.documentElement.dataset.design,page});
+  const version=new URLSearchParams(location.search).get('v');
+  if(version) params.set('v',version);
   originalDesignLink.href='./stitch/index.html?'+params;
 }
 
