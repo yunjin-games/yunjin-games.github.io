@@ -224,6 +224,280 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
   .print-sheet p { margin:12px 0; }
   .print-document + .print-document { break-before:page; }
 }
+</style><style media="screen">/* Design tokens */
+:root {
+  --color-canvas: #f8fafc;
+  --color-surface: #fff;
+  --color-border: #e2e8f0;
+  --color-control-border: #64748b;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-selected: #eef2ff;
+  --color-hover: #f1f5f9;
+  --color-focus: var(--color-primary);
+  --color-disabled-bg: var(--color-hover);
+  --status-pending-bg: #fef3c7;
+  --status-pending-text: #92400e;
+  --status-approved-bg: var(--color-selected);
+  --status-approved-text: #3730a3;
+  --status-active-bg: #dcfce7;
+  --status-active-text: #166534;
+  --status-rejected-bg: #fee2e2;
+  --status-rejected-text: #991b1b;
+  --status-neutral-bg: var(--color-hover);
+  --status-neutral-text: #334155;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-control: 6px;
+  --radius-panel: 8px;
+  --radius-pill: 999px;
+  --sidebar-width: 216px;
+  --header-height: 56px;
+  --control-height: 36px;
+  --control-height-compact: 32px;
+  --table-row-height: 44px;
+  --focus-width: 2px;
+  --font-sans: Pretendard, 'Yu Gothic UI', Meiryo, sans-serif;
+  --font-label: 12px;
+  --font-table: 13px;
+  --font-body: 14px;
+  --font-section: 16px;
+  --font-title: 24px;
+  --shadow-overlay: 0 6px 18px rgb(15 23 42 / 10%);
+  --plum: var(--color-primary);
+  --line: var(--color-border);
+  --muted: var(--color-muted);
+  color: var(--color-text);
+  background: var(--color-canvas);
+  font: var(--font-body)/1.5 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  color-scheme: light;
+}
+
+/* Shared controls and surfaces */
+h2, h3 { font-size: var(--font-section); }
+label { color: var(--color-text); font-size: var(--font-table); }
+button, .button, .tool-menu summary, input, select, textarea {
+  border-color: var(--color-control-border);
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+}
+button, .button, .tool-menu summary { min-height: var(--control-height); font-weight: 650; }
+input, select, textarea { min-height: var(--control-height); padding-block: 5px; }
+textarea { min-height: 86px; }
+input[type=checkbox] { accent-color: var(--color-primary); }
+button:not(:disabled):hover, .button:hover, .tool-menu summary:hover { background: var(--color-hover); }
+button.primary, .button.primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+button.primary:not(:disabled):hover, .button.primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+button:disabled, .list-pager button:disabled, input:disabled, select:disabled, textarea:disabled {
+  opacity: 1;
+  border-color: var(--color-border);
+  background: var(--color-disabled-bg);
+  color: var(--color-muted);
+  cursor: default;
+}
+:focus-visible, .file-pick:focus-within {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+.grid-tools button, .grid-actions button, .grid-actions .button, .tool-menu summary, .list-pager button {
+  min-height: var(--control-height-compact);
+  font-size: var(--font-table);
+}
+.demo-dialog, .panel, .menu-popover, .jp-calendar { background: var(--color-surface); border-radius: var(--radius-panel); }
+.panel { border-color: var(--color-border); padding: var(--space-4); margin-bottom: var(--space-4); }
+.menu-popover, .jp-calendar { box-shadow: var(--shadow-overlay); }
+.status {
+  max-width: 100%;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--status-neutral-bg);
+  color: var(--status-neutral-text);
+  font-size: var(--font-label);
+}
+.status[data-status=DRAFT] { background: var(--status-pending-bg); color: var(--status-pending-text); }
+.status[data-status=APPROVED] { background: var(--status-approved-bg); color: var(--status-approved-text); }
+.status[data-status=ACTIVE] { background: var(--status-active-bg); color: var(--status-active-text); }
+.status[data-status=REJECTED] { background: var(--status-rejected-bg); color: var(--status-rejected-text); }
+
+/* Application shell */
+html { scroll-padding-top: calc(var(--header-height) + var(--space-2)); }
+body { grid-template-columns: var(--sidebar-width) minmax(0, 1fr); }
+.sidebar {
+  width: var(--sidebar-width);
+  padding: var(--space-4) var(--space-3);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  overflow-y: auto;
+}
+.brand { gap: var(--space-2); margin: 0 4px var(--space-6); font-size: 17px; letter-spacing: 0; }
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e0e7ff;
+  border-radius: var(--radius-panel);
+  background: var(--color-selected);
+  color: var(--color-primary);
+}
+.brand small, .workspace { color: var(--color-muted); }
+.workspace { padding-top: var(--space-4); }
+.sidebar nav a {
+  min-height: var(--control-height);
+  border-radius: var(--radius-control);
+  color: var(--color-muted);
+  font-size: var(--font-table);
+  font-weight: 600;
+}
+.sidebar nav a:hover { background: var(--color-hover); color: var(--color-text); }
+.sidebar nav a.active { background: var(--color-selected); color: var(--color-primary-hover); font-weight: 700; }
+.sidebar nav a.active .icon { color: var(--color-primary); }
+.top-inner { height: var(--header-height); }
+.top-tools { display: flex; align-items: center; gap: var(--space-3); }
+.top-tools .demo-tools { gap: var(--space-2); }
+.top h1 {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--font-title);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.demo-tag { border-radius: var(--radius-pill); background: var(--color-hover); color: var(--color-muted); }
+.content { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+.heading p:empty { display: none; }
+.heading > .button:only-of-type, .heading > .heading-actions:only-of-type { margin-inline-start: auto; }
+
+/* Contract search and results */
+.search-panel { display: grid; gap: var(--space-2); }
+.search-fields {
+  grid-template-columns: minmax(0, 2.15fr) repeat(3, minmax(0, 1fr)) auto;
+  gap: var(--space-3);
+}
+.search-fields label { padding-bottom: 0; gap: var(--space-1); }
+.search-fields input, .search-fields select, .search-buttons button { min-height: var(--control-height); }
+.search-fields select:has(option:checked:not([value=""])) {
+  background: var(--color-selected);
+  border-color: var(--color-primary);
+}
+.search-submit { border-color: #c7d2fe; background: var(--color-selected); color: var(--color-primary-hover); }
+.search-submit:not(:disabled):hover { background: #e0e7ff; }
+.keyword-input .icon { top: 50%; transform: translateY(-50%); color: var(--color-muted); }
+.search-more { min-width: 0; margin: 0; }
+.search-more > summary {
+  min-height: var(--control-height-compact);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-control);
+  color: var(--color-muted);
+}
+.search-more > summary:hover, .search-more[open] > summary { background: var(--color-hover); }
+.search-more[open] > summary .icon:last-child { transform: rotate(180deg); }
+.search-filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-hover);
+  color: var(--color-muted);
+  font-size: var(--font-label);
+  white-space: nowrap;
+}
+.search-filter-count.has-filters { background: var(--color-selected); color: var(--color-primary-hover); }
+.results-heading { gap: var(--space-2) var(--space-3); }
+.results-heading small { border-radius: var(--radius-pill); background: var(--color-hover); color: var(--color-muted); }
+.results-panel .grid-actions:not(:empty) {
+  min-height: 46px;
+  padding: var(--space-1) var(--space-2);
+  margin-block: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-canvas);
+}
+.selection-label strong { color: var(--color-text); }
+#grid-filter[aria-pressed=true] { background: var(--color-selected); border-color: var(--color-primary); }
+.contract-grid-wrap { border-color: var(--color-border); border-radius: var(--radius-panel); }
+.contract-grid { border-collapse: separate; border-spacing: 0; }
+.contract-grid th, .contract-grid td { border-color: var(--color-border); }
+.contract-grid th, .contract-grid .column-filters th { background: var(--color-canvas); color: var(--color-muted); }
+.contract-grid th button { min-height: 28px; font-weight: 650; }
+.contract-grid th button span:first-child, .contract-grid .grid-value {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contract-grid th.grid-number button { justify-content: flex-end; }
+.contract-grid .grid-value .status { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+.contract-grid .column-filters input { min-height: 28px; }
+.contract-grid tbody tr[data-contract] td { height: var(--table-row-height); background: var(--color-surface); }
+.contract-grid tbody tr[data-contract]:hover td { background: var(--color-hover); }
+.contract-grid tbody tr[data-contract].selected td { background: var(--color-selected); }
+.contract-grid tbody tr.selected td:first-child { box-shadow: inset 3px 0 var(--color-primary); }
+.contract-grid td.expand-cell .icon-button { width: 28px; min-height: 28px; }
+.expanded-row td { background: var(--color-canvas); }
+.search-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-3);
+  color: var(--color-muted);
+  text-align: center;
+}
+.search-empty > .icon { box-sizing: content-box; width: 20px; height: 20px; padding: 10px; border-radius: var(--radius-pill); background: var(--color-hover); }
+.search-empty strong { color: var(--color-text); font-size: var(--font-section); }
+.search-empty button { margin-top: var(--space-1); }
+
+@media (min-width: 701px) {
+  .contract-grid-wrap { max-height: max(336px, calc(100dvh - 330px)); overflow: auto; }
+  .contract-grid thead { position: sticky; top: 0; z-index: 1; }
+  .contract-grid :is(th, td:first-child) :focus-visible { outline-offset: -2px; }
+}
+@media (max-width: 1020px) {
+  .search-fields { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .search-fields .keyword { grid-column: span 2; }
+  .search-buttons { justify-content: flex-end; }
+}
+@media (max-width: 700px) {
+  html { scroll-padding-top: 230px; }
+  .sidebar { width: auto; max-height: 45dvh; padding: var(--space-2) var(--space-3); border: 0; border-bottom: 1px solid var(--color-border); }
+  .brand { margin: 0 0 var(--space-1); }
+  .brand-mark { width: 28px; height: 28px; }
+  .sidebar nav a { min-height: 26px; }
+  .top-inner { padding-inline: var(--space-3); }
+  .top h1 { font-size: var(--font-section); }
+  .top-tools { gap: var(--space-1); }
+  .top-tools .demo-tag { display: none; }
+  #header-action .button { min-height: var(--control-height-compact); white-space: nowrap; padding-inline: 6px; font-size: var(--font-label); }
+  #header-action .icon { display: none; }
+  .content, .panel { padding: var(--space-3); }
+  .search-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+  .search-fields .keyword { grid-column: 1/-1; }
+  .search-buttons { grid-column: auto; align-items: end; }
+  .search-buttons button { padding-inline: 5px; white-space: nowrap; }
+  .search-buttons .icon { display: none; }
+  .contract-grid tbody tr[data-contract] td, .contract-grid tbody tr[data-contract].selected td { height: auto; background: transparent; }
+  .contract-grid tbody tr.selected { background: var(--color-selected); box-shadow: inset 3px 0 var(--color-primary); }
+  .contract-grid tbody tr.selected td:first-child { box-shadow: none; }
+  .contract-grid tbody tr[data-contract] .expand-cell { min-height: 32px; }
+}
 </style></head>
 <body>
   <aside class="sidebar">
@@ -232,13 +506,13 @@ th { color:#385162; background:#f0f5f7; font-size:13px; font-weight:650; }
     <a href="#home"><span data-icon="home"></span>ホームメニュー</a><a href="#search"><span data-icon="search"></span>契約・入居者検索</a><a href="#applications"><span data-icon="file"></span>申込一覧</a><a href="#moveouts"><span data-icon="calendar"></span>退居予定一覧</a><a href="#daily"><span data-icon="file"></span>日報一覧</a><a href="#claims"><span data-icon="file"></span>クレーム情報一覧</a><a href="#master"><span data-icon="building"></span>マスタ管理</a><a href="#general-search"><span data-icon="search"></span>汎用検索</a><a href="#occupancy"><span data-icon="room"></span>入居状況報告書</a><a href="#reports"><span data-icon="columns"></span>管理レポート</a><a href="#screening"><span data-icon="file"></span>審査</a>
     </nav><span class="workspace">お客様向けデモ</span>
   </aside>
-  <main><header class="top"><div class="top-inner"><div class="breadcrumb"><span>管理業務</span><span data-icon="right"></span><b id="crumb">契約・入居者</b></div><div class="demo-tools" aria-label="デモデータ">
+  <main><header class="top"><div class="top-inner"><div class="breadcrumb"><h1 id="crumb">契約・入居者検索</h1></div><div class="top-tools"><div id="header-action" hidden></div><div class="demo-tools" aria-label="デモデータ">
     <span class="demo-tag">体験版</span>
     <details class="tool-menu"><summary><span data-icon="file"></span>データ<span data-icon="chevron"></span></summary>
       <div class="menu-popover"><p>架空のデータでお試しください。保存時にJSONをダウンロードします。</p>
       <button type="button" id="demo-export"><span data-icon="download"></span>JSONを保存</button>
       <label class="button file-pick"><span data-icon="upload"></span>JSONを読み込む <input id="demo-import" type="file" accept=".json,application/json"></label></div>
-    </details></div></div></header><div id="view" class="content"></div></main>
+    </details></div></div></div></header><div id="view" class="content"></div></main>
   <div id="notice" role="status" hidden></div><script>// Labels readable in the reference video. Each item shares its field name and type with the data model.
 const videoFields = {
   application: [
@@ -432,6 +706,7 @@ const nextStatus = {
 
 const view = document.querySelector('#view');
 const crumb = document.querySelector('#crumb');
+const headerAction = document.querySelector('#header-action');
 const message = document.querySelector('#notice');
 const iconPaths = {
   home:'<path d="m3 10 9-7 9 7v10H3z"/><path d="M9 20v-6h6v6"/>',
@@ -563,8 +838,15 @@ async function submit(button, fn) {
   try { await fn(); } catch(error) { toast(error.message,true); }
   finally { button.disabled=false; }
 }
-function heading(title, subtitle, action='') {
+function heading(title, subtitle, action='', moveAction=false) {
   crumb.textContent=title;
+  if (headerAction) {
+    headerAction.innerHTML=moveAction?action:'';
+    headerAction.hidden=!moveAction || !action;
+    const pageAction=moveAction?'':action;
+    return subtitle || pageAction
+      ? `<header class="heading"><p>${clean(subtitle)}</p>${pageAction}</header>` : '';
+  }
   return `<header class="heading"><div><h1>${clean(title)}</h1><p>${clean(subtitle)}</p></div>${action}</header>`;
 }
 function table(headers, rows) {
@@ -750,12 +1032,14 @@ function listPager(target,page,total,limit,changePage) {
 }
 
 async function searchPage(token) {
-  view.innerHTML = heading('契約・入居者検索','',`<a class="button primary" href="#new">${icon('plus')}新規申込</a>`) +
-    `<form class="panel search-panel" id="contract-search-form"><div class="search-fields"><label class="keyword">キーワード<span class="keyword-input">${icon('search')}<input name="q" type="search" placeholder="物件名・氏名・勤務先・車両番号"></span></label>${field('phone','電話番号','tel')}
+  const phone=field('phone','電話番号','tel');
+  view.innerHTML = heading('契約・入居者検索','',`<a class="button primary" href="#new">${icon('plus')}新規申込</a>`,true) +
+    `<form class="panel search-panel" id="contract-search-form"><div class="search-fields"><label class="keyword">キーワード<span class="keyword-input">${icon('search')}<input name="q" type="search" placeholder="物件名・氏名・勤務先・車両番号"></span></label>${demoMode?'':phone}
     <label>物件<select name="property"><option value="">すべて</option>${propertyOptions()}</select></label>
     <label>部屋<select name="unit"><option value="">すべて</option>${unitOptions(master.units)}</select></label>
     <label>契約状況<select name="status"><option value="">すべて</option>${Object.entries(labels).map(([key,label])=>option(key,label)).join('')}</select></label>
-    <div class="search-buttons"><button class="primary" type="submit">${icon('search')}検索</button><button type="reset">クリア</button></div></div><details class="search-more"><summary>${icon('filter')}詳しい検索条件${icon('chevron')}</summary><div class="filters">
+    <div class="search-buttons"><button class="${demoMode?'search-submit':'primary'}" type="submit">${icon('search')}検索</button><button type="reset">クリア</button></div></div><details class="search-more"><summary>${icon('filter')}詳しい検索条件${demoMode?'<output class="search-filter-count" aria-live="polite">適用中の検索条件：0</output>':''}${icon('chevron')}</summary><div class="filters">
+      ${demoMode?phone:''}
       ${field('branch','管理店')}${field('manager','物件担当者')}${field('employer','勤務先')}${field('address','住所')}${field('vehicle','車両番号')}
       <label>契約区分<select name="partyType"><option value="">すべて</option><option>個人</option><option>法人</option></select></label>
     <label>検索対象<select name="target"><option value="">すべて</option><option value="parking">駐車場契約あり</option><option value="room">部屋契約</option>${demoMode?'<option value="parkingOnly">駐車場単独契約</option>':''}</select></label>
@@ -765,6 +1049,7 @@ async function searchPage(token) {
     ${demoMode?'<div class="related-links"><span>業務タイプ</span><a href="#properties">物件</a><a href="#units">部屋</a><a href="#search">入居者</a></div>':''}
     </details></form><section class="panel results-panel"><div class="results-heading"><h2>検索結果一覧 <small id="count"></small></h2><div class="grid-tools"><button type="button" id="grid-filter" aria-pressed="false">${icon('filter')}列フィルター</button><details id="grid-columns" class="tool-menu"><summary>${icon('columns')}表示列</summary></details><button type="button" id="grid-print">${icon('print')}印刷</button><button type="button" id="export">${icon('download')}CSV出力</button></div></div><div class="grid-actions" id="grid-actions"></div><div id="results" class="contract-grid-wrap" aria-label="契約検索結果一覧"></div><nav class="list-pager" aria-label="検索結果のページ"></nav></section><article class="print-sheet" id="grid-print-sheet"></article>`;
   const form=view.querySelector('form');
+  const filterCount=form.querySelector('.search-filter-count');
   form.property.onchange=()=>{form.unit.innerHTML='<option value="">すべて</option>'+unitOptions(master.units.filter(u=>!form.property.value || u.property_id===Number(form.property.value)));};
   let request=0;
   let currentRows=[];
@@ -772,7 +1057,10 @@ async function searchPage(token) {
   let selected;
   let expanded;
   let page=1;
-  const limit=listLimit(445,31);
+  let appliedFormFilters=0;
+  const limit=demoMode
+    ? listLimit(395,parseInt(getComputedStyle(view).getPropertyValue('--table-row-height'),10))
+    : listLimit(445,31);
   const pager=view.querySelector('.list-pager');
   let showFilters=false;
   let sort={key:'',direction:1};
@@ -832,7 +1120,7 @@ async function searchPage(token) {
       const ratio=(widths[key]||1)/total;
       return `<col style="width:calc(${(ratio*100).toFixed(3)}% - ${(ratio*40).toFixed(3)}px)">`;
     }).join('');
-    grid.innerHTML=`<table class="contract-grid"><colgroup>${colSizes}<col class="expand-col"></colgroup><thead><tr>${cols.map(([key,label])=>`<th scope="col" aria-sort="${key===sort.key?(sort.direction===1?'ascending':'descending'):'none'}"><button type="button" data-sort="${key}"><span>${label}</span>${key===sort.key? `<span aria-hidden="true">${sort.direction===1?'▲':'▼'}</span>`:icon('sort')}</button></th>`).join('')}<th scope="col"><span class="sr-only">詳細</span></th></tr>${showFilters?`<tr class="column-filters">${cols.map(([key,label])=>`<th><input type="search" data-filter="${key}" aria-label="${label}で絞り込む" value="${clean(filters.get(key))}"></th>`).join('')}<th></th></tr>`:''}</thead><tbody></tbody></table>`;
+    grid.innerHTML=`<table class="contract-grid"><colgroup>${colSizes}<col class="expand-col"></colgroup><thead><tr>${cols.map(([key,label,,numeric])=>`<th scope="col" ${numeric?'class="grid-number"':''} aria-sort="${key===sort.key?(sort.direction===1?'ascending':'descending'):'none'}"><button type="button" data-sort="${key}" title="${label}"><span>${label}</span>${key===sort.key? `<span aria-hidden="true">${sort.direction===1?'▲':'▼'}</span>`:icon('sort')}</button></th>`).join('')}<th scope="col"><span class="sr-only">詳細</span></th></tr>${showFilters?`<tr class="column-filters">${cols.map(([key,label])=>`<th><input type="search" data-filter="${key}" aria-label="${label}で絞り込む" value="${clean(filters.get(key))}"></th>`).join('')}<th></th></tr>`:''}</thead><tbody></tbody></table>`;
     showRows();
   }
   function cellValue(row,key,value,numeric) {
@@ -843,7 +1131,11 @@ async function searchPage(token) {
   function gridRow(row,cols) {
     const isOpen=row.id===expanded;
     const detailId=`grid-detail-${row.id}`;
-    const cells=cols.map(([key,label,value,numeric])=>`<td data-label="${label}" class="${numeric?'grid-number':''}">${cellValue(row,key,value,numeric)}</td>`).join('');
+    const cells=cols.map(([key,label,value,numeric])=>{
+      const content=cellValue(row,key,value,numeric);
+      const cell=demoMode?`<span class="grid-value" title="${key==='status'?clean(labels[row.status]):content}">${content}</span>`:content;
+      return `<td data-label="${label}" class="${numeric?'grid-number':''}">${cell}</td>`;
+    }).join('');
     const details=isOpen?`<tr class="expanded-row" id="${detailId}"><td colspan="${cols.length+1}"><dl>${columns.map(([key,label,value,numeric])=>`<div><dt>${label}</dt><dd>${cellValue(row,key,value,numeric)}</dd></div>`).join('')}</dl><a class="button" href="#contract/${row.id}">${icon('file')}契約台帳を開く</a></td></tr>`:'';
     return `<tr data-contract="${row.id}" class="${row.id===selected?'selected':''}">${cells}<td class="expand-cell"><button type="button" class="icon-button" data-expand="${row.id}" aria-label="契約 #${row.id} の詳細" aria-expanded="${isOpen}" ${isOpen?`aria-controls="${detailId}"`:''}>${icon('chevron')}</button></td></tr>${details}`;
   }
@@ -860,8 +1152,15 @@ async function searchPage(token) {
     const visibleRows=currentRows.slice((page-1)*limit,page*limit);
     if (!visibleRows.some(row=>row.id===selected)) selected=visibleRows[0]?.id;
     view.querySelector('#count').textContent=`${currentRows.length} 件`;
+    if (filterCount) {
+      const active=appliedFormFilters+[...filters.values()].filter(value=>value.trim()).length;
+      const label=`適用中の検索条件：${active}`;
+      if (filterCount.textContent!==label) filterCount.textContent=label;
+      filterCount.classList.toggle('has-filters',active>0);
+    }
     if (!visibleRows.some(row=>row.id===expanded)) expanded=undefined;
-    grid.querySelector('tbody').innerHTML=visibleRows.length?visibleRows.map(row=>gridRow(row,cols)).join(''):`<tr class="empty-row"><td colspan="${cols.length+1}">該当するデータはありません。</td></tr>`;
+    const empty=demoMode?`<div class="search-empty">${icon('search')}<strong>一致する契約がありません</strong><p>キーワードや検索条件を見直してください。</p><button type="reset" form="contract-search-form">条件をクリア</button></div>`:'該当するデータはありません。';
+    grid.querySelector('tbody').innerHTML=visibleRows.length?visibleRows.map(row=>gridRow(row,cols)).join(''):`<tr class="empty-row"><td colspan="${cols.length+1}">${empty}</td></tr>`;
     listPager(pager,page,currentRows.length,limit,next=>{page=next;showRows();});
     drawActions();
   }
@@ -872,6 +1171,7 @@ async function searchPage(token) {
     if (row && typeof renderDemoActions==='function') renderDemoActions(target.querySelector('.menu-popover'),row);
   }
   grid.onclick=event=>{
+    if (event.target.closest('.search-empty button')) form.elements.q.focus();
     const expander=event.target.closest('[data-expand]');
     if (expander) {
       selected=Number(expander.dataset.expand);
@@ -920,6 +1220,7 @@ async function searchPage(token) {
     const criteria=Object.fromEntries(new FormData(form));
     const rows=await api('contracts?'+new URLSearchParams(new FormData(form)));
     if (current!==request || token!==renderCount) return;
+    if (filterCount) appliedFormFilters=Object.values(criteria).filter(value=>value.trim()).length;
     page=1;
     const contains=(key,value)=>String(value||'').toLowerCase().includes(criteria[key].trim().toLowerCase());
     const inRange=(value,from,to)=>(!from || (value && value>=from)) && (!to || (value && value<=to));
@@ -1216,7 +1517,10 @@ async function render() {
     window.scrollTo(0,0);
     await loading;
   } catch(error) {
-    if(token===renderCount)view.innerHTML=`<section class="panel"><h1>読込エラー</h1><p>${clean(error.message)}</p><a href="#search">検索一覧へ</a></section>`;
+    if(token===renderCount) {
+      const title=headerAction?heading('読込エラー',''):'<h1>読込エラー</h1>';
+      view.innerHTML=`<section class="panel">${title}<p>${clean(error.message)}</p><a href="#search">検索一覧へ</a></section>`;
+    }
   }
 }
 if ('scrollRestoration' in history) history.scrollRestoration='manual';
