@@ -858,6 +858,251 @@ html { scroll-padding-top: calc(var(--design-nav-height) + var(--header-height) 
   .design-originals { margin-left: auto; }
   .contract-grid-wrap, .contract-grid-wrap:has(.contract-detail) { max-height: none; }
 }
+
+/* Material palettes from the five Stitch design systems. */
+:root[data-design=blueprint] {
+  --color-canvas:#faf8ff; --color-surface:#fff; --color-text:#131b2e; --color-muted:#434655;
+  --color-primary:#004ac6; --color-primary-hover:#003b9f; --color-selected:#dbe1ff;
+  --design-table-head:#eaedff; --art-surface:#f2f3ff; --art-line:#c3c6d7; --sidebar-width:244px;
+}
+:root[data-design=ledger] {
+  --color-canvas:#f7f9ff; --color-surface:#fff; --color-text:#161c22; --color-muted:#57423d;
+  --color-primary:#7f1e08; --color-primary-hover:#671907; --color-selected:#ffdad3;
+  --design-table-head:#e9eef7; --art-surface:#eff4fc; --art-line:#dfc0b9;
+}
+:root[data-design=night] {
+  --color-canvas:#0e131f; --color-surface:#161b28; --color-text:#dee2f3; --color-muted:#bdc9cb;
+  --color-primary:#abf2ff; --color-primary-hover:#d1f8ff; --color-selected:#173844;
+  --design-table-head:#252a37; --art-surface:#1a1f2c; --art-line:#3d494b; --sidebar-width:242px;
+}
+:root[data-design=atelier] {
+  --color-canvas:#fff8f8; --color-surface:#fff; --color-text:#23191c; --color-muted:#4f4449;
+  --color-primary:#321025; --color-primary-hover:#4a253b; --color-selected:#ffd8ea;
+  --design-table-head:#fde9ee; --art-surface:#fff0f3; --art-line:#d2c2c8; --shell-nav:#321025; --sidebar-width:272px;
+}
+:root[data-design=field] {
+  --color-canvas:#f4fbf6; --color-surface:#fff; --color-text:#161d1a; --color-muted:#404944;
+  --color-primary:#004c37; --color-primary-hover:#003d2b; --color-selected:#d9efe3;
+  --design-table-head:#e9f0eb; --art-surface:#eef5f0; --art-line:#bfc9c2;
+}
+
+/* Layout regions contain the app's original controls and event handlers. */
+.stitch-page { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--space-3); }
+.stitch-page > * { grid-column:1/-1; min-width:0; }
+.stitch-page > :is(.panel,.metrics,.heading) { margin-block:0; }
+.stitch-page :is(h2,h3) { letter-spacing:0; }
+.stitch-page .work-cards { margin-bottom:0; }
+.stitch-page .work-card { margin-bottom:0; }
+html:has(.stitch-route-title) .top h1 { font-size:14px; color:var(--color-muted); }
+.stitch-route-title {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px;
+  min-height:36px; padding:2px 0;
+}
+.stitch-route-title h2 { margin:0; font-size:19px; color:var(--color-text); font-weight:750; }
+.stitch-route-title p:not(:empty) { flex:1 1 240px; }
+.stitch-route-title > .button:only-of-type, .stitch-route-title .heading-actions { margin-inline-start:auto; }
+.stitch-metrics, .stitch-page .metrics {
+  margin:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,132px),1fr));
+  align-items:stretch;
+  gap:var(--space-3);
+}
+.stitch-metric, .stitch-page .metrics > div {
+  min-width:0; padding:10px 13px;
+  background:var(--color-surface);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-panel);
+}
+.stitch-metric dt { display:flex; align-items:center; justify-content:space-between; gap:5px; color:var(--color-muted); font-size:12px; font-weight:650; }
+.stitch-metric dt .icon { color:var(--color-primary); }
+.stitch-metric dd, .stitch-page .metrics strong {
+  margin:3px 0 0; color:var(--color-primary); font-size:21px; line-height:1.25; font-weight:750; overflow-wrap:anywhere;
+}
+.stitch-page .stitch-total-extra strong { font-size:15px; }
+.stitch-metric dd small { margin-top:7px; padding-top:6px; border-top:1px solid var(--color-border); color:var(--color-muted); font-size:11px; font-weight:550; }
+[data-design=atelier] .stitch-metric:has(dd small) { padding:14px 13px 0; }
+[data-design=atelier] .stitch-metric:has(dd small) dd { font-size:24px; }
+[data-design=atelier] .stitch-metric dd small { margin:10px -13px 0; padding:8px 13px; background:var(--art-surface); border-bottom-left-radius:var(--radius-panel); border-bottom-right-radius:var(--radius-panel); }
+.stitch-scopes { display:flex; flex-wrap:wrap; align-items:center; gap:5px 8px; }
+.stitch-scopes :is(a,button) { min-height:28px; padding:3px 9px; font-size:12px; }
+.stitch-scopes [aria-pressed=true], .stitch-scopes [aria-current=page] {
+  background:var(--color-selected);
+  color:var(--color-primary-hover);
+  border-color:var(--art-line);
+  font-weight:750;
+}
+.stitch-filters { display:grid; gap:9px; padding:10px 12px; }
+.stitch-filters h2, .stitch-inspector h2 {
+  display:flex; align-items:center; gap:6px; margin:0; font-size:13px;
+}
+.stitch-filters h2 .icon, .stitch-inspector h2 .icon { color:var(--color-primary); }
+.stitch-filter-controls { display:flex; align-items:end; gap:8px; flex-wrap:wrap; }
+.stitch-filter-controls .grid-tools { flex:1 1 205px; }
+.stitch-filter-controls .grid-tools:has(#work-print) { justify-content:space-between; }
+.stitch-filter-controls .master-search { width:min(100%,340px); }
+.stitch-filter-controls :is(select,input) { min-height:32px; }
+.stitch-filter-controls label:not(.master-search) { min-width:min(100%,118px); font-size:11px; }
+.stitch-page .master-panel { padding:0; overflow:hidden; }
+.stitch-page .master-panel .results-heading {
+  margin:0; padding:9px 13px; min-height:39px;
+  background:var(--art-surface); border-bottom:1px solid var(--color-border);
+}
+.stitch-page .master-panel h2 { font-size:14px; }
+.stitch-page .master-panel .list-pager:not([hidden]) { margin:0; padding:8px 13px; }
+.stitch-page [data-stitch-area=list] tbody td { vertical-align:middle; }
+.stitch-page .stitch-current-row td { background:var(--color-selected); }
+.stitch-page .stitch-current-row td:first-child { box-shadow:inset 3px 0 var(--color-primary); }
+.stitch-page .stitch-inline-row > td { padding:8px 10px; background:var(--art-surface); }
+.stitch-inspector { margin:0; align-self:start; }
+.stitch-inspector h2 { padding-bottom:8px; border-bottom:1px solid var(--color-border); }
+.stitch-inspector dl {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,121px),1fr)); gap:8px 12px;
+  margin:10px 0; overflow-wrap:anywhere;
+}
+.stitch-inspector dt { color:var(--color-muted); font-size:11px; }
+.stitch-inspector dd { margin:1px 0; font-size:13px; font-weight:650; }
+.stitch-inspector .button { min-height:30px; font-size:12px; }
+.stitch-home-side ul { display:grid; gap:10px; padding:0; margin:10px 0; list-style:none; }
+.stitch-home-side li { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; }
+.stitch-home-side p { margin-bottom:10px; }
+.stitch-page .stitch-rate { text-align:center; }
+.stitch-rate meter { display:block; width:100%; accent-color:var(--color-primary); }
+.stitch-rate meter::-webkit-meter-optimum-value { background:var(--color-primary); }
+.stitch-page .stitch-secondary { padding:8px 12px 12px; }
+.stitch-page .stitch-secondary > h2 { padding:5px 8px; background:var(--art-surface); font-size:14px; }
+
+/* Search artboards */
+.stitch-page[data-stitch-presentation=quick-search] { gap:8px; }
+.stitch-page[data-stitch-presentation=quick-search] .results-panel { border-top:1px solid var(--color-border); }
+.stitch-page[data-stitch-presentation=quick-search] .detail-cards { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.stitch-page[data-stitch-presentation=ledger-search] .search-panel { border-color:var(--art-line); border-radius:2px; }
+.stitch-page[data-stitch-presentation=ledger-search] .search-fields label { padding:5px 7px; background:var(--art-surface); }
+.stitch-page[data-stitch-presentation=ledger-search] .detail-cards { grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; }
+.stitch-page[data-stitch-presentation=console-search] .search-panel { background:var(--art-surface); }
+.stitch-page[data-stitch-presentation=console-search] .search-fields { grid-template-columns:repeat(3,minmax(0,1fr)) auto; }
+.stitch-page[data-stitch-presentation=console-search] .search-fields .keyword { grid-column:1/-1; }
+.stitch-page[data-stitch-presentation=console-search] .detail-cards { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.stitch-page[data-stitch-presentation=atelier-search] .search-panel { padding:14px 16px; }
+.stitch-page[data-stitch-presentation=atelier-search] .search-more { border-top:1px solid var(--color-border); padding-top:8px; }
+.stitch-page[data-stitch-presentation=sage-search] .search-fields { grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr)) auto; }
+.stitch-page[data-stitch-presentation=sage-search] .search-fields .keyword { grid-column:1/-1; }
+.stitch-page[data-stitch-presentation=sage-search] .detail-banner { border-color:var(--art-line); }
+
+/* Lists, home workspaces and reporting matrices */
+.stitch-page:is([data-stitch-presentation=list-dense],[data-stitch-presentation=list-footer],[data-stitch-presentation=report-ledger]) {
+  gap:7px;
+}
+.stitch-page:is([data-stitch-presentation=list-dense],[data-stitch-presentation=report-ledger]) td { padding-block:5px; }
+.stitch-page:is([data-stitch-presentation=list-dense],[data-stitch-presentation=report-ledger]) :is(th,td):not(:last-child) {
+  border-inline-end:1px solid var(--color-border);
+}
+.stitch-page:is([data-stitch-presentation=list-console],[data-stitch-presentation=report-console]) .stitch-filters {
+  background:var(--art-surface);
+}
+.stitch-page:is([data-stitch-presentation=list-spacious],[data-stitch-presentation=report-spacious],[data-stitch-presentation=report-bars]) .master-panel tr:not(.stitch-inline-row) td {
+  height:43px;
+}
+.stitch-page:is([data-stitch-presentation=list-tinted],[data-stitch-presentation=report-inline]) .stitch-filters {
+  border-left:3px solid var(--art-line);
+}
+.stitch-page[data-stitch-presentation=list-plain] .stitch-filters h2 { display:none; }
+.stitch-page[data-stitch-presentation=report-double] .master-panel .results-heading { border-top:2px solid var(--art-line); }
+.stitch-page:is([data-stitch-presentation=home-ledger],[data-stitch-presentation=home-console]) .work-cards {
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,154px),1fr)); gap:6px;
+}
+.stitch-page:is([data-stitch-presentation=master-table],[data-stitch-presentation=master-ledger],[data-stitch-presentation=master-console],[data-stitch-presentation=master-atelier],[data-stitch-presentation=master-sage]) .work-cards {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  border:0;
+}
+.stitch-page:is([data-stitch-presentation=master-table],[data-stitch-presentation=master-ledger],[data-stitch-presentation=master-console],[data-stitch-presentation=master-atelier],[data-stitch-presentation=master-sage]) .work-card {
+  display:grid; grid-template-columns:auto 1fr; gap:8px;
+  padding:16px; border:1px solid var(--color-border); border-radius:var(--radius-panel);
+}
+.stitch-page :is(.work-card) strong { color:var(--color-primary); }
+.stitch-page:is([data-stitch-presentation=master-table],[data-stitch-presentation=master-ledger],[data-stitch-presentation=master-console],[data-stitch-presentation=master-atelier],[data-stitch-presentation=master-sage]) .work-card strong {
+  grid-column:2; margin-left:0; font-size:21px;
+}
+
+/* Contract, registration, payment and termination workspaces */
+.stitch-page #editor { padding:12px; }
+.stitch-page #editor fieldset > h2 { margin-top:0; }
+.stitch-page #editor .tabs { margin:12px 0 8px; }
+.stitch-contract-sections { display:grid; align-items:start; gap:10px; }
+.stitch-contract-sections > section {
+  min-width:0; padding:10px 12px;
+  background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-control);
+}
+.stitch-contract-sections > section[data-current=true] { border-color:var(--art-line); }
+.stitch-contract-sections > section[hidden] { display:none!important; }
+.stitch-contract-sections > section > h2 {
+  margin:-10px -12px 10px; padding:7px 12px; border-bottom:1px solid var(--color-border);
+  color:var(--color-text); background:var(--art-surface); font-size:14px;
+}
+.stitch-contract-sections :is(.fields,.filters) { grid-template-columns:repeat(auto-fit,minmax(min(100%,144px),1fr)); }
+.stitch-page[data-stitch-presentation=triple-contract] .stitch-contract-sections { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.stitch-page:is([data-stitch-presentation=quad-contract],[data-stitch-presentation=split-contract],[data-stitch-presentation=dossier-contract]) .stitch-contract-sections {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.stitch-page[data-stitch-presentation=split-contract] .stitch-contract-sections { grid-template-columns:minmax(0,7fr) minmax(0,5fr); }
+.stitch-page:is([data-stitch-presentation=form-progress],[data-stitch-presentation=parking-progress]) .tabs button[aria-selected=true] {
+  border-bottom-color:var(--color-primary); background:var(--color-selected);
+}
+.stitch-page:is([data-stitch-presentation=form-ledger],[data-stitch-presentation=parking-ledger],[data-stitch-presentation=ledger-contract]) .stitch-contract-sections {
+  gap:6px;
+}
+.stitch-page:is([data-stitch-presentation=form-ledger],[data-stitch-presentation=parking-ledger],[data-stitch-presentation=ledger-contract]) .stitch-contract-sections label {
+  background:var(--art-surface); padding:3px 4px;
+}
+.stitch-page:is([data-stitch-presentation=form-console],[data-stitch-presentation=parking-console],[data-stitch-presentation=quad-contract]) .stitch-contract-sections > section[data-current=true] {
+  border-inline-start:3px solid var(--color-primary);
+}
+.stitch-page .stitch-payment-content { display:grid; align-items:start; gap:12px; }
+.stitch-payment-ledgers { min-width:0; }
+.stitch-payment-ledgers .field-group:last-child { padding-bottom:0; }
+.stitch-payment-content #payment { min-width:0; padding:11px; border:1px solid var(--color-border); border-radius:var(--radius-panel); background:var(--art-surface); }
+.stitch-payment-content #payment h3 { display:flex; gap:6px; align-items:center; font-size:14px; }
+.stitch-page[data-stitch-presentation=termination-ledger] .contract-end-panel { border-left:3px solid var(--color-primary); }
+.stitch-page[data-stitch-presentation=termination-right] .contract-end-panel { background:var(--art-surface); }
+
+@media (min-width:1051px) {
+  .stitch-page[data-stitch-presentation=list-side] > [data-stitch-area=list],
+  .stitch-page:is([data-stitch-presentation=home-split],[data-stitch-presentation=home-ledger],[data-stitch-presentation=home-atelier],[data-stitch-presentation=home-sage]) > [data-stitch-area=activity] { grid-column:1/span 8; }
+  .stitch-page[data-stitch-presentation=list-side] > [data-stitch-area=inspect],
+  .stitch-page:is([data-stitch-presentation=home-split],[data-stitch-presentation=home-ledger],[data-stitch-presentation=home-atelier],[data-stitch-presentation=home-sage]) > [data-stitch-area=side] { grid-column:9/-1; }
+  .stitch-page:is([data-stitch-presentation=form-rail],[data-stitch-presentation=parking-ledger],[data-stitch-presentation=parking-console],[data-stitch-presentation=parking-rail]) > [data-stitch-area=editor] { grid-column:1/span 8; }
+  .stitch-page:is([data-stitch-presentation=form-rail],[data-stitch-presentation=parking-ledger],[data-stitch-presentation=parking-console],[data-stitch-presentation=parking-rail]) > [data-stitch-area=totals] {
+    grid-column:9/-1; align-self:start; grid-template-columns:minmax(0,1fr);
+  }
+  .stitch-page[data-stitch-presentation=payment-right] .stitch-payment-content { grid-template-columns:minmax(0,7fr) minmax(0,3fr); }
+  .stitch-page[data-stitch-presentation=payment-left] .stitch-payment-content { grid-template-columns:minmax(0,4fr) minmax(0,6fr); }
+  .stitch-page[data-stitch-presentation=payment-left] :is(#payment,.stitch-payment-ledgers) { grid-row:1; }
+  .stitch-page[data-stitch-presentation=payment-left] #payment { grid-column:1; }
+  .stitch-page[data-stitch-presentation=payment-left] .stitch-payment-ledgers { grid-column:2; }
+  .stitch-page[data-stitch-presentation=termination-right] > [data-stitch-area=totals] { grid-column:1/span 8; }
+  .stitch-page[data-stitch-presentation=termination-right] > [data-stitch-area=termination] { grid-column:9/-1; }
+}
+@media (max-width:1050px) {
+  :root:is([data-design=blueprint],[data-design=night],[data-design=atelier]) { --sidebar-width:190px; }
+  .stitch-page[data-stitch-presentation=sage-search] .search-fields { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .stitch-page[data-stitch-presentation=console-search] .detail-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:850px) {
+  .stitch-page .stitch-contract-sections,
+  .stitch-page[data-stitch-presentation] .stitch-contract-sections { grid-template-columns:minmax(0,1fr); }
+  .stitch-page[data-stitch-presentation] .detail-cards { grid-template-columns:minmax(0,1fr); }
+  .stitch-page .master-panel td,.stitch-page .master-panel th { padding-inline:5px; }
+  .stitch-page .stitch-secondary { padding-inline:6px; }
+}
+@media (max-width:700px) {
+  .stitch-page { gap:8px; }
+  .stitch-page:is([data-stitch-presentation=sage-search],[data-stitch-presentation=console-search]) .search-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stitch-page .stitch-metric dd { font-size:16px; }
+  .stitch-page .stitch-route-title h2 { font-size:17px; }
+  .stitch-page .stitch-filter-controls .grid-tools { flex:1 1 100%; }
+  .stitch-page:is([data-stitch-presentation^=master-]) .work-cards { grid-template-columns:minmax(0,1fr); }
+  .stitch-page :is(.stitch-secondary,.stitch-activity) :is(th,td) { padding-inline:3px; }
+}
 </style></head>
 <body>
   <aside class="sidebar">
@@ -1682,12 +1927,13 @@ async function searchPage(token) {
     submit(searchButton,refresh);
   });
   await refresh();
+  if(demoMode && token===renderCount) applyStitchLayout('search');
 }
 
 function masterPage(kind) {
   const names={properties:'物件管理',units:'部屋管理',parking:'駐車区画'};
   const propertyName=id=>master.properties.find(p=>p.id===id)?.name;
-  const cols={properties:demoMode?['物件番号','物件名','所在地','管理店','家主名']:['物件名','所在地','管理店'],
+  const cols={properties:demoMode?['物件番号','物件名','所在地','管理店','家主名','部屋数','空室','駐車区画数']:['物件名','所在地','管理店'],
     units:['物件','部屋番号','間取り','月額家賃'],parking:['物件','区画番号','月額利用料','契約状況','契約期間','契約台帳']};
   const titles={properties:'物件一覧',units:'部屋一覧',parking:'駐車区画一覧'};
   const register=`<button type="button" class="primary" id="master-add">${icon('plus')}新規登録</button>`;
@@ -1701,26 +1947,43 @@ function masterPage(kind) {
   const pager=view.querySelector('.list-pager');
   const count=view.querySelector('#master-count');
   const add=view.querySelector('#master-add');
-  const limit=listLimit(demoMode?322:290,demoMode&&kind==='parking'?44:34);
+  const limit=listLimit(demoMode?354:290,demoMode&&kind==='parking'?44:34);
   let page=1;
+  let displayed=[];
+  const refinements=new Map();
   function entries(item) {
-    if (kind==='properties') return demoMode?[item.code||String(item.id),item.name,item.address,item.branch,item.ownerName]:[item.name,item.address,item.branch];
+    if (kind==='properties') {
+      if (!demoMode) return [item.name,item.address,item.branch];
+      const units=master.units.filter(row=>row.property_id===item.id);
+      const vacant=units.filter(row=>!demoOccupied(row.id,[])).length;
+      const spaces=master.parking.filter(row=>row.property_id===item.id).length;
+      return [item.code||String(item.id),item.name,item.address,item.branch,item.ownerName,units.length,vacant,spaces];
+    }
     const base=[propertyName(item.property_id),item.label];
     if (kind==='units') return [...base,item.floor_plan,money(item.rent)];
     return [...base,money(item.fee),item.active_contract_id?'契約中':'空き',item.active_contract_id?`${item.starts_on} ～ ${item.ends_on}`:'—'];
   }
   function draw() {
     const term=search.value.trim().toLocaleLowerCase('ja');
-    const filtered=master[kind].filter(item=>entries(item).some(value=>String(value??'').toLocaleLowerCase('ja').includes(term)));
+    const filtered=master[kind].filter(item=>{
+      const cells=entries(item);
+      return cells.some(value=>String(value??'').toLocaleLowerCase('ja').includes(term)) &&
+        [...refinements].every(([index,value])=>cells[index]===value);
+    });
     count.textContent=`${filtered.length} 件`;
     page=Math.min(page,Math.max(1,Math.ceil(filtered.length/limit)));
-    const rows=filtered.slice((page-1)*limit,page*limit).map(item=>{
+    const current=filtered.slice((page-1)*limit,page*limit);
+    if(demoMode) displayed=current.map(item=>({
+      id:item.id,cells:entries(item),href:item.active_contract_id?`#contract/${item.active_contract_id}`:kind==='properties'?'#units':null,
+    }));
+    const rows=current.map(item=>{
       const cells=entries(item).map(clean);
       if (kind!=='parking') return cells;
       return [...cells,item.active_contract_id?`<a class="master-link" href="#contract/${item.active_contract_id}">契約を開く</a>`:'—'];
     });
     list.innerHTML=table(cols[kind],rows);
     listPager(pager,page,filtered.length,limit,next=>{page=next;draw();});
+    if(demoMode) refreshStitchCollection();
   }
   search.oninput=()=>{page=1;draw();};
   add.onclick=()=>{
@@ -1751,6 +2014,15 @@ function masterPage(kind) {
     dialog.showModal();
   };
   draw();
+  if(demoMode) {
+    const dimensions={properties:[3],units:[0,2],parking:[0,3]}[kind];
+    const facets=dimensions.map(index=>[index,cols[kind][index],
+      [...new Set(master[kind].map(item=>entries(item)[index]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ja'))]);
+    applyStitchLayout(kind,{columns:cols[kind],visible:()=>displayed,facets,refine:(index,value)=>{
+      if(value) refinements.set(index,value); else refinements.delete(index);
+      page=1;draw();
+    }});
+  }
 }
 
 function contractPage(item, parkingOnly=item?.unit_id===null, section='') {
@@ -1825,8 +2097,17 @@ function contractPage(item, parkingOnly=item?.unit_id===null, section='') {
     form.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true);
     form.querySelectorAll('[data-postal-lookup]').forEach(button=>button.disabled=true);
   }
-  const selectTab=key=>{form.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===key)));form.querySelectorAll('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==key);};
-  form.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
+  const selectTab=(key,reveal=false)=>{
+    const visible=new Set([key,...(form.artboardSections||[])]);
+    form.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===key)));
+    form.querySelectorAll('[data-panel]').forEach(p=>{
+      p.hidden=!visible.has(p.dataset.panel);
+      p.dataset.current=String(p.dataset.panel===key);
+    });
+    if(reveal && form.artboardSections?.length) form.querySelector('[data-panel="'+key+'"]')?.scrollIntoView({block:'nearest'});
+  };
+  form.showArtboardSection=selectTab;
+  form.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>selectTab(b.dataset.tab,true));
   form.addEventListener('invalid',event=>{const panel=event.target.closest('[data-panel]');if(panel) selectTab(panel.dataset.panel);},true);
   form.unitId.value=item?.unit_id || '';
   function parkingOptions(selected) {
@@ -1907,6 +2188,7 @@ function contractPage(item, parkingOnly=item?.unit_id===null, section='') {
   if(printButton)printButton.onclick=()=>window.print();
   const payment=view.querySelector('#payment');
   if(payment)payment.onsubmit=e=>{e.preventDefault();submit(e.submitter,async()=>{const result=await api(`contracts/${item.id}/payments`,'POST',Object.fromEntries(new FormData(payment)));showUpdatedContract(result);toast('入金を記録しました。');});};
+  if(demoMode) applyStitchLayout(item?(section||'contract'):parkingOnly?'new-parking':'new',{item});
 }
 
 async function render() {
@@ -2364,12 +2646,13 @@ function demoWorkPage(route) {
        ['occupancy','room','入居状況報告書',demo.units.length]];
     view.innerHTML=heading(title,'')+`<div class="work-cards">${cards.map(([path,mark,label,count])=>
       `<a class="panel work-card" href="#${path}">${icon(mark)}<span>${label}</span><strong>${count}件</strong></a>`).join('')}</div>`;
+    applyStitchLayout(route);
     return true;
   }
   const basic=['受付番号','物件・部屋','契約者','受付・契約状況'];
   const basicRows=row=>[row.details.application.receiptNo||'—',row.property+' / '+row.unit,row.details.party.name,labels[row.status]];
   const destination=row=>'#contract/'+row.id;
-  let headers,rows;
+  let headers,rows,propertyRows;
   if (route==='applications' || route==='screening') {
     const waiting=route==='screening'?['DRAFT','APPROVED','REJECTED']:['DRAFT','APPROVED','CANCELLED','REJECTED'];
     headers=[...basic,route==='screening'?'審査結果・担当':'申込日'];
@@ -2393,14 +2676,18 @@ function demoWorkPage(route) {
     rows=demoOccupancy().map(row=>({cells:[row.name,row.branch,row.units,row.usedUnits,row.units-row.usedUnits,row.spaces,
       row.usedSpaces,row.spaces-row.usedSpaces],href:'#units'}));
   } else if(route==='reports') {
-    headers=['管理店','物件数','入居中の部屋','空室','契約中の駐車区画','空き区画'];
+    headers=['管理店・物件','物件数','入居中の部屋','空室','契約中の駐車区画','空き区画'];
     const branches=new Map();
-    for (const row of demoOccupancy()) {
+    const occupancy=demoOccupancy();
+    for (const row of occupancy) {
       const total=branches.get(row.branch)||[0,0,0,0,0];
       [1,row.usedUnits,row.units-row.usedUnits,row.usedSpaces,row.spaces-row.usedSpaces].forEach((value,i)=>{total[i]+=value;});
       branches.set(row.branch,total);
     }
     rows=[...branches].map(([branch,counts])=>({cells:[branch,...counts],href:'#occupancy'}));
+    propertyRows=occupancy.map((row,index)=>({id:`property-${index}`,cells:[
+      row.name,1,row.usedUnits,row.units-row.usedUnits,row.usedSpaces,row.spaces-row.usedSpaces,
+    ],href:'#occupancy'}));
   } else {
     headers=['種別','名前・番号','物件','関連情報'];
     rows=[
@@ -2420,16 +2707,27 @@ function demoWorkPage(route) {
   const query=view.querySelector('#work-query');
   const limit=listLimit(322,34);
   let page=1;
+  let category='';
+  let reportMode='branch';
+  let displayed=[];
+  rows=rows.map((row,id)=>({...row,id}));
+  const categoryColumn=route==='general-search'?0:3;
+  const refinements=new Map();
   function visible() {
     const term=query.value.trim().toLocaleLowerCase('ja');
-    return rows.filter(row=>row.cells.some(value=>String(value??'').toLocaleLowerCase('ja').includes(term)));
+    const dataset=reportMode==='property'?propertyRows:rows;
+    return dataset.filter(row=>(!category||row.cells[categoryColumn]===category) &&
+      [...refinements].every(([index,value])=>row.cells[index]===value) &&
+      row.cells.some(value=>String(value??'').toLocaleLowerCase('ja').includes(term)));
   }
   function draw() {
     const filtered=visible();
     view.querySelector('#work-count').textContent=`${filtered.length} 件`;
+    displayed=filtered.slice((page-1)*limit,page*limit);
     view.querySelector('#work-list').innerHTML=table([...headers,'詳細'],
-      filtered.slice((page-1)*limit,page*limit).map(row=>[...row.cells.map(value=>clean(value??'—')),`<a href="${row.href}">開く</a>`]));
+      displayed.map(row=>[...row.cells.map(value=>clean(value??'—')),`<a href="${row.href}">開く</a>`]));
     listPager(view.querySelector('.list-pager'),page,filtered.length,limit,next=>{page=next;draw();});
+    refreshStitchCollection();
   }
   query.oninput=()=>{page=1;draw();};
   if(report) view.querySelector('#work-print').onclick=()=>{
@@ -2437,6 +2735,17 @@ function demoWorkPage(route) {
     window.print();
   };
   draw();
+  const dimensions={
+    applications:[1,3],screening:[1,3],moveouts:[1,3],daily:[1],claims:[1],occupancy:[1],
+  }[route]||[];
+  const facets=dimensions.map(index=>[index,headers[index],
+    [...new Set(rows.map(row=>row.cells[index]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ja'))]);
+  applyStitchLayout(route,{
+    columns:headers,visible:()=>displayed,facets,
+    filter:value=>{category=value;page=1;draw();},
+    refine:(index,value)=>{if(value) refinements.set(index,value); else refinements.delete(index); page=1;draw();},
+    reportView:propertyRows?mode=>{if(mode!==reportMode){reportMode=mode;page=1;draw();}}:null,
+  });
   return true;
 }
 
@@ -2490,13 +2799,506 @@ document.querySelector('#demo-import').onchange=async event=>{
   finally { control.value=''; }
 };
 
+// Screen order follows the Stitch source directory. Column order follows the five comparison tabs.
+// Each entry is [ordered regions, presentation, metric count]. Nested panels are placed by the presentation.
+const stitchScreenSpecs = {
+  search: [
+    ['filters results','quick-search',0], ['title filters results','ledger-search',0],
+    ['title filters results','console-search',0], ['title metrics filters results','atelier-search',4],
+    ['title filters results','sage-search',0],
+  ],
+  contract: [
+    ['title totals editor documents payment history','triple-contract',0],
+    ['title totals documents editor payment history','ledger-contract',0],
+    ['title totals editor documents payment history','quad-contract',0],
+    ['title totals documents editor payment history','split-contract',2],
+    ['title totals documents editor payment history','dossier-contract',2],
+  ],
+  home: [
+    ['title cards activity side','home-split',0], ['title metrics cards activity side','home-ledger',5],
+    ['title metrics cards activity','home-console',4], ['title cards activity side','home-atelier',0],
+    ['title metrics activity side cards','home-sage',5],
+  ],
+  applications: [
+    ['title scopes filters list inspect','list-inline',0], ['title filters scopes list inspect','list-footer',0],
+    ['title filters scopes list inspect','list-console',0], ['title metrics filters scopes list','list-spacious',5],
+    ['title metrics filters scopes list inspect','list-inline',4],
+  ],
+  new: [
+    ['title editor totals','form-fold',0], ['title editor totals','form-ledger',0],
+    ['title editor totals','form-console',0], ['title totals editor','form-progress',2],
+    ['title editor totals','form-rail',0],
+  ],
+  payments: [
+    ['title totals payment documents editor history','payment-right',2],
+    ['title totals payment documents editor history','payment-ledger',2],
+    ['title totals payment documents editor history','payment-right',2],
+    ['title totals payment documents editor history','payment-left',2],
+    ['title totals payment history documents editor','payment-right',2],
+  ],
+  end: [
+    ['title totals termination documents editor payment history','termination-right',2],
+    ['title termination totals documents editor history payment','termination-ledger',2],
+    ['title totals termination history documents editor payment','termination-right',2],
+    ['title totals termination editor history documents payment','termination-right',2],
+    ['title termination totals editor documents history payment','termination-ledger',2],
+  ],
+  moveouts: [
+    ['title scopes filters list inspect','list-side',0], ['title metrics filters list inspect','list-footer',4],
+    ['title filters scopes list inspect','list-console',0], ['title metrics filters scopes list','list-spacious',4],
+    ['title metrics filters list inspect','list-inline',4],
+  ],
+  daily: [
+    ['title filters list','list-plain',0], ['title metrics filters list inspect','list-footer',3],
+    ['title filters list inspect','list-console',0], ['title metrics filters scopes list','list-spacious',4],
+    ['title metrics filters list inspect','list-inline',4],
+  ],
+  claims: [
+    ['title scopes filters list inspect','list-side',0], ['title metrics filters scopes list inspect','list-dense',4],
+    ['title metrics filters list inspect','list-console',4], ['title metrics filters scopes list','list-spacious',4],
+    ['title metrics filters scopes list','list-tinted',5],
+  ],
+  master: [
+    ['title cards filters activity','master-table',0], ['title cards activity','master-ledger',0],
+    ['title metrics cards filters activity','master-console',4], ['title cards scopes filters activity','master-atelier',0],
+    ['title metrics scopes cards activity','master-sage',3],
+  ],
+  properties: [
+    ['title metrics filters list','list-featured',3], ['title scopes filters list','list-dense',0],
+    ['title metrics filters list inspect','list-console',4], ['title metrics filters scopes list','list-spacious',4],
+    ['title scopes metrics filters list inspect','list-inline',4],
+  ],
+  units: [
+    ['title filters list','list-plain',0], ['title metrics filters list inspect','list-footer',4],
+    ['title metrics filters list inspect','list-console',5], ['title metrics scopes filters list','list-spacious',4],
+    ['title scopes metrics filters list inspect','list-inline',4],
+  ],
+  parking: [
+    ['title metrics filters list inspect','list-footer',3], ['title metrics filters list inspect','list-footer',4],
+    ['title metrics filters list inspect','list-console',4], ['title metrics scopes filters list','list-spacious',4],
+    ['title scopes metrics filters list inspect','list-inline',4],
+  ],
+  'new-parking': [
+    ['title editor totals','parking-fold',0], ['title editor totals','parking-ledger',0],
+    ['title editor totals','parking-console',0], ['title totals editor','parking-progress',2],
+    ['title editor totals','parking-rail',0],
+  ],
+  'general-search': [
+    ['title filters scopes list','list-plain',0], ['title metrics filters scopes list inspect','list-footer',4],
+    ['title filters scopes inspect list','list-console',0], ['title metrics filters scopes list','list-spacious',4],
+    ['title filters scopes list inspect','list-inline',0],
+  ],
+  occupancy: [
+    ['title metrics filters scopes list','report-overview',4], ['title metrics filters list inspect','report-ledger',4],
+    ['title metrics filters list inspect','report-console',4], ['title metrics filters scopes list','report-spacious',4],
+    ['title metrics filters list inspect','report-inline',5],
+  ],
+  reports: [
+    ['title metrics filters list propertyMatrix','report-double',4],
+    ['title metrics filters scopes list','report-ledger',4],
+    ['title metrics filters list inspect','report-console',4],
+    ['title metrics filters scopes list','report-bars',4],
+    ['title metrics filters list inspect','report-inline',4],
+  ],
+  screening: [
+    ['title metrics scopes filters list inspect','list-side',4], ['title metrics filters list inspect','list-footer',5],
+    ['title metrics filters scopes list inspect','list-console',4], ['title metrics filters scopes list','list-spacious',4],
+    ['title metrics filters scopes list inspect','list-inline',6],
+  ],
+};
+
+// The gallery and the working app use the same screen keys, including contract subroutes.
+const stitchDesignOrder=['blueprint','ledger','night','atelier','field'];
+let stitchWorkspace;
+
+function stitchScreenKey() {
+  const route=location.hash.slice(1)||'search';
+  if (/^contract\/\d+(?:\/(payments|end))?$/.test(route)) return route.split('/')[2]||'contract';
+  return Object.hasOwn(stitchScreenSpecs,route)?route:'search';
+}
+
+function stitchNode(tag, className, content='') {
+  const node=document.createElement(tag);
+  node.className=className;
+  node.innerHTML=content;
+  return node;
+}
+
+function stitchPercent(numerator,denominator) {
+  return denominator?`${(100*numerator/denominator).toFixed(1)}%`:'0.0%';
+}
+
+function stitchMetrics(page) {
+  const occupancy=demoOccupancy();
+  const records=demo.contracts.filter(row=>row.status!=='PREVIOUS');
+  const statuses=status=>records.filter(row=>row.status===status).length;
+  const tally=key=>occupancy.reduce((sum,row)=>sum+row[key],0);
+  const properties=demo.properties.length;
+  const rooms=tally('units'), usedRooms=tally('usedUnits'), parking=tally('spaces'), usedParking=tally('usedSpaces');
+  const moving=records.filter(row=>row.moveOutOn);
+  const applications=[
+    ['審査待ち',statuses('DRAFT')],['承認済み',statuses('APPROVED')],['却下',statuses('REJECTED')],
+    ['申込キャンセル',statuses('CANCELLED')],['承認率',stitchPercent(statuses('APPROVED'),statuses('APPROVED')+statuses('REJECTED'))],
+    ['申込・審査',statuses('DRAFT')+statuses('APPROVED')+statuses('REJECTED')+statuses('CANCELLED')],
+  ];
+  const summary=[
+    ['管理物件',properties,`管理店 ${new Set(demo.properties.map(row=>row.branch)).size}店`,'building'],
+    ['管理部屋',rooms,`入居中 ${usedRooms}戸 · 空室 ${rooms-usedRooms}戸`,'room'],
+    ['駐車区画',parking,`契約中 ${usedParking}区画 · 空き ${parking-usedParking}区画`,'parking'],
+    ['管理店',new Set(demo.properties.map(row=>row.branch)).size,`管理物件 ${properties}件`,'home'],
+  ];
+  const report=[
+    ['管理物件',properties,`管理部屋 ${rooms}戸 · 駐車区画 ${parking}区画`,'building'],
+    ['部屋稼働率',stitchPercent(usedRooms,rooms),`入居中 ${usedRooms}戸 · 空室 ${rooms-usedRooms}戸`,'room'],
+    ['駐車場稼働率',stitchPercent(usedParking,parking),`契約中 ${usedParking}区画 · 空き ${parking-usedParking}区画`,'parking'],
+    ['契約月額合計',money(
+      records.filter(row=>row.status==='ACTIVE').reduce((sum,row)=>sum+demoDetail(row).totals.monthly,0),
+    ),`有効契約 ${statuses('ACTIVE')}件`,'coins'],['空室',rooms-usedRooms,`管理部屋 ${rooms}戸`,'room'],
+  ];
+  const events=label=>records.flatMap(row=>row.events.filter(e=>e.event.startsWith(label+'：')).map(e=>({row,e})));
+  if (page==='daily' || page==='claims') {
+    const title=page==='daily'?'日報':'クレーム登録';
+    const entries=events(title);
+    return [
+      ['記録件数',entries.length],['対象契約',new Set(entries.map(({row})=>row.id)).size],
+      ['対象物件',new Set(entries.map(({row})=>demoDetail(row).property_id)).size],
+      ['本日の記録',entries.filter(({e})=>String(e.created_at||'').slice(0,10)===today()).length],
+      ['関連する業務記録',events(page==='daily'?'クレーム登録':'日報').length],
+    ];
+  }
+  return ({
+    applications,screening:applications,
+    master:summary,properties:summary,
+    parking:[['駐車区画',parking],['契約中',usedParking],['空き',parking-usedParking],['利用率',stitchPercent(usedParking,parking)]],
+    units:[['管理部屋',rooms],['入居中',usedRooms],['空室',rooms-usedRooms],['部屋稼働率',stitchPercent(usedRooms,rooms)],['物件',properties]],
+    occupancy:report,reports:report,
+    moveouts:[['退居予定',moving.filter(row=>row.status==='ACTIVE').length],['退居日登録',moving.filter(row=>row.movedOutOn).length],
+      ['精算済み',moving.filter(row=>row.moveOutSettledOn).length],['退居・解約済み',moving.filter(row=>row.status==='ENDED').length]],
+    search:[['契約・申込',records.length],['契約中',statuses('ACTIVE')],['審査待ち',statuses('DRAFT')],['退居予定',moving.filter(row=>row.status==='ACTIVE').length]],
+    home:[['管理契約',records.length],['審査待ち',statuses('DRAFT')],['退居予定',moving.filter(row=>row.status==='ACTIVE').length],
+      ['管理物件',properties],['空室',rooms-usedRooms]],
+    'general-search':[['契約',records.length],['物件',properties],['部屋',rooms],['駐車区画',parking]],
+  })[page]||[];
+}
+
+function stitchMetricStrip(page,count) {
+  const metrics=stitchMetrics(page).slice(0,count);
+  return metrics.length?stitchNode('dl','stitch-metrics',metrics.map(([label,value,foot,mark])=>
+    `<div class="stitch-metric"><dt>${label}${mark?icon(mark):''}</dt><dd>${clean(value)}${foot?`<small>${clean(foot)}</small>`:''}</dd></div>`).join('')):null;
+}
+
+function stitchReportMatrix() {
+  const rows=demoOccupancy().map(row=>[clean(row.name),clean(row.branch),row.units,row.usedUnits,row.units-row.usedUnits,
+    row.spaces,row.usedSpaces,stitchPercent(row.usedSpaces,row.spaces),'<a href="#occupancy">入居状況</a>']);
+  return stitchNode('section','panel stitch-secondary', '<h2>物件別 部屋・駐車場稼働明細</h2>'+
+    table(['物件','管理店','部屋','入居中','空室','駐車区画','契約中','駐車稼働率','詳細'],rows));
+}
+
+function stitchActivity(page) {
+  if (page==='master') {
+    const rows=demo.properties.map(row=>[clean(row.code||row.id),clean(row.name),clean(row.branch),clean(row.ownerName||'—'),
+      '<a href="#properties">物件を開く</a>']);
+    return stitchNode('section','panel stitch-activity','<h2>物件マスタ一覧</h2>'+
+      table(['物件番号','物件名','管理店','家主名','詳細'],rows));
+  }
+  const rows=demo.contracts.filter(row=>['DRAFT','APPROVED','ACTIVE'].includes(row.status))
+    .slice().reverse().sort((a,b)=>(a.status==='ACTIVE')-(b.status==='ACTIVE')).slice(0,5).map(row=>{
+      const detail=demoDetail(row);
+      return [clean(row.details.application.receiptNo||`#${row.id}`),clean(detail.property),clean(detail.unit),
+        clean(row.details.party.name),badge(row.status),`<a href="#contract/${row.id}">開く</a>`];
+    });
+  return stitchNode('section','panel stitch-activity','<h2>申込・進行中の契約</h2>'+
+    table(['受付番号','物件','部屋','契約者','状況','詳細'],rows));
+}
+
+function stitchHomeSide() {
+  const scheduled=demo.contracts.filter(row=>row.status==='ACTIVE' && row.moveOutOn)
+    .sort((a,b)=>a.moveOutOn.localeCompare(b.moveOutOn)).slice(0,3);
+  return stitchNode('section','panel stitch-home-side',`<h2>退居・解約予定</h2>${
+    scheduled.length?`<ul>${scheduled.map(row=>`<li><a href="#contract/${row.id}/end">${clean(demoDetail(row).property)} ${clean(demoDetail(row).unit)}</a>
+      <time datetime="${clean(row.moveOutOn)}">${clean(row.moveOutOn)}</time></li>`).join('')}</ul>`:'<p>該当する予定はありません。</p>'}
+    <a href="#moveouts">退居予定一覧を開く</a>`);
+}
+
+function stitchScopes(state) {
+  if (state.page==='reports') {
+    const control=stitchNode('nav','stitch-scopes',[
+      ['branch','管理店別'],['property','物件別'],
+    ].map(([mode,label])=>`<button type="button" data-report="${mode}" aria-pressed="${mode===state.reportMode}">${label}</button>`).join(''));
+    control.addEventListener('click',event=>{
+      const button=event.target.closest('[data-report]');
+      if (!button) return;
+      state.reportChoice=state.reportMode=button.dataset.report;
+      for (const entry of control.querySelectorAll('button')) entry.setAttribute('aria-pressed',String(entry===button));
+      state.context.reportView(state.reportMode);
+    });
+    return control;
+  }
+  if (state.page==='master'||state.page==='properties'||state.page==='units'||state.page==='parking') {
+    return stitchNode('nav','stitch-scopes',[
+      ['master','マスタ管理'],['properties','物件'],['units','部屋'],['parking','駐車区画'],
+    ].map(([route,label])=>`<a class="button" href="#${route}" ${route===state.page?'aria-current="page"':''}>${label}</a>`).join(''));
+  }
+  const categories=({
+    applications:['審査待ち','承認済み','却下','申込キャンセル'],
+    screening:['審査待ち','承認済み','却下'],
+    moveouts:['契約中','終了'],
+    'general-search':['契約','物件','部屋','駐車区画'],
+  })[state.page]||[];
+  if (!categories.length) return null;
+  const select=stitchNode('nav','stitch-scopes',['すべて',...categories].map((label,i)=>
+    `<button type="button" aria-pressed="${(i?label:'')===state.scope}" data-category="${i?label:''}">${label}</button>`).join(''));
+  select.addEventListener('click',event=>{
+    const button=event.target.closest('[data-category]');
+    if (!button) return;
+    state.scope=button.dataset.category;
+    for (const entry of select.querySelectorAll('button')) entry.setAttribute('aria-pressed',String(entry===button));
+    state.context.filter(state.scope);
+  });
+  return select;
+}
+
+function stitchCollectionToolbar(state) {
+  if (!state.toolbar) {
+    const tools=state.slots.list?.querySelector('.results-heading');
+    const title=tools?.querySelector('h2');
+    const bar=stitchNode('div','stitch-filter-controls');
+    const print=tools?.querySelector('#work-print');
+    if (print && state.slots.title) state.slots.title.append(print);
+    if (tools && title) [...tools.children].filter(node=>node!==title).forEach(node=>bar.append(node));
+    for (const [index,label,values] of state.context.facets||[]) {
+      const field=stitchNode('label','stitch-facet',`${clean(label)}<select aria-label="${clean(label)}"><option value="">すべて</option>
+        ${values.map(value=>option(value,value,'')).join('')}</select>`);
+      field.querySelector('select').onchange=event=>state.context.refine(index,event.target.value);
+      bar.append(field);
+    }
+    if (state.page==='master') {
+      const label=stitchNode('label','master-search','<span class="sr-only">物件を検索</span><input type="search" placeholder="物件名・管理店で絞り込む">');
+      label.querySelector('input').addEventListener('input',event=>{
+        const term=event.target.value.trim().toLocaleLowerCase('ja');
+        state.slots.activity.querySelectorAll('tbody tr').forEach(row=>{
+          row.hidden=!row.textContent.toLocaleLowerCase('ja').includes(term);
+        });
+      });
+      bar.append(label);
+    }
+    state.toolbar=stitchNode('section','panel stitch-filters');
+    if (bar.childElementCount) {
+      const heading=stitchNode('h2','stitch-filter-title',`${icon('filter')}検索条件`);
+      state.toolbar.append(heading,bar);
+    }
+  }
+  return state.toolbar.childElementCount?state.toolbar:null;
+}
+
+function refreshStitchCollection() {
+  const state=stitchWorkspace;
+  if (!state?.context.visible || !view.contains(state.root)) return;
+  stitchReportRates(state);
+  if (!state.inspector) return;
+  const tableNode=state.slots.list.querySelector('table');
+  if (!tableNode) return;
+  const rows=state.context.visible();
+  const selected=rows.find(row=>row.id===state.selected)||rows[0];
+  tableNode.querySelector('.stitch-inline-row')?.remove();
+  [...tableNode.tBodies[0].rows].forEach((node,index)=>{
+    const row=rows[index];
+    if (!row) return;
+    const active=row===selected;
+    node.classList.toggle('stitch-current-row',active);
+    node.tabIndex=0;
+    const inspect=()=>{
+      state.selected=row.id;
+      refreshStitchCollection();
+    };
+    node.onclick=event=>{if (!event.target.closest('a,button')) inspect();};
+    node.onkeydown=event=>{
+      if (event.target===node && (event.key==='Enter'||event.key===' ')) {
+        event.preventDefault();
+        inspect();
+      }
+    };
+  });
+  const inspector=state.inspector;
+  inspector.hidden=!selected;
+  if (!selected) return;
+  inspector.querySelector('dl').innerHTML=selected.cells.map((value,i)=>
+    `<div><dt>${clean(state.context.columns[i])}</dt><dd>${clean(value===null||value===''?'—':value)}</dd></div>`).join('');
+  const link=inspector.querySelector('a');
+  link.hidden=!selected.href;
+  if (selected.href) link.href=selected.href;
+  if (state.inlineInspector) {
+    const inline=tableNode.tBodies[0].insertRow(rows.indexOf(selected)+1);
+    inline.className='stitch-inline-row';
+    const cell=inline.insertCell();
+    cell.colSpan=tableNode.tHead.rows[0].cells.length;
+    cell.append(inspector);
+  }
+}
+
+function stitchInspector() {
+  return stitchNode('section','panel stitch-inspector',
+    `<h2>${icon('file')}選択中の詳細</h2><dl></dl><a class="button" href="#search">関連画面を開く</a>`);
+}
+
+function stitchContractPanels(state,presentation) {
+  const editor=state.slots.editor;
+  if (!editor) return;
+  const fieldset=editor.querySelector('fieldset');
+  const tabs=fieldset.querySelector('.tabs');
+  let sections=fieldset.querySelector('.stitch-contract-sections');
+  if (!sections) {
+    sections=stitchNode('div','stitch-contract-sections');
+    tabs.after(sections);
+    sections.append(...fieldset.querySelectorAll('[data-panel]'));
+  }
+  const layouts={
+    'triple-contract':['party','charges'],
+    'ledger-contract':['party','charges'],
+    'quad-contract':['party','charges','related'],
+    'split-contract':['charges','party','related','insurance'],
+    'dossier-contract':['party','related','charges','insurance'],
+    'form-fold':['party','charges','review'],
+    'form-ledger':['party','related','charges','review'],
+    'form-console':['party','charges','related'],
+    'form-progress':['party','charges','review'],
+    'form-rail':['party','related','charges','review'],
+    'parking-fold':['party','parkingDetails','charges'],
+    'parking-ledger':['party','parkingDetails','charges','review'],
+    'parking-console':['party','parkingDetails','review','charges'],
+    'parking-progress':['party','parkingDetails','charges','review'],
+    'parking-rail':['party','parkingDetails','charges','review'],
+  };
+  const items=layouts[presentation]||[];
+  const byKey=new Map([...sections.children].map(node=>[node.dataset.panel,node]));
+  for (const key of ['application',...items]) {
+    const node=byKey.get(key);
+    if(node) {sections.append(node);byKey.delete(key);}
+  }
+  sections.append(...byKey.values());
+  editor.artboardSections=items;
+  const active=tabs.querySelector('[aria-selected=true]')?.dataset.tab||'application';
+  editor.showArtboardSection(active,false);
+}
+
+function stitchPaymentLayout(state) {
+  const panel=state.slots.payment;
+  if (!panel || panel.querySelector('.stitch-payment-content')) return;
+  const tableGroup=stitchNode('div','stitch-payment-ledgers');
+  tableGroup.append(...panel.querySelectorAll(':scope > .field-group'));
+  const grid=stitchNode('div','stitch-payment-content');
+  grid.append(tableGroup);
+  const form=panel.querySelector('#payment');
+  if (form) {
+    grid.append(form);
+    form.prepend(stitchNode('h3','',`${icon('coins')}入金登録`));
+  }
+  panel.append(grid);
+}
+
+function stitchReportRates(state) {
+  if (state.page!=='reports') return;
+  const collection=state.slots.list?.querySelector('table');
+  if (!collection || !state.context.visible) return;
+  for (const cell of collection.querySelectorAll('.stitch-rate')) cell.remove();
+  if (state.presentation!=='report-bars') return;
+  const th=document.createElement('th');
+  th.scope='col';
+  th.textContent='部屋稼働率';
+  th.className='stitch-rate';
+  collection.tHead.rows[0].append(th);
+  const rows=state.context.visible();
+  [...collection.tBodies[0].rows].forEach((node,i)=>{
+    if (!rows[i]) return;
+    const [, , used, vacant]=rows[i].cells;
+    const part=used+vacant?used/(used+vacant):0;
+    const td=node.insertCell();
+    td.className='stitch-rate';
+    td.innerHTML=`<meter min="0" max="1" value="${part}" aria-label="部屋稼働率"></meter><small>${stitchPercent(used,used+vacant)}</small>`;
+  });
+}
+
+function stitchTotalDetails(state,count) {
+  const totals=state.slots.totals;
+  if (!totals) return;
+  for (const extra of totals.querySelectorAll('.stitch-total-extra')) extra.remove();
+  const {item}=state.context;
+  if (!item || !count) return;
+  const paid=item.payments.reduce((sum,payment)=>sum+payment.amount,0);
+  const dates=[item.starts_on,item.ends_on].filter(Boolean).join(' ～ ')||'—';
+  const items=({
+    payments:[['入金済み',money(paid)],['入金件数',`${item.payments.length}件`]],
+    end:[['退居予定日',item.moveOutOn||'—'],['契約状況',labels[item.status]]],
+  })[state.page]||[['部屋・区画',item.unit],['契約期間',dates]];
+  totals.append(...items.map(([label,value])=>stitchNode('div','stitch-total-extra',
+    `<small>${label}</small><strong>${clean(value)}</strong>`)));
+}
+
+function applyStitchLayout(page,context={}) {
+  if (page) {
+    const slots={};
+    const selectors={title:'.heading',results:'.results-panel',list:'.master-panel',cards:'.work-cards',
+      editor:'#editor',totals:'.metrics',documents:'.panel.grid-actions',payment:'#payment-history',
+      termination:'.contract-end-panel',history:'.panel:has(.history)'};
+    const children=[...view.children];
+    for (const [key,selector] of Object.entries(selectors)) slots[key]=children.find(node=>node.matches(selector));
+    if (page==='search') slots.filters=view.querySelector('#contract-search-form');
+    const used=new Set(Object.values(slots));
+    const root=stitchNode('div','stitch-page');
+    view.prepend(root);
+    stitchWorkspace={page,context,root,slots,scope:'',others:children.filter(node=>!used.has(node)&&!node.matches('.print-sheet'))};
+  }
+  const state=stitchWorkspace;
+  if (!state || !view.contains(state.root)) return;
+  const design=document.documentElement.dataset.design;
+  const [regions,presentation,count]=stitchScreenSpecs[state.page][stitchDesignOrder.indexOf(design)];
+  const templateOrder=regions.split(' ');
+  state.presentation=presentation;
+  if (state.context.reportView) {
+    state.reportMode=state.reportChoice||(presentation==='report-bars'?'property':'branch');
+    state.context.reportView(state.reportMode);
+  }
+  state.inlineInspector=/^(list-(inline|console)|report-(console|inline))$/.test(presentation) &&
+    templateOrder.indexOf('inspect')>templateOrder.indexOf('list');
+  const slots=state.slots;
+  slots.list?.querySelector('.stitch-inline-row')?.remove();
+  const inspector=templateOrder.includes('inspect')?state.inspector||stitchInspector():null;
+  if (!inspector && state.inspector) for (const row of slots.list.querySelectorAll('tbody tr')) {
+    row.classList.remove('stitch-current-row');
+    row.removeAttribute('tabindex');
+    row.onclick=row.onkeydown=null;
+  }
+  state.inspector=inspector;
+  if (templateOrder.includes('activity')) slots.activity||=stitchActivity(state.page);
+  if (templateOrder.includes('side')) slots.side||=stitchHomeSide();
+  if (templateOrder.includes('propertyMatrix')) slots.propertyMatrix||=stitchReportMatrix();
+  if (templateOrder.includes('title')) {
+    slots.title||=stitchNode('header','stitch-route-title');
+    slots.title.classList.add('stitch-route-title');
+    if (!slots.title.querySelector('h2')) slots.title.prepend(stitchNode('h2','',clean(crumb.textContent)));
+  }
+  if (templateOrder.includes('filters') && state.page!=='search') slots.filters=stitchCollectionToolbar(state);
+  if (state.scope && !templateOrder.includes('scopes')) templateOrder.splice(templateOrder.indexOf('filters')+1,0,'scopes');
+  const extras={metrics:stitchMetricStrip(state.page,count),scopes:templateOrder.includes('scopes')?stitchScopes(state):null,inspect:inspector};
+  const used=new Set(templateOrder);
+  const arranged=templateOrder.filter(key=>!(key==='inspect'&&state.inlineInspector))
+    .map(key=>[key,extras[key]||slots[key]]).filter(([,node])=>node);
+  for (const [key,node] of Object.entries(slots)) if (node&&!used.has(key)&&!['activity','side','propertyMatrix','title','filters'].includes(key)) arranged.push([key,node]);
+  for (const [key,node] of arranged) node.dataset.stitchArea=key;
+  state.root.dataset.stitchScreen=`${design}/${state.page}`;
+  state.root.dataset.stitchPresentation=presentation;
+  state.root.replaceChildren(...arranged.map(([,node])=>node),...state.others);
+  stitchTotalDetails(state,count);
+  stitchContractPanels(state,presentation);
+  stitchPaymentLayout(state);
+  refreshStitchCollection();
+}
+
 const designTabs=[...document.querySelectorAll('[data-design-choice]')];
 const originalDesignLink=document.querySelector('.design-originals');
 
 function updateOriginalDesignLink() {
-  const route=location.hash.slice(1)||'search';
-  const page=route.match(/^contract\/\d+(?:\/(payments|end))?$/)
-    ? route.split('/')[2]||'contract' : route;
+  const page=stitchScreenKey();
   const params=new URLSearchParams({design:document.documentElement.dataset.design,page});
   const version=new URLSearchParams(location.search).get('v');
   if(version) params.set('v',version);
@@ -2510,6 +3312,7 @@ function selectDesign(tab,remember=false) {
     choice.tabIndex=choice===tab?0:-1;
   }
   view.setAttribute('aria-labelledby',tab.id);
+  applyStitchLayout();
   if (remember) {
     const url=new URL(location.href);
     url.searchParams.set('design',tab.dataset.designChoice);
